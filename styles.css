@@ -204,3 +204,48 @@ hr.sep{
   border:none;border-top:1px solid rgba(12,37,4,.12);
   margin:14px 0;
 }
+/* CLEAN ABOUT PAGE FIX */
+
+.cleanSidebar {
+  position: sticky;
+  top: 96px;
+  padding: 24px;
+  background: none;
+  border-left: 2px solid rgba(12,37,4,.15);
+}
+
+.cleanSidebar h3 {
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: rgba(12,37,4,.75);
+}
+
+.sidebarItem {
+  margin-bottom: 18px;
+}
+
+.sidebarItem span {
+  display: block;
+  font-size: 13px;
+  color: rgba(0,0,0,.5);
+  margin-bottom: 2px;
+}
+
+.sidebarItem strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidebarCTA {
+  margin-top: 28px;
+}
+
+.sidebarCTA .emailLink {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: rgba(0,0,0,.6);
+  text-decoration: none;
+}
