@@ -4,20 +4,211 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Western Reserve Real Estate | Chagrin Falls, Ohio</title>
-  <meta name="description" content="Western Reserve Real Estate, based in Chagrin Falls, Ohio. Work directly with Alex Shahidian, Principal Broker, for clear buying and selling strategy." />
+  <meta name="description" content="Western Reserve Real Estate — calm, strategic representation for buying and selling in Chagrin Falls and Northeast Ohio." />
   <link rel="canonical" href="https://wrohio.com/" />
+
+  <!-- Keep your global stylesheet if you want, but this page is self-contained to avoid breaking other pages. -->
   <link rel="stylesheet" href="/styles.css" />
+
+  <!-- Page-specific styling (so we can do 1 page at a time safely) -->
+  <style>
+    :root{
+      --bg:#050705;
+      --panel:#0a0f0a;
+      --line:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --accent:#0C2504; /* your deep green */
+      --accentGlow:rgba(12,37,4,.35);
+      --max:1120px;
+      --radius:18px;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      background:
+        radial-gradient(900px 500px at 20% 0%, rgba(12,37,4,.35), transparent 55%),
+        radial-gradient(900px 500px at 85% 15%, rgba(12,37,4,.22), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.45;
+    }
+    a{color:inherit;text-decoration:none}
+    a:hover{opacity:.92}
+
+    .container{max-width:var(--max);margin:0 auto;padding:0 18px}
+
+    /* Header */
+    .header{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:saturate(1.2) blur(10px);
+      background:rgba(5,7,5,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      font-weight:800;letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .brand img{
+      height:34px;width:auto;display:block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.55));
+    }
+    .links{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .links a{
+      color:rgba(255,255,255,.82);
+      font-weight:650;
+      padding:8px 10px;border-radius:12px;
+      border:1px solid transparent;
+    }
+    .links a:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}
+    .links a.active{color:#fff;border-color:rgba(12,37,4,.55);background:rgba(12,37,4,.18)}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg, rgba(12,37,4,.95), rgba(12,37,4,.55));
+      color:#fff;
+      padding:10px 14px;border-radius:999px;
+      font-weight:800;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 14px 30px rgba(12,37,4,.25);
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btnGhost{
+      background:transparent;
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:none;
+      color:rgba(255,255,255,.90);
+    }
+    .btnGhost:hover{background:rgba(255,255,255,.06)}
+
+    /* Hero */
+    main{padding-bottom:70px}
+    .hero{padding:46px 0 18px}
+    .heroGrid{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:22px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .heroGrid{grid-template-columns:1fr}
+      .brand img{height:30px}
+    }
+    h1{
+      font-size:46px;line-height:1.05;margin:0 0 12px;
+      letter-spacing:-.8px;
+    }
+    @media (max-width: 900px){h1{font-size:38px}}
+    .lead{font-size:18px;color:var(--muted);max-width:62ch;margin:0}
+    .ctaRow{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 10px}
+
+    /* Cards */
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+    }
+    .trustGrid{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:12px;margin-top:18px;
+    }
+    @media (max-width: 900px){.trustGrid{grid-template-columns:1fr}}
+
+    .card h3{margin:0 0 6px;font-size:16px;color:rgba(255,255,255,.92)}
+    .card p{margin:0;color:rgba(255,255,255,.72);font-size:14px}
+
+    /* Side panel */
+    .panel{
+      background:linear-gradient(180deg, rgba(12,37,4,.22), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      display:flex;flex-direction:column;gap:12px;
+      min-height:100%;
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.84);
+      font-weight:800;font-size:13px;
+      width:max-content;
+    }
+    .panel h2{margin:6px 0 0;font-size:20px}
+    .panel p{margin:6px 0 0;color:rgba(255,255,255,.74);font-size:14px}
+
+    .kpiGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .kpi{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      padding:12px;
+      background:rgba(0,0,0,.20);
+    }
+    .kpi b{display:block;font-size:14px}
+    .kpi span{display:block;color:rgba(255,255,255,.72);font-size:13px;margin-top:2px}
+
+    /* Section */
+    .section{padding:22px 0}
+    .sectionTitle{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:12px}
+    .sectionTitle h2{margin:0;font-size:26px;letter-spacing:-.3px}
+    .sectionTitle p{margin:0;color:rgba(255,255,255,.68);max-width:75ch}
+
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width: 900px){.split{grid-template-columns:1fr}}
+    .bigCard{padding:18px}
+    .bigCard h3{font-size:18px;margin:0 0 8px}
+    .bigCard ul{margin:10px 0 0 18px;color:rgba(255,255,255,.74)}
+    .bigCard li{margin:6px 0}
+
+    .callout{
+      background:linear-gradient(180deg, rgba(12,37,4,.22), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--radius);
+      padding:18px;
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+    }
+    @media (max-width: 900px){.callout{flex-direction:column;align-items:flex-start}}
+    .callout h3{margin:0;font-size:18px}
+    .callout p{margin:6px 0 0;color:rgba(255,255,255,.72)}
+
+    /* Footer */
+    .footer{
+      border-top:1px solid var(--line);
+      padding:18px 0;
+      color:rgba(255,255,255,.72);
+      background:rgba(0,0,0,.15);
+    }
+    .footerGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;align-items:center}
+    @media (max-width: 900px){.footerGrid{grid-template-columns:1fr}}
+    .small{font-size:13px}
+    .footer a{color:rgba(255,255,255,.88);font-weight:800}
+    hr.sep{border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0}
+  </style>
 </head>
+
 <body>
   <header class="header">
     <div class="container nav">
-      <a class="brand" href="/"><span class="brandMark"></span> Western Reserve Real Estate</a>
+      <a class="brand" href="/">
+        <img src="/logo.png" alt="Western Reserve Real Estate" />
+      </a>
       <nav class="links">
         <a class="active" href="/">Home</a>
         <a href="/buy.html">Buy</a>
         <a href="/sell.html">Sell</a>
         <a href="/about.html">About</a>
-        <a class="btn btnSmall" href="/contact.html">Contact</a>
+        <a class="btn" href="/contact.html">Contact</a>
       </nav>
     </div>
   </header>
@@ -26,10 +217,11 @@
     <section class="hero">
       <div class="container heroGrid">
         <div>
-          <h1>Real estate, handled calmly — with strategy.</h1>
+          <h1>Quietly aggressive strategy.<br/>Calm execution.</h1>
           <p class="lead">
-            Western Reserve Real Estate is based in Chagrin Falls, Ohio. Work directly with
-            <b>Alex Shahidian</b>, Principal Broker, for clear guidance and strong execution whether you’re buying or selling.
+            Western Reserve Real Estate is based in Chagrin Falls, Ohio.
+            Work directly with <b>Alex Shahidian</b>, Principal Broker, for clear guidance and clean deal management
+            from first conversation to closing.
           </p>
 
           <div class="ctaRow">
@@ -39,54 +231,52 @@
 
           <div class="trustGrid">
             <div class="card">
-              <h3>Data-backed pricing</h3>
-              <p>Comps, positioning, and timing explained in plain English — no guesswork.</p>
+              <h3>Pricing that makes sense</h3>
+              <p>Comp-backed positioning, explained in plain English — no hand-waving.</p>
             </div>
             <div class="card">
               <h3>Marketing that converts</h3>
-              <p>Great visuals plus a launch plan that drives showings and offers (not just “views”).</p>
+              <p>Strong visuals + a launch plan that drives offers, not just “views.”</p>
             </div>
             <div class="card">
-              <h3>Fast, clean process</h3>
-              <p>Clear timelines, quick responses, and tight follow-through from offer to close.</p>
+              <h3>Deadlines managed</h3>
+              <p>Inspection → appraisal → close handled proactively so you’re not surprised late.</p>
             </div>
           </div>
         </div>
 
-        <aside class="heroPanel">
-          <div class="panelTop">
-            <div class="badge">Chagrin Falls • Northeast Ohio</div>
-            <h2>What you get</h2>
-            <p>
-              Straight answers, disciplined strategy, and an organized process that protects your time and money.
-            </p>
-          </div>
+        <aside class="panel">
+          <div class="badge">Chagrin Falls • Northeast Ohio</div>
+          <h2>What you get</h2>
+          <p>
+            A measurable plan, fast communication, and decisions grounded in market reality.
+          </p>
 
-          <div class="kpiGrid">
+          <div class="kpiGrid" style="margin-top:8px">
             <div class="kpi">
               <b>For sellers</b>
-              <span>Positioning, prep, pricing, launch, and negotiation — executed tightly.</span>
+              <span>Prep + pricing + launch + negotiation, executed tightly.</span>
             </div>
             <div class="kpi">
               <b>For buyers</b>
-              <span>Smart offer strategy and calm navigation through inspections and closing.</span>
+              <span>Offer strategy tailored to the property and the competition.</span>
             </div>
             <div class="kpi">
-              <b>Communication</b>
-              <span>Fast response times and clear next steps. No black boxes.</span>
+              <b>Direct access</b>
+              <span>Work with the broker — no handoffs.</span>
             </div>
             <div class="kpi">
-              <b>Local focus</b>
-              <span>Chagrin Falls + surrounding markets across Northeast Ohio.</span>
+              <b>Local edge</b>
+              <span>Noise vs. signal — and how deals really get done here.</span>
             </div>
           </div>
 
-          <div class="callout" style="padding:14px;border-radius:16px">
+          <div class="callout" style="padding:14px;border-radius:16px;margin-top:8px">
             <div>
               <h3 style="margin:0">Quick question?</h3>
-              <p style="margin:6px 0 0">Email Alex directly: <a href="mailto:alex@wrohio.com">alex@wrohio.com</a></p>
+              <p style="margin:6px 0 0">Email: <a href="mailto:alex@wrohio.com">alex@wrohio.com</a></p>
             </div>
-            <a class="btn btnSmall" href="/contact.html">Send a message</a>
+            <a class="btn" href="/contact.html">Send a message</a>
           </div>
         </aside>
       </div>
@@ -96,13 +286,13 @@
       <div class="container">
         <div class="sectionTitle">
           <h2>Choose your path</h2>
-          <p>Simple pages that answer the real questions: what’s the plan, what’s the timeline, and what does success look like?</p>
+          <p>Simple pages that answer the real questions: what’s the plan, what’s the timeline, and what does winning look like?</p>
         </div>
 
         <div class="split">
           <div class="card bigCard">
             <h3>Selling</h3>
-            <p style="margin:0;color:rgba(11,18,32,.72)">
+            <p style="margin:0;color:rgba(255,255,255,.72)">
               A measurable plan: pricing, presentation, launch strategy, and negotiation.
             </p>
             <ul>
@@ -111,14 +301,14 @@
               <li>Launch plan and offer management</li>
             </ul>
             <div class="ctaRow" style="margin:14px 0 0">
-              <a class="btn btnSmall" href="/sell.html">View selling plan</a>
-              <a class="btn btnGhost btnSmall" href="/contact.html">Request pricing</a>
+              <a class="btn" href="/sell.html">View selling plan</a>
+              <a class="btn btnGhost" href="/contact.html">Request pricing</a>
             </div>
           </div>
 
           <div class="card bigCard">
             <h3>Buying</h3>
-            <p style="margin:0;color:rgba(11,18,32,.72)">
+            <p style="margin:0;color:rgba(255,255,255,.72)">
               Win the right home without overpaying — with clean timelines and smart offer strategy.
             </p>
             <ul>
@@ -127,8 +317,8 @@
               <li>Inspection-to-close execution</li>
             </ul>
             <div class="ctaRow" style="margin:14px 0 0">
-              <a class="btn btnSmall" href="/buy.html">View buying process</a>
-              <a class="btn btnGhost btnSmall" href="/contact.html">Buyer consult</a>
+              <a class="btn" href="/buy.html">View buying process</a>
+              <a class="btn btnGhost" href="/contact.html">Buyer consult</a>
             </div>
           </div>
         </div>
@@ -149,10 +339,10 @@
   <footer class="footer">
     <div class="container footerGrid">
       <div>
-        <div class="brand" style="gap:10px"><span class="brandMark"></span> Western Reserve Real Estate</div>
-        <div class="small" style="margin-top:6px">
-          Chagrin Falls, Ohio • Alex Shahidian — Principal Broker
+        <div class="brand" style="gap:12px">
+          <img src="/logo.png" alt="Western Reserve Real Estate" style="height:28px" />
         </div>
+        <div class="small" style="margin-top:6px">Chagrin Falls, Ohio • Alex Shahidian — Principal Broker</div>
       </div>
       <div class="small" style="text-align:right">
         <div><a href="mailto:alex@wrohio.com">alex@wrohio.com</a></div>
