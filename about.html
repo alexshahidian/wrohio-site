@@ -6,372 +6,71 @@
   <title>About | Western Reserve Real Estate</title>
   <meta name="description" content="Western Reserve Real Estate is a one-stop real estate platform based in Chagrin Falls, Ohio. Alex Shahidian, Principal Broker." />
   <link rel="canonical" href="https://wrohio.com/about.html" />
-
-  <!-- About page styles (self-contained) -->
-  <style>
-    :root{
-      --wr-green:#0C2504;
-      --ink:#0b1220;
-      --muted:rgba(11,18,32,.68);
-      --hair:rgba(11,18,32,.12);
-      --paper:#fbfbf8;
-      --panel:#f3f5f2;
-      --shadow:0 10px 30px rgba(11,18,32,.08);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--ink);
-      background:radial-gradient(1200px 600px at 15% 0%, rgba(12,37,4,.08), transparent 60%),
-                 radial-gradient(900px 500px at 85% 15%, rgba(12,37,4,.06), transparent 60%),
-                 var(--paper);
-      line-height:1.55;
-    }
-    a{color:inherit}
-    .container{max-width:1120px;margin:0 auto;padding:0 22px}
-    header{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter:saturate(140%) blur(10px);
-      background:rgba(251,251,248,.76);
-      border-bottom:1px solid rgba(11,18,32,.08);
-    }
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;
-      gap:16px;
-    }
-    .brand{
-      display:flex;align-items:center;gap:10px;
-      text-decoration:none;font-weight:750;letter-spacing:-.2px;
-    }
-    .mark{
-      width:14px;height:14px;border-radius:50%;
-      background:var(--wr-green);
-      box-shadow:0 0 0 4px rgba(12,37,4,.12);
-      flex:0 0 auto;
-    }
-    nav a{
-      text-decoration:none;
-      color:rgba(11,18,32,.76);
-      font-weight:600;
-      padding:10px 10px;
-      border-radius:12px;
-    }
-    nav a:hover{background:rgba(12,37,4,.06);color:rgba(11,18,32,.92)}
-    nav .active{background:rgba(12,37,4,.10);color:rgba(11,18,32,.92)}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:12px 16px;border-radius:999px;
-      border:1px solid rgba(12,37,4,.18);
-      background:var(--wr-green); color:#fff;
-      text-decoration:none;font-weight:750;
-      box-shadow:0 10px 20px rgba(12,37,4,.20);
-      white-space:nowrap;
-    }
-    .btn:hover{filter:brightness(1.02)}
-    .btnGhost{
-      background:transparent;color:var(--wr-green);
-      box-shadow:none;
-    }
-
-    /* Hero */
-    .hero{padding:44px 0 18px}
-    .kicker{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(11,18,32,.12);
-      background:rgba(251,251,248,.7);
-      color:rgba(11,18,32,.70);
-      font-weight:700;font-size:13px;
-    }
-    h1{
-      margin:14px 0 10px;
-      font-size:42px;line-height:1.08;
-      letter-spacing:-1px;
-    }
-    .sub{
-      max-width:74ch;
-      margin:0 0 18px;
-      color:var(--muted);
-      font-size:17px;
-    }
-    .ctaRow{display:flex;gap:12px;flex-wrap:wrap}
-
-    /* Layout */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .65fr;
-      gap:26px;
-      padding:22px 0 56px;
-      align-items:start;
-    }
-    .card{
-      background:rgba(251,251,248,.72);
-      border:1px solid rgba(11,18,32,.10);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-    .main{
-      padding:26px 26px 8px;
-    }
-    .side{
-      padding:22px;
-      background:linear-gradient(180deg, rgba(12,37,4,.06), rgba(12,37,4,.03));
-      border:1px solid rgba(12,37,4,.14);
-      border-radius:var(--radius);
-      position:sticky;
-      top:86px;
-    }
-    .section{padding:18px 0 6px}
-    .section + .section{border-top:1px solid rgba(11,18,32,.10); margin-top:18px}
-    h2{
-      margin:0 0 10px;
-      font-size:22px;
-      letter-spacing:-.3px;
-    }
-    p{margin:10px 0}
-    ul{margin:10px 0 0 20px}
-    li{margin:6px 0;color:rgba(11,18,32,.78)}
-    .pull{
-      margin:14px 0 4px;
-      padding:14px 16px;
-      border-left:4px solid var(--wr-green);
-      background:rgba(12,37,4,.06);
-      border-radius:14px;
-    }
-    .pull strong{display:block;margin-bottom:6px}
-    .muted{color:var(--muted)}
-    .mini{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:14px;
-    }
-    .miniItem{
-      padding:12px 12px;
-      border-radius:14px;
-      background:rgba(251,251,248,.55);
-      border:1px solid rgba(12,37,4,.14);
-    }
-    .miniItem span{
-      display:block;
-      font-size:12px;
-      color:rgba(11,18,32,.60);
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      margin-bottom:4px;
-    }
-    .miniItem b{
-      font-size:14px;
-      letter-spacing:-.2px;
-    }
-    .side h3{
-      margin:0 0 12px;
-      font-size:14px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:rgba(12,37,4,.72);
-    }
-    .side .lead{
-      margin:0 0 14px;
-      color:rgba(11,18,32,.72);
-      font-size:14px;
-    }
-    .sideRow{padding:12px 0;border-top:1px solid rgba(12,37,4,.14)}
-    .sideRow:first-of-type{border-top:0;padding-top:0}
-    .sideRow span{display:block;font-size:12px;color:rgba(11,18,32,.60);font-weight:750;letter-spacing:.04em}
-    .sideRow b{display:block;margin-top:3px;font-size:14px;letter-spacing:-.15px}
-    .sideActions{margin-top:16px;display:flex;flex-direction:column;gap:10px}
-    .email{
-      text-decoration:none;
-      color:rgba(11,18,32,.72);
-      font-weight:700;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px dashed rgba(12,37,4,.22);
-      background:rgba(251,251,248,.55);
-    }
-
-    footer{
-      border-top:1px solid rgba(11,18,32,.10);
-      background:rgba(251,251,248,.6);
-      padding:18px 0;
-    }
-    .foot{
-      display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;
-      color:rgba(11,18,32,.70);
-      font-size:14px;
-    }
-
-    @media (max-width: 900px){
-      h1{font-size:34px}
-      .grid{grid-template-columns:1fr}
-      .side{position:relative;top:auto}
-      nav a{padding:10px 8px}
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
-  <header>
+  <header class="header">
     <div class="container nav">
-      <a class="brand" href="/">
-        <span class="mark"></span>
-        Western Reserve Real Estate
-      </a>
-      <nav>
-     <a href="/">Home</a>
-  <a href="/buy.html">Buy</a>
-  <a href="/sell.html">Sell</a>
-  <a href="/about.html">About</a>
-  <a href="/team.html">Team</a>
-  <a class="btn btnSmall" href="/contact.html">Contact</a>
+      <a class="brand" href="/"><span class="brandMark"></span> Western Reserve Real Estate</a>
+      <nav class="links">
+        <a href="/">Home</a>
+        <a href="/buy.html">Buy</a>
+        <a href="/sell.html">Sell</a>
+        <a class="active" href="/about.html">About</a>
+        <a href="/team.html">Team</a>
+        <a class="btn btnSmall" href="/contact.html">Contact</a>
       </nav>
     </div>
   </header>
 
   <main>
+    <!-- Use the SAME hero structure as the homepage so the look matches -->
     <section class="hero">
-      <div class="container">
-        <div class="kicker">Chagrin Falls • Northeast Ohio</div>
-        <h1>Real estate is connected. Your strategy should be too.</h1>
-        <p class="sub">
-          Western Reserve Real Estate is built as a one-stop platform for buying, selling, and long-term ownership decisions — with calm execution and clear communication.
-        </p>
-        <div class="ctaRow">
-          <a class="btn" href="/contact.html">Contact Alex</a>
-          <a class="btn btnGhost" href="mailto:alex@wrohio.com">alex@wrohio.com</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="container">
-      <div class="grid">
-        <!-- MAIN -->
-        <article class="card main">
-          <section class="section">
-            <h2>Why WRRE exists</h2>
-            <p>
-              Most real estate experiences are fragmented. A buyer is told to “ask the lender.” A seller is told to “ask the inspector.”
-              A landlord is told to “ask the property manager.” And nobody owns the full picture.
-            </p>
-            <p>
-              WRRE was built to bring the pieces together. The goal is not just to complete a transaction — it’s to help clients make decisions they remain confident in after the closing date.
-            </p>
-
-            <div class="pull">
-              <strong>Core idea</strong>
-              <div class="muted">When you connect strategy, financing, property condition, and long-term ownership, outcomes improve.</div>
-            </div>
-          </section>
-
-          <section class="section">
-            <h2>The one-stop ecosystem</h2>
-            <p>
-              Western Reserve Real Estate is structured to reduce handoffs and increase clarity. Clients benefit from coordinated guidance across:
-            </p>
-            <ul>
-              <li><b>Brokerage:</b> Pricing strategy, positioning, negotiation, and clean contract-to-close execution.</li>
-              <li><b>Mortgage solutions:</b> Financing options through a dedicated mortgage platform (Motto Mortgage page coming next).</li>
-              <li><b>Property management:</b> Ownership guidance and management coordination for investors and long-term planning.</li>
-              <li><b>Roofing awareness:</b> A sharper eye on exterior risk, remaining life, and negotiation leverage around condition.</li>
-              <li><b>Long-term planning:</b> Acquisition → ownership → refinance → disposition, aligned with your goals.</li>
-            </ul>
-          </section>
-
-          <section class="section">
-            <h2>About Alex Shahidian</h2>
-            <p>
-              I’m Alex Shahidian, Principal Broker of Western Reserve Real Estate, based in Chagrin Falls, Ohio.
-            </p>
-            <p>
-              Over the course of my career, I’ve completed approximately <b>350 real estate transactions</b> across a wide range of price points, property types, and market conditions throughout Northeast Ohio.
-              That experience matters — not as a résumé line, but because volume builds pattern recognition.
-            </p>
-
-            <div class="pull">
-              <strong>After enough deals, you stop reacting and start anticipating:</strong>
-              <ul style="margin:8px 0 0 18px;">
-                <li>Which homes will struggle during inspection</li>
-                <li>Which pricing strategies create leverage versus stagnation</li>
-                <li>Which financing structures actually win competitive offers</li>
-                <li>Which “minor” issues quietly turn into major costs later</li>
-              </ul>
-            </div>
-
-            <p>
-              Clients describe the experience as calm, organized, direct, and transparent. No sales theatrics. Clear timelines. Honest trade-offs. Strong follow-through.
-            </p>
-          </section>
-
-          <section class="section" style="padding-bottom:22px;">
-            <h2>Based in Chagrin Falls. Focused on Northeast Ohio.</h2>
-            <p>
-              Local knowledge matters — not just of neighborhoods, but of market behavior, inspection trends, and municipal nuances that don’t show up on a listing sheet.
-              That local focus, combined with a systems-driven approach, is what defines WRRE.
-            </p>
-
-            <div class="ctaRow" style="margin-top:14px;">
-              <a class="btn" href="/contact.html">Send a message</a>
-              <a class="btn btnGhost" href="mailto:alex@wrohio.com">Email Alex</a>
-            </div>
-          </section>
-        </article>
-
-        <!-- SIDEBAR -->
-        <aside class="side">
-          <h3>At a glance</h3>
+      <div class="container heroGrid">
+        <div>
+          <h1>Real estate is connected. Your strategy should be too.</h1>
           <p class="lead">
-            A one-stop real estate platform designed to connect strategy, financing, condition awareness, and long-term ownership decisions.
+            Western Reserve Real Estate is built as a one-stop platform for buying, selling, and long-term ownership decisions —
+            with calm execution and clear communication.
           </p>
 
-          <div class="sideRow">
-            <span>Principal Broker</span>
-            <b>Alex Shahidian</b>
-          </div>
-          <div class="sideRow">
-            <span>Market focus</span>
-            <b>Chagrin Falls + Northeast Ohio</b>
-          </div>
-          <div class="sideRow">
-            <span>Experience</span>
-            <b>~350 completed transactions</b>
-          </div>
-          <div class="sideRow">
-            <span>Best first step</span>
-            <b>Short message → clear next steps</b>
+          <div class="ctaRow">
+            <a class="btn" href="/contact.html">Contact Alex</a>
+            <a class="btn btnGhost" href="mailto:alex@wrohio.com">alex@wrohio.com</a>
           </div>
 
-          <div class="mini">
-            <div class="miniItem">
-              <span>Style</span>
-              <b>Calm, direct</b>
+          <div class="trustGrid">
+            <div class="card">
+              <h3>Clarity over hype</h3>
+              <p>Clear trade-offs, honest timelines, and direct communication.</p>
             </div>
-            <div class="miniItem">
-              <span>Outcome</span>
-              <b>Cleaner closings</b>
+            <div class="card">
+              <h3>Strategy over guesswork</h3>
+              <p>Pricing, comps, and positioning that create leverage.</p>
+            </div>
+            <div class="card">
+              <h3>Follow-through</h3>
+              <p>Organized execution from contract to close.</p>
             </div>
           </div>
+        </div>
 
-          <div class="sideActions">
-            <a class="btn" href="/contact.html" style="box-shadow:none;">Send a message</a>
-            <a class="email" href="mailto:alex@wrohio.com">alex@wrohio.com</a>
+        <aside class="heroPanel">
+          <div class="panelTop">
+            <div class="badge">Chagrin Falls • Northeast Ohio</div>
+            <h2>At a glance</h2>
+            <p>A connected approach to strategy, financing, condition awareness, and long-term planning.</p>
           </div>
-        </aside>
-      </div>
-    </section>
-  </main>
 
-  <footer>
-    <div class="container foot">
-      <div style="display:flex;align-items:center;gap:10px;font-weight:800;">
-        <span class="mark"></span> Western Reserve Real Estate
-      </div>
-      <div>Chagrin Falls, Ohio • Alex Shahidian — Principal Broker</div>
-    </div>
-  </footer>
-</body>
-</html>
+          <div class="kpiGrid">
+            <div class="kpi"><b>Principal Broker</b><span>Alex Shahidian</span></div>
+            <div class="kpi"><b>Market focus</b><span>Northeast Ohio</span></div>
+            <div class="kpi"><b>Experience</b><span>~350 completed transactions</span></div>
+            <div class="kpi"><b>Best first step</b><span>Short message → clear next steps</span></div>
+          </div>
+
+          <div class="callout" style="padding:14px;border-radius:16px">
+            <div>
+              <h3 style="margin:0">Quick question?</h3>
+              <p style="margin:6px 0 0">Email: <a href="mailto:alex@wrohio.com">alex@wrohio.com</a
