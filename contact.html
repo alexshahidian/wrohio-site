@@ -15,11 +15,9 @@
     .helper{margin:10px 0 0;color:rgba(11,18,32,.62);font-size:13px;line-height:1.4}
     .sep{border:0;border-top:1px solid rgba(12,37,4,.12);margin:16px 0}
 
-    /* Ensure the 2-col layout behaves perfectly */
     .contactSplit{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
     @media (max-width:900px){.contactSplit{grid-template-columns:1fr}}
 
-    /* Form styling */
     .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
     @media (max-width:900px){.form{grid-template-columns:1fr}}
     .field{display:flex;flex-direction:column;gap:6px}
@@ -56,7 +54,6 @@
       margin-top:2px;
     }
 
-    /* Right-side facts grid (fixes run-together text) */
     .factsGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
     @media (max-width:900px){.factsGrid{grid-template-columns:1fr}}
     .fact{
@@ -67,7 +64,17 @@
     }
     .fact b{display:block;font-weight:900}
     .fact span{display:block;margin-top:4px;color:rgba(11,18,32,.72)}
+
     .footerLinks{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+
+    /* Small inline pill for the one place we show the address */
+    .addrPill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid rgba(12,37,4,.18);
+      background:rgba(12,37,4,.06);
+      font-weight:900;font-size:13px;
+    }
   </style>
 </head>
 
@@ -101,16 +108,15 @@
     <section class="section">
       <div class="container">
 
-        <!-- IMPORTANT: two children inside this grid (left card + right panel) -->
         <div class="contactSplit">
 
-          <!-- LEFT: form -->
+          <!-- LEFT -->
           <div class="card bigCard">
             <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end">
               <h3 style="margin:0">Direct</h3>
-              <div class="helper" style="margin:0">
-                Email: <a href="mailto:info@wrohio.com" style="font-weight:900">info@wrohio.com</a>
-              </div>
+              <a class="addrPill" href="mailto:info@wrohio.com" aria-label="Send an email to info@wrohio.com">
+                info@wrohio.com
+              </a>
             </div>
 
             <p class="helper" style="margin-top:10px">
@@ -121,7 +127,7 @@
 
             <h3 style="margin:0">Message form</h3>
             <p class="helper" style="margin-top:6px">
-              This opens your email app to send. (We can upgrade to a stored + spam-protected form later.)
+              This opens your email app. (We can upgrade to a stored + spam-protected form later.)
             </p>
 
             <form class="form" action="mailto:info@wrohio.com" method="post" enctype="text/plain">
@@ -158,13 +164,13 @@
 
               <div class="formActions">
                 <button class="btn" type="submit">Send message</button>
-                <a class="btn btnGhost" href="mailto:info@wrohio.com">Email info@wrohio.com</a>
+                <a class="btn btnGhost" href="mailto:info@wrohio.com">Message us</a>
                 <span class="helper" style="margin:0">No sales pitch. Just clear next steps.</span>
               </div>
             </form>
           </div>
 
-          <!-- RIGHT: office / proof / CTA -->
+          <!-- RIGHT -->
           <aside class="heroPanel">
             <div class="panelTop">
               <div class="badge">Western Reserve Real Estate</div>
@@ -177,17 +183,17 @@
 
             <div class="factsGrid">
               <div class="fact"><b>Response time</b><span>Fast. Clear next steps.</span></div>
-              <div class="fact"><b>Best contact</b><span>Email: info@wrohio.com</span></div>
+              <div class="fact"><b>Best contact</b><span>info@wrohio.com</span></div>
               <div class="fact"><b>Buying</b><span>Offer strategy + clean execution.</span></div>
               <div class="fact"><b>Selling</b><span>Pricing + prep + launch plan.</span></div>
             </div>
 
             <div class="callout" style="margin-top:12px">
               <div>
-                <h3>Want to start with a question?</h3>
+                <h3>Start with one question</h3>
                 <p>Send the address (if selling) and your ideal timeline.</p>
               </div>
-              <a class="btn btnSmall" href="mailto:info@wrohio.com">Email us</a>
+              <a class="btn btnSmall" href="mailto:info@wrohio.com">Send a note</a>
             </div>
           </aside>
 
@@ -198,7 +204,7 @@
             <h3>Want the fastest reply?</h3>
             <p>Include: area + timeline. If selling: address. If buying: budget + must-haves.</p>
           </div>
-          <a class="btn" href="mailto:info@wrohio.com">Email info@</a>
+          <a class="btn" href="mailto:info@wrohio.com">Send a note</a>
         </div>
 
       </div>
