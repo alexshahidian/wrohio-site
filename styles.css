@@ -42,6 +42,13 @@
 ================================ */
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
+
+/* Prevent layout shift when switching pages (scrollbar appears/disappears) */
+html{scrollbar-gutter:stable}
+@supports not (scrollbar-gutter: stable){
+  body{overflow-y:scroll}
+}
+
 body{
   font-family:var(--font-body);
   color:var(--ink);
@@ -78,12 +85,24 @@ a:hover{opacity:.92}
   gap:14px;
   white-space:nowrap;
 }
+
+/* If a page uses <span class="brandMark"></span>, render your logo consistently */
+.brandMark{
+  width:56px;
+  height:56px;
+  border-radius:12px;
+  background:url("/logo.png") center/contain no-repeat;
+  display:inline-block;
+  flex:0 0 auto;
+}
+
 .brandLogo{
   height:56px;
   width:auto;
   display:block;
   border-radius:12px;
 }
+
 .brandName{
   font-family:var(--font-brand);
   font-size:22px;
@@ -93,6 +112,7 @@ a:hover{opacity:.92}
 }
 
 @media (max-width:900px){
+  .brandMark{width:46px;height:46px}
   .brandLogo{height:46px}
   .brandName{font-size:19px}
 }
