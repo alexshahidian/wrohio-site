@@ -7,15 +7,61 @@
   <meta name="description" content="Western Reserve Real Estate is a Northeast Ohio real estate company built for disciplined strategy, calm execution, and platform-level thinking." />
   <link rel="canonical" href="https://wrohio.com/" />
   <link rel="stylesheet" href="/styles.css" />
+
+  <!-- Home-only fixes: big logo + readable Contact button -->
+  <style>
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      text-decoration:none;
+    }
+    .brandLogo{
+      height:64px;
+      width:auto;
+      display:block;
+      border-radius:12px;
+    }
+    .brandTextWrap{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+    .brandText{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .brandSub{
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      opacity:.70;
+      margin-top:6px;
+    }
+
+    /* Fix the “green blob” issue: always readable */
+    .links .btn{ color:#fff !important; }
+
+    @media (max-width: 900px){
+      .brandLogo{ height:52px; }
+      .brandText{ font-size:20px; }
+      .brandSub{ font-size:11px; }
+    }
+  </style>
 </head>
 
 <body>
   <!-- HEADER -->
   <header class="header">
     <div class="container nav">
-      <a class="brand" href="/">
-        <span class="brandText">Western Reserve</span>
-        <span class="brandSub">Real Estate</span>
+      <a class="brand" href="/" aria-label="Western Reserve Real Estate home">
+        <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+        <span class="brandTextWrap">
+          <span class="brandText">Western Reserve Real Estate</span>
+          <span class="brandSub">Northeast Ohio</span>
+        </span>
       </a>
 
       <nav class="links">
@@ -192,10 +238,7 @@
   <footer class="footer">
     <div class="container footerGrid">
       <div>
-        <a class="brand" href="/">
-          <span class="brandText">Western Reserve</span>
-          <span class="brandSub">Real Estate</span>
-        </a>
+        <div class="small" style="font-weight:900">Western Reserve Real Estate</div>
         <div class="small" style="margin-top:6px">
           Chagrin Falls, Ohio • Broker/Owner: Alex Shahidian
         </div>
