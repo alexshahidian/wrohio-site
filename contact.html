@@ -7,17 +7,80 @@
   <meta name="description" content="Contact Western Reserve Real Estate. Alex Shahidian, Principal Broker. Chagrin Falls, Ohio." />
   <link rel="canonical" href="https://wrohio.com/contact.html" />
   <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    /* Contact-page polish (scoped here so you can copy/paste one file) */
+    .pageHero{padding:54px 0 12px}
+    .pageHero p{margin:10px 0 0;color:rgba(11,18,32,.74);max-width:70ch;font-size:16px}
+
+    .helper{margin:10px 0 0;color:rgba(11,18,32,.62);font-size:13px;line-height:1.4}
+    .sep{border:0;border-top:1px solid rgba(12,37,4,.12);margin:16px 0}
+
+    /* Form styling */
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width:900px){.form{grid-template-columns:1fr}}
+
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-weight:800;font-size:13px;color:rgba(11,18,32,.82)}
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(12,37,4,.16);
+      background:rgba(255,255,255,.92);
+      padding:12px 12px;
+      font:inherit;
+      color:var(--ink);
+      outline:none;
+      transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .field textarea{min-height:120px;resize:vertical}
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus{
+      border-color:rgba(12,37,4,.42);
+      box-shadow:0 0 0 4px rgba(12,37,4,.12);
+      background:#fff;
+    }
+
+    /* KPI / facts grid on right (prevents “Response timeFast” run-together) */
+    .kpiGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    @media (max-width:900px){.kpiGrid{grid-template-columns:1fr}}
+    .kpi{background:rgba(255,255,255,.70);border:1px solid rgba(12,37,4,.12);border-radius:16px;padding:12px}
+    .kpi b{display:block;font-weight:900}
+    .kpi span{display:block;margin-top:4px;color:rgba(11,18,32,.72)}
+
+    /* Actions row */
+    .formActions{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:2px}
+
+    /* Make the left card feel less “form dumped in” */
+    .cardTitleRow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+    .cardTitleRow h3{margin:0}
+    .directEmail{font-weight:900}
+
+    /* Footer links spacing */
+    .footerLinks{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+  </style>
 </head>
 <body>
   <header class="header">
     <div class="container nav">
-      <a class="brand" href="/"><span class="brandMark"></span> Western Reserve Real Estate</a>
+      <a class="brand" href="/" aria-label="Western Reserve Real Estate Home">
+        <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+        <span class="brandName">Western Reserve Real Estate</span>
+      </a>
+
       <nav class="links">
         <a href="/">Home</a>
         <a href="/buy.html">Buy</a>
         <a href="/sell.html">Sell</a>
         <a href="/about.html">About</a>
-        <a class="active btn btnSmall" href="/contact.html">Contact</a>
+        <a href="/team.html">Team</a>
+        <a class="btn btnSmall active" href="/contact.html">Contact</a>
       </nav>
     </div>
   </header>
@@ -26,9 +89,7 @@
     <section class="pageHero">
       <div class="container">
         <h1>Let’s talk</h1>
-        <p>
-          Tell me what you’re trying to accomplish. You’ll get a quick reply with next steps.
-        </p>
+        <p>Tell me what you’re trying to accomplish. You’ll get a quick reply with next steps.</p>
       </div>
     </section>
 
@@ -36,99 +97,38 @@
       <div class="container">
         <div class="split">
           <div class="card bigCard">
-            <h3>Direct</h3>
-            <p style="margin:0;color:rgba(11,18,32,.72)">
-              Email is the fastest:
-              <a href="mailto:alex@wrohio.com"><b>alex@wrohio.com</b></a>
-            </p>
-            <p class="helper">
-              If you want phone shown on the site, tell me the number and I’ll wire it in everywhere.
+            <div class="cardTitleRow">
+              <h3>Direct</h3>
+              <div class="helper" style="margin:0">
+                Email: <a class="directEmail" href="mailto:info@wrohio.com">info@wrohio.com</a>
+              </div>
+            </div>
+
+            <p class="helper" style="margin-top:10px">
+              If you want phone shown on the site, send the number and I’ll wire it in everywhere.
             </p>
 
             <hr class="sep" />
 
             <h3>Message form</h3>
-            <!-- This form uses "mailto:" so it works without a backend.
-                 Later, we can switch to Cloudflare Forms / Workers for a real submission endpoint. -->
-            <form class="form" action="mailto:alex@wrohio.com" method="post" enctype="text/plain">
+            <p class="helper" style="margin-top:6px">
+              This opens your email app to send. (We can upgrade to a stored + spam-protected form later.)
+            </p>
+
+            <form class="form" action="mailto:info@wrohio.com" method="post" enctype="text/plain">
               <div class="field">
                 <label for="name">Name</label>
                 <input id="name" name="name" placeholder="Your name" required />
               </div>
+
               <div class="field">
                 <label for="email">Email</label>
                 <input id="email" name="email" type="email" placeholder="you@email.com" required />
               </div>
+
               <div class="field">
                 <label for="phone">Phone</label>
                 <input id="phone" name="phone" placeholder="Optional" />
               </div>
-              <div class="field">
-                <label for="type">I’m looking to</label>
-                <select id="type" name="interest">
-                  <option>Buy</option>
-                  <option>Sell</option>
-                  <option>Both</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div class="field" style="grid-column:1/-1">
-                <label for="msg">Message</label>
-                <textarea id="msg" name="message" placeholder="A few details (area, timeline, address if selling, etc.)"></textarea>
-              </div>
-              <div style="grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-                <button class="btn" type="submit">Send</button>
-                <a class="btn btnGhost" href="mailto:alex@wrohio.com">Or email directly</a>
-                <span class="helper">Note: this opens your email app to send.</span>
-              </div>
-            </form>
-          </div>
 
-          <div class="heroPanel">
-            <div class="panelTop">
-              <div class="badge">Western Reserve Real Estate</div>
-              <h2>Office</h2>
-              <p>
-                Chagrin Falls, Ohio<br/>
-                Alex Shahidian — Principal Broker
-              </p>
-            </div>
-
-            <div class="kpiGrid">
-              <div class="kpi"><b>Response time</b><span>Fast. Clear next steps.</span></div>
-              <div class="kpi"><b>Best contact</b><span>Email: alex@wrohio.com</span></div>
-              <div class="kpi"><b>Buying</b><span>Offer strategy + clean execution.</span></div>
-              <div class="kpi"><b>Selling</b><span>Pricing + prep + launch plan.</span></div>
-            </div>
-
-            <div class="callout" style="margin-top:12px">
-              <div>
-                <h3>Want to start with a question?</h3>
-                <p>Send the address (if selling) and your ideal timeline.</p>
-              </div>
-              <a class="btn btnSmall" href="mailto:alex@wrohio.com">Email Alex</a>
-            </div>
-          </div>
-        </div>
-
-        <p class="helper" style="margin-top:12px">
-          If you want a “real” form (submissions stored + spam protection), we’ll hook the form to a Cloudflare Worker endpoint next.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footerGrid">
-      <div>
-        <div class="brand" style="gap:10px"><span class="brandMark"></span> Western Reserve Real Estate</div>
-        <div class="small" style="margin-top:6px">Chagrin Falls, Ohio • Alex Shahidian — Principal Broker</div>
-      </div>
-      <div class="small" style="text-align:right">
-        <div><a href="mailto:alex@wrohio.com">alex@wrohio.com</a></div>
-        <div><a href="/">Home</a></div>
-      </div>
-    </div>
-  </footer>
-</body>
-</html>
+              <div class="field"
