@@ -4,42 +4,80 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Meet the Team | Western Reserve Real Estate</title>
-  <meta name="description" content="Meet the Western Reserve Real Estate team—Ohio agents and operations experts serving the communities they call home." />
+  <meta name="description" content="Meet the Western Reserve Real Estate team—Ohio agents, operations, and property management serving the communities they call home." />
   <link rel="canonical" href="https://wrohio.com/team.html" />
   <link rel="stylesheet" href="/styles.css" />
 
+  <!--
+    Headshots:
+    Put your photos here (JPG or PNG): /images/team/
+    Recommended filenames:
+      alex-shahidian.jpg
+      cameron-clements.jpg
+      drew-dickson.jpg
+      cody-sias.jpg
+      stephan-ho.jpg
+      shelby-maji.jpg
+      john-currid.jpg
+      stan-smith.jpg
+  -->
+
   <style>
-    /* Page-specific styles (kept here so you don't need to touch styles.css yet) */
+    /* Page-specific styles (kept here so you can copy/paste one file) */
+    .teamWrap{margin-top:14px}
+
     .teamGrid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:12px;
-      margin-top:14px;
     }
-    @media (max-width: 900px){ .teamGrid{grid-template-columns:1fr} }
+    @media (max-width: 980px){ .teamGrid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width: 700px){ .teamGrid{grid-template-columns:1fr} }
 
     .teamCard{
       display:flex;
       gap:14px;
       align-items:flex-start;
     }
-    .avatar{
-      width:54px;height:54px;border-radius:18px;
-      display:flex;align-items:center;justify-content:center;
+
+    .photo{
+      width:62px;height:62px;border-radius:20px;
+      position:relative; overflow:hidden;
       background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
-      color:#fff;
-      font-weight:900;
-      letter-spacing:.4px;
       box-shadow: 0 10px 22px rgba(12,37,4,.18);
       flex:0 0 auto;
       margin-top:2px;
+      border:1px solid rgba(12,37,4,.18);
     }
+    .photo img{
+      width:100%;height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .photo .initials{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.4px;
+      opacity:0;
+      user-select:none;
+    }
+    .photo.noimg .initials{ opacity:1; }
+
+    .nameRow{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .nameRow h3{margin:0;font-size:16px;line-height:1.2}
     .roleLine{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
       align-items:center;
-      margin:2px 0 8px;
+      margin:4px 0 10px;
       color:rgba(11,18,32,.72);
       font-size:13px;
       font-weight:700;
@@ -53,7 +91,11 @@
       color:rgba(11,18,32,.80);
       font-weight:750;
     }
-    .teamCard p{margin:0 0 10px;color:rgba(11,18,32,.72);font-size:14px}
+    .teamCard p{
+      margin:0 0 10px;
+      color:rgba(11,18,32,.72);
+      font-size:14px;
+    }
     .miniList{
       margin:0;
       padding-left:18px;
@@ -62,6 +104,15 @@
     }
     .miniList li{margin:6px 0}
     .mutedNote{font-size:12px;color:rgba(11,18,32,.62);margin-top:10px}
+    .quickEdit{
+      margin-top:12px;
+      background:linear-gradient(180deg, rgba(12,37,4,.10), rgba(12,37,4,.04));
+      border:1px solid rgba(12,37,4,.14);
+      border-radius:var(--radius);
+      padding:14px 16px;
+    }
+    .quickEdit b{display:block;margin-bottom:6px}
+    .quickEdit code{background:rgba(12,37,4,.08);padding:2px 6px;border-radius:8px}
   </style>
 </head>
 
@@ -85,8 +136,8 @@
       <div class="container">
         <h1>Meet the team</h1>
         <p>
-          We’re Ohio-based and locally focused — each agent covers the communities they know best.
-          Expect straight answers, fast communication, and a calm process from first showing to closing.
+          We’re Ohio-based and locally focused — each agent works the communities they know best.
+          Expect straight answers, strong negotiation, and a smooth process from first showing to closing.
         </p>
       </div>
     </section>
@@ -94,176 +145,224 @@
     <section class="section">
       <div class="container">
         <div class="sectionTitle">
-          <h2>People you’ll actually work with</h2>
+          <h2>Your people in Ohio real estate</h2>
           <p>Agents, operations, and property management — built to support buyers, sellers, and investors.</p>
         </div>
 
-        <div class="teamGrid">
+        <div class="teamWrap teamGrid">
 
           <!-- Alex -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">AS</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/alex-shahidian.jpg" alt="Alex Shahidian headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">AS</span>
+            </div>
             <div>
-              <h3 style="margin:0">Alex Shahidian</h3>
+              <div class="nameRow">
+                <h3>Alex Shahidian</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Principal Broker</span>
-                <span class="pill">Northeast Ohio</span>
+                <span class="pill">Ohio</span>
               </div>
               <p>
-                Alex leads Western Reserve Real Estate with a simple standard: disciplined strategy, clean execution,
-                and no hype. He’s known for direct communication and helping clients make decisions with clarity.
+                Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype.
+                He’s direct, responsive, and focused on helping clients make confident decisions.
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> buying, selling, negotiations, and deal structure</li>
-                <li><b>Style:</b> calm process, fast responsiveness, data-backed guidance</li>
-                <li><b>Education:</b> (add if you want shown)</li>
+                <li><b>Focus:</b> buying, selling, negotiations, deal structure</li>
+                <li><b>Approach:</b> data-backed guidance + calm process</li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- Cameron -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">CC</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/cameron-clements.jpg" alt="Cameron Clements headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">CC</span>
+            </div>
             <div>
-              <h3 style="margin:0">Cameron Clements</h3>
+              <div class="nameRow">
+                <h3>Cameron Clements</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
                 <span class="pill">Ohio</span>
               </div>
               <p>
-                Cameron is a local, full-time agent who brings a sharp eye in showings and practical guidance through the process.
-                Outside real estate, he’s a Brazilian Jiu-Jitsu hobbyist — calm under pressure and detail-oriented.
+                Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded
+                in the numbers while still moving quickly when the right home shows up.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buyers, first-time buyers, local market guidance</li>
-                <li><b>Personal:</b> BJJ hobbyist</li>
-                <li><b>Education:</b> Field High School (per public profile) • (add college if applicable)</li>
+                <li><b>Personal:</b> <i>(add a personal line — hobbies, family, community, etc.)</i></li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- Drew -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">DD</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">DD</span>
+            </div>
             <div>
-              <h3 style="margin:0">Drew Dickson</h3>
+              <div class="nameRow">
+                <h3>Drew Dickson</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
-                <span class="pill">Greater Cleveland</span>
+                <span class="pill">Ohio</span>
               </div>
               <p>
-                Drew pairs competitive focus with a client-first approach. He’s a <b>pro MMA fighter</b> and has a
-                strong wrestling background — the kind of discipline that shows up in negotiations and follow-through.
+                Drew brings elite competitiveness and discipline to real estate. He’s a <b>pro MMA fighter</b> and a
+                <b>college wrestler</b> — which shows up as persistence, composure, and strong negotiation when it matters.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buyers, sellers, and investors</li>
-                <li><b>Personal:</b> Pro MMA fighter</li>
-                <li><b>Education/Athletics:</b> Kent State University wrestling (public roster)</li>
+                <li><b>Personal:</b> Pro MMA fighter • College wrestling background</li>
+                <li><b>Education:</b> <i>(add school/degree if you want shown)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- Cody -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">CS</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/cody-sias.jpg" alt="Cody Sias headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">CS</span>
+            </div>
             <div>
-              <h3 style="margin:0">Cody Sias</h3>
+              <div class="nameRow">
+                <h3>Cody Sias</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
                 <span class="pill">Ohio</span>
               </div>
               <p>
-                Cody is an Ohio-based agent focused on helping clients move confidently — whether that’s a first purchase,
-                a strategic sale, or a smart step-up move. Practical guidance, low drama, high follow-through.
+                Cody is focused on making the process straightforward and efficient — the kind of agent who keeps timelines tight,
+                communicates clearly, and handles issues before they become problems.
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> buyers + sellers across local Ohio markets</li>
-                <li><b>Personal:</b> (add a quick personal line you like)</li>
-                <li><b>Education:</b> (not clearly listed publicly — add if you want shown)</li>
+                <li><b>Focus:</b> buyers + sellers across Ohio</li>
+                <li><b>Personal:</b> <i>(add: what he’s known for / hobbies / community ties)</i></li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- Stephan -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">SH</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">SH</span>
+            </div>
             <div>
-              <h3 style="margin:0">Stephan Ho</h3>
+              <div class="nameRow">
+                <h3>Stephan Ho</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
-                <span class="pill">Northeast Ohio</span>
+                <span class="pill">Ohio</span>
               </div>
               <p>
-                Stephan brings a strong <b>sales and marketing</b> background to real estate, with a steady,
-                service-forward style that keeps the transaction smooth and organized.
+                Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean.
+                Clients like his steady approach and attention to detail from listing prep through closing.
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> buyer & seller representation, marketing, and clean execution</li>
-                <li><b>Personal:</b> local-market specialist</li>
-                <li><b>Education:</b> Stark State College (public profile)</li>
+                <li><b>Focus:</b> buyer & seller representation, marketing, execution</li>
+                <li><b>Personal:</b> <i>(add: languages, interests, community involvement)</i></li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- Shelby -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">SM</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">SM</span>
+            </div>
             <div>
-              <h3 style="margin:0">Shelby Maji</h3>
+              <div class="nameRow">
+                <h3>Shelby Maji</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Head of Operations</span>
                 <span class="pill">Ohio</span>
               </div>
               <p>
-                Shelby runs operations so the team can move fast and stay organized. She’s the behind-the-scenes
-                engine that keeps timelines clean, details tracked, and clients informed.
+                Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
+                that keeps deadlines tracked, documents organized, and clients updated throughout the process.
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> systems, coordination, transaction support, and client experience</li>
-                <li><b>Personal:</b> (add a personal note you’re comfortable sharing)</li>
-                <li><b>Education:</b> (not clearly listed publicly — add if you want shown)</li>
+                <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
+                <li><b>Personal:</b> <i>(add)</i></li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- John -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">JC</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">JC</span>
+            </div>
             <div>
-              <h3 style="margin:0">John Currid</h3>
+              <div class="nameRow">
+                <h3>John Currid</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Head of Property Management</span>
                 <span class="pill">Agent</span>
               </div>
               <p>
                 John leads property management and supports clients who want a real plan for rentals and investments.
-                His work is especially valuable for multi-family, investor strategy, and long-term ownership execution.
+                He’s especially valuable for owners who care about long-term performance, not just “getting it rented.”
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> rentals, property management, investments, multi-family</li>
-                <li><b>Personal:</b> family-oriented, “techie” mindset (per public bio)</li>
-                <li><b>Experience:</b> sales/marketing leadership background (public profile)</li>
+                <li><b>Focus:</b> leasing, rentals, owner support, investor strategy</li>
+                <li><b>Personal:</b> <i>(add)</i></li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
 
           <!-- Stan -->
           <div class="card teamCard">
-            <div class="avatar" aria-hidden="true">SS</div>
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">SS</span>
+            </div>
             <div>
-              <h3 style="margin:0">Stan Smith</h3>
+              <div class="nameRow">
+                <h3>Stan Smith</h3>
+              </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
                 <span class="pill">Property Mgmt Support</span>
               </div>
               <p>
-                Stan blends real estate guidance with a strong eye for presentation. He’s known for staging-minded,
-                detail-driven advice that helps homes show better and sell stronger.
+                Stan supports both sales and property management with a proactive, problem-solving style.
+                He’s dependable on follow-up and helps keep small issues from turning into big ones.
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> buying, selling, relocation + property management support</li>
-                <li><b>Personal:</b> staging/interior-design oriented approach (per public bio)</li>
-                <li><b>Education:</b> (add if you want shown)</li>
+                <li><b>Focus:</b> buying, selling, relocation, property management support</li>
+                <li><b>Personal:</b> <i>(add)</i></li>
+                <li><b>Education:</b> <i>(add)</i></li>
               </ul>
             </div>
           </div>
@@ -280,8 +379,12 @@
           <a class="btn" href="/contact.html">Contact</a>
         </div>
 
-        <div class="mutedNote">
-          Note: Public bios vary by platform. Where education wasn’t clearly and uniquely listed, I left a clean placeholder rather than guessing.
+        <div class="quickEdit">
+          <b>Quick edits you’ll probably want to make</b>
+          <div class="small">
+            1) Replace each <code>(add)</code> line with education + a personal touch.<br/>
+            2) If your image filenames differ, update the <code>src="/images/team/..."</code> paths.
+          </div>
         </div>
 
       </div>
@@ -292,7 +395,7 @@
     <div class="container footerGrid">
       <div>
         <div class="brand" style="gap:10px"><span class="brandMark"></span> Western Reserve Real Estate</div>
-        <div class="small" style="margin-top:6px">Chagrin Falls, Ohio • Alex Shahidian — Principal Broker</div>
+        <div class="small" style="margin-top:6px">Ohio • Alex Shahidian — Principal Broker</div>
       </div>
       <div class="small" style="text-align:right">
         <div><a href="mailto:alex@wrohio.com">alex@wrohio.com</a></div>
@@ -302,3 +405,4 @@
   </footer>
 </body>
 </html>
+
