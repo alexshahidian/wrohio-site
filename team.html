@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="/styles.css" />
 
   <style>
-    /* ===== TEAM PAGE: photo-first + flip cards ===== */
     .teamWrap{margin-top:14px}
 
     .teamGrid{
@@ -19,17 +18,23 @@
       align-items:stretch;
     }
 
-    /* Card wrapper */
+    /* ===== Flip card (NO JS) ===== */
     .teamCard{
       position:relative;
-      min-height: 560px; /* keeps front/back from fighting for space */
+      min-height: 560px;
       height:100%;
       overflow:hidden;
       perspective: 1200px;
       border-radius: var(--radius);
     }
-    @media (max-width: 780px){
-      .teamCard{min-height: 540px;}
+    @media (max-width: 780px){ .teamCard{min-height:540px} }
+
+    /* hide checkbox but keep it functional */
+    .flipToggle{
+      position:absolute;
+      width:1px;height:1px;
+      opacity:0;
+      pointer-events:none;
     }
 
     .flipInner{
@@ -38,7 +43,9 @@
       transform-style:preserve-3d;
       transition: transform .62s cubic-bezier(.2,.85,.2,1);
     }
-    .teamCard.is-flipped .flipInner{
+
+    /* the magic: checkbox toggles the flip */
+    .flipToggle:checked ~ .flipInner{
       transform: rotateY(180deg);
     }
 
@@ -52,19 +59,13 @@
       overflow:hidden;
     }
 
-    /* FRONT */
-    .flipFront{
-      background: transparent;
-    }
-
-    /* CENTER THE PHOTO BLOCK in the tile */
+    /* ===== FRONT ===== */
     .teamPhotoWrap{
       padding:14px 14px 0;
       display:flex;
-      justify-content:center;
+      justify-content:center; /* center to tile */
     }
 
-    /* BIG, recognizable headshot */
     .teamPhoto{
       width:100%;
       aspect-ratio: 1 / 1;
@@ -73,14 +74,15 @@
       background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
       box-shadow: 0 16px 34px rgba(2,6,23,.12);
       border:1px solid rgba(12,37,4,.14);
+      position:relative;
     }
 
-    /* Better default face crop; can override per person with data-pos */
     .teamPhoto img{
       width:100%;
       height:100%;
       display:block;
       object-fit:cover;
+      /* per-card override via inline style: --pos: 50% 18%; */
       object-position: var(--pos, 50% 18%);
       transform: scale(1.02);
     }
@@ -112,7 +114,7 @@
       line-height:1.2;
     }
 
-    /* Role: NOT a pill/button. Make it a crisp label. */
+    /* Role is NOT button-like */
     .roleTag{
       margin-top:6px;
       display:inline-block;
@@ -129,7 +131,6 @@
       font-size:14px;
       line-height:1.45;
 
-      /* keep front faces uniform */
       display:-webkit-box;
       -webkit-line-clamp:2;
       -webkit-box-orient:vertical;
@@ -143,9 +144,14 @@
       align-items:center;
     }
 
-    /* CTA button: clearly different from roleTag */
+    /* label styled as button */
     .bioBtn{
-      appearance:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+
       border:1px solid rgba(12,37,4,.18);
       background: var(--accent, #0C2504);
       color:#fff;
@@ -153,7 +159,6 @@
       padding:11px 14px;
       font-weight:900;
       font-size:13px;
-      cursor:pointer;
       transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
     }
     .bioBtn:hover{
@@ -161,7 +166,6 @@
       box-shadow: 0 16px 34px rgba(2,6,23,.14);
       filter: brightness(1.02);
     }
-
     .bioBtn.secondary{
       background: rgba(12,37,4,.06);
       color: rgba(11,18,32,.86);
@@ -169,7 +173,7 @@
       box-shadow:none;
     }
 
-    /* BACK (the “card back”) */
+    /* ===== BACK ===== */
     .flipBack{
       transform: rotateY(180deg);
       background:
@@ -197,7 +201,6 @@
       font-size:18px;
       line-height:1.2;
     }
-
     .backRole{
       margin-top:6px;
       font-size:12px;
@@ -205,16 +208,6 @@
       letter-spacing:.08em;
       text-transform:uppercase;
       color:rgba(11,18,32,.68);
-    }
-
-    .closeX{
-      appearance:none;
-      border:1px solid rgba(2,6,23,.14);
-      background:#fff;
-      border-radius:12px;
-      padding:8px 10px;
-      font-weight:900;
-      cursor:pointer;
     }
 
     .backBio{
@@ -239,7 +232,6 @@
       gap:10px;
     }
 
-    /* reduce motion */
     @media (prefers-reduced-motion: reduce){
       .flipInner{transition:none}
       .bioBtn{transition:none}
@@ -288,17 +280,12 @@
         <div class="teamWrap teamGrid">
 
           <!-- Alex -->
-          <div class="card teamCard"
-               data-name="Alex Shahidian"
-               data-role="Principal Broker"
-               data-img="/images/team/alex-shahidian.jpg"
-               data-pos="50% 18%"
-               data-bio="Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype. He’s direct, responsive, and focused on helping clients make confident decisions."
-               data-bullets="Focus: buying, selling, negotiations, deal structure|Approach: data-backed guidance + calm process|Notables: Brown Belt in BJJ; disciplined rehab after knee reconstruction|Education: BBA, Finance / Management — Kent State University">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-alex" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/alex-shahidian.jpg" alt="Alex Shahidian headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">AS</span>
@@ -311,7 +298,7 @@
                   </div>
                   <p class="teamOneLiner">Clear strategy, clean execution, and calm negotiations.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-alex">View bio</label>
                   </div>
                 </div>
               </div>
@@ -320,15 +307,26 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Alex Shahidian</h3>
+                      <div class="backRole">Principal Broker</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-alex">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype.
+                    He’s direct, responsive, and focused on helping clients make confident decisions.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> buying, selling, negotiations, deal structure</li>
+                    <li><b>Approach:</b> data-backed guidance + calm process</li>
+                    <li><b>Notables:</b> Brown Belt in BJJ; disciplined rehab after knee reconstruction</li>
+                    <li><b>Education:</b> BBA, Finance / Management — Kent State University</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-alex">Back</label>
                   </div>
                 </div>
               </div>
@@ -336,17 +334,12 @@
           </div>
 
           <!-- Shelby (second) -->
-          <div class="card teamCard"
-               data-name="Shelby Maji"
-               data-role="Head of Operations"
-               data-img="/images/team/shelby-maji.jpg"
-               data-pos="50% 22%"
-               data-bio="Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine that keeps deadlines tracked, documents organized, and clients updated throughout the process."
-               data-bullets="Focus: systems, coordination, transaction support, client experience|Notables: Missions trip participant; somehow keeps a cat despite allergies|Education: BBA, Accounting — Hiram University">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-shelby" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 22%">
+                  <div class="teamPhoto" style="--pos:50% 22%" aria-hidden="true">
                     <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">SM</span>
@@ -359,7 +352,7 @@
                   </div>
                   <p class="teamOneLiner">The engine behind smooth, on-time closings.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-shelby">View bio</label>
                   </div>
                 </div>
               </div>
@@ -368,15 +361,25 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Shelby Maji</h3>
+                      <div class="backRole">Head of Operations</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-shelby">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
+                    that keeps deadlines tracked, documents organized, and clients updated throughout the process.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
+                    <li><b>Notables:</b> Missions trip participant; somehow keeps a cat despite allergies</li>
+                    <li><b>Education:</b> BBA, Accounting — Hiram University</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-shelby">Back</label>
                   </div>
                 </div>
               </div>
@@ -384,17 +387,12 @@
           </div>
 
           <!-- Cameron -->
-          <div class="card teamCard"
-               data-name="Cameron Clements"
-               data-role="Agent"
-               data-img="/images/team/cameron-clements.jpg"
-               data-pos="50% 18%"
-               data-bio="Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded in the numbers while still moving quickly when the right home shows up."
-               data-bullets="Focus: buyers, first-time buyers, local market guidance|Notables: Purple Belt in BJJ; fluent in Marshallese|Education: (add)">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-cameron" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/cameron-clements.jpg" alt="Cameron Clements headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">CC</span>
@@ -407,7 +405,7 @@
                   </div>
                   <p class="teamOneLiner">Numbers-first guidance without losing momentum.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-cameron">View bio</label>
                   </div>
                 </div>
               </div>
@@ -416,15 +414,25 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Cameron Clements</h3>
+                      <div class="backRole">Agent</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-cameron">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded
+                    in the numbers while still moving quickly when the right home shows up.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> buyers, first-time buyers, local market guidance</li>
+                    <li><b>Notables:</b> Purple Belt in BJJ; fluent in Marshallese</li>
+                    <li><b>Education:</b> (add)</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-cameron">Back</label>
                   </div>
                 </div>
               </div>
@@ -432,17 +440,12 @@
           </div>
 
           <!-- Drew (no MMA/wrestling) -->
-          <div class="card teamCard"
-               data-name="Drew Dickson"
-               data-role="Agent"
-               data-img="/images/team/drew-dickson.jpg"
-               data-pos="50% 18%"
-               data-bio="Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency when timing matters, and shows up prepared—especially during negotiations."
-               data-bullets="Focus: buyers, sellers, and investors|Notables: Completed an Ironman|Education: BS, Exercise Science — Kent State University">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-drew" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">DD</span>
@@ -455,7 +458,7 @@
                   </div>
                   <p class="teamOneLiner">Calm under pressure. Sharp when timing matters.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-drew">View bio</label>
                   </div>
                 </div>
               </div>
@@ -464,15 +467,25 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Drew Dickson</h3>
+                      <div class="backRole">Agent</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-drew">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency
+                    when timing matters, and shows up prepared—especially during negotiations.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> buyers, sellers, and investors</li>
+                    <li><b>Notables:</b> Completed an Ironman</li>
+                    <li><b>Education:</b> BS, Exercise Science — Kent State University</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-drew">Back</label>
                   </div>
                 </div>
               </div>
@@ -480,17 +493,12 @@
           </div>
 
           <!-- Cody -->
-          <div class="card teamCard"
-               data-name="Cody Sias"
-               data-role="Agent"
-               data-img="/images/team/cody-sias.jpg"
-               data-pos="50% 18%"
-               data-bio="Cody keeps the process straightforward and efficient — the kind of agent who holds timelines, communicates clearly, and handles issues before they become problems."
-               data-bullets="Focus: buyers + sellers across Ohio|Notables: (add: what he’s known for / hobbies / community ties)|Education: (add)">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-cody" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/cody-sias.jpg" alt="Cody Sias headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">CS</span>
@@ -503,7 +511,7 @@
                   </div>
                   <p class="teamOneLiner">Fast, organized, and proactive from day one.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-cody">View bio</label>
                   </div>
                 </div>
               </div>
@@ -512,15 +520,25 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Cody Sias</h3>
+                      <div class="backRole">Agent</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-cody">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Cody keeps the process straightforward and efficient — the kind of agent who holds timelines, communicates clearly,
+                    and handles issues before they become problems.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> buyers + sellers across Ohio</li>
+                    <li><b>Notables:</b> (add: what he’s known for / hobbies / community ties)</li>
+                    <li><b>Education:</b> (add)</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-cody">Back</label>
                   </div>
                 </div>
               </div>
@@ -528,17 +546,12 @@
           </div>
 
           <!-- Stephan -->
-          <div class="card teamCard"
-               data-name="Stephan Ho"
-               data-role="Agent"
-               data-img="/images/team/stephan-ho.jpg"
-               data-pos="50% 18%"
-               data-bio="Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean. Clients like his steady approach and attention to detail from listing prep through closing."
-               data-bullets="Focus: buyer &amp; seller representation, marketing, property management|Notables: Black Belt in BJJ; learned to read by age 14">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-stephan" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">SH</span>
@@ -551,7 +564,7 @@
                   </div>
                   <p class="teamOneLiner">Strong presentation, clean communication, steady execution.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-stephan">View bio</label>
                   </div>
                 </div>
               </div>
@@ -560,15 +573,24 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Stephan Ho</h3>
+                      <div class="backRole">Agent</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-stephan">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean.
+                    Clients like his steady approach and attention to detail from listing prep through closing.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> buyer &amp; seller representation, marketing, property management</li>
+                    <li><b>Notables:</b> Black Belt in BJJ; learned to read by age 14</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-stephan">Back</label>
                   </div>
                 </div>
               </div>
@@ -576,17 +598,12 @@
           </div>
 
           <!-- John -->
-          <div class="card teamCard"
-               data-name="John Currid"
-               data-role="Head of Property Management"
-               data-img="/images/team/john-currid.jpg"
-               data-pos="50% 18%"
-               data-bio="John leads property management and supports clients who want a real plan for rentals and investments. He’s especially valuable for owners who care about long-term performance, not just getting it rented."
-               data-bullets="Focus: leasing, rentals, owner support, investor strategy|Notables: (add)|Education: (add)">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-john" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">JC</span>
@@ -599,7 +616,7 @@
                   </div>
                   <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-john">View bio</label>
                   </div>
                 </div>
               </div>
@@ -608,15 +625,25 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">John Currid</h3>
+                      <div class="backRole">Head of Property Management</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-john">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    John leads property management and supports clients who want a real plan for rentals and investments.
+                    He’s especially valuable for owners who care about long-term performance, not just getting it rented.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> leasing, rentals, owner support, investor strategy</li>
+                    <li><b>Notables:</b> (add)</li>
+                    <li><b>Education:</b> (add)</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-john">Back</label>
                   </div>
                 </div>
               </div>
@@ -624,17 +651,12 @@
           </div>
 
           <!-- Stan -->
-          <div class="card teamCard"
-               data-name="Stan Smith"
-               data-role="Agent • Property Mgmt Support"
-               data-img="/images/team/stan-smith.jpg"
-               data-pos="50% 18%"
-               data-bio="Stan supports both sales and property management with a proactive, problem-solving style. He’s dependable on follow-up and helps keep small issues from turning into big ones."
-               data-bullets="Focus: buying, selling, relocation, property management support|Notables: (add)|Education: (add)">
+          <div class="card teamCard">
+            <input class="flipToggle" type="checkbox" id="bio-stan" />
             <div class="flipInner">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
-                  <div class="teamPhoto" aria-hidden="true" style="--pos:50% 18%">
+                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
                     <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">SS</span>
@@ -647,7 +669,7 @@
                   </div>
                   <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
                   <div class="teamActions">
-                    <button class="bioBtn" type="button" data-open-bio>View bio</button>
+                    <label class="bioBtn" for="bio-stan">View bio</label>
                   </div>
                 </div>
               </div>
@@ -656,15 +678,25 @@
                 <div class="backInner">
                   <div class="backHeader">
                     <div>
-                      <h3 class="backName"></h3>
-                      <div class="backRole"></div>
+                      <h3 class="backName">Stan Smith</h3>
+                      <div class="backRole">Agent • Property Mgmt Support</div>
                     </div>
-                    <button class="closeX" type="button" data-close-bio aria-label="Close">✕</button>
+                    <label class="bioBtn secondary" for="bio-stan">Close</label>
                   </div>
-                  <p class="backBio"></p>
-                  <ul class="backList"></ul>
+
+                  <p class="backBio">
+                    Stan supports both sales and property management with a proactive, problem-solving style.
+                    He’s dependable on follow-up and helps keep small issues from turning into big ones.
+                  </p>
+
+                  <ul class="backList">
+                    <li><b>Focus:</b> buying, selling, relocation, property management support</li>
+                    <li><b>Notables:</b> (add)</li>
+                    <li><b>Education:</b> (add)</li>
+                  </ul>
+
                   <div class="backActions">
-                    <button class="bioBtn secondary" type="button" data-close-bio>Back</button>
+                    <label class="bioBtn secondary" for="bio-stan">Back</label>
                   </div>
                 </div>
               </div>
@@ -698,74 +730,5 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    (function(){
-      let openCard = null;
-
-      function fillBack(card){
-        const name = card.getAttribute('data-name') || '';
-        const role = card.getAttribute('data-role') || '';
-        const bio  = card.getAttribute('data-bio')  || '';
-        const bulletsRaw = card.getAttribute('data-bullets') || '';
-        const bullets = bulletsRaw.split('|').map(s => s.trim()).filter(Boolean);
-
-        const backName = card.querySelector('.backName');
-        const backRole = card.querySelector('.backRole');
-        const backBio  = card.querySelector('.backBio');
-        const backList = card.querySelector('.backList');
-
-        if(backName) backName.textContent = name;
-        if(backRole) backRole.textContent = role;
-        if(backBio)  backBio.textContent  = bio;
-        if(backList) backList.innerHTML = bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('');
-      }
-
-      function openBio(card){
-        if(openCard && openCard !== card){
-          openCard.classList.remove('is-flipped');
-        }
-        fillBack(card);
-        card.classList.add('is-flipped');
-        openCard = card;
-      }
-
-      function closeBio(card){
-        card.classList.remove('is-flipped');
-        if(openCard === card) openCard = null;
-      }
-
-      function escapeHtml(str){
-        return String(str)
-          .replaceAll('&','&amp;')
-          .replaceAll('<','&lt;')
-          .replaceAll('>','&gt;')
-          .replaceAll('"','&quot;')
-          .replaceAll("'","&#039;");
-      }
-
-      document.addEventListener('click', (e) => {
-        const openBtn = e.target.closest('[data-open-bio]');
-        if(openBtn){
-          const card = e.target.closest('.teamCard');
-          if(card) openBio(card);
-          return;
-        }
-
-        const closeBtn = e.target.closest('[data-close-bio]');
-        if(closeBtn){
-          const card = e.target.closest('.teamCard');
-          if(card) closeBio(card);
-          return;
-        }
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape' && openCard){
-          closeBio(openCard);
-        }
-      });
-    })();
-  </script>
 </body>
 </html>
