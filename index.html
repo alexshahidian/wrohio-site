@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,12 +8,73 @@
   <meta name="description" content="Western Reserve Real Estate — strategy-led buying and selling in Chagrin Falls and Northeast Ohio. Clear guidance, tight execution, calm negotiations." />
   <link rel="canonical" href="https://wrohio.com/" />
   <link rel="stylesheet" href="/styles.css" />
+
+  <!-- Home-only polish (safe overrides; copy/paste friendly) -->
+  <style>
+    /* Logo in header/footer */
+    .brandLogo{
+      height:28px; width:auto; display:block;
+      filter: drop-shadow(0 8px 14px rgba(12,37,4,.14));
+    }
+    .brandText{
+      font-weight:780; letter-spacing:.2px;
+      display:inline-flex; align-items:baseline;
+      white-space:nowrap;
+    }
+    .brand{gap:12px}
+
+    /* Make “Simple process” feel premium */
+    .processGrid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:12px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .processGrid{grid-template-columns:1fr}
+      .brandText{white-space:normal}
+    }
+    .stepCard{
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .stepTop{
+      display:flex; gap:12px; align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .stepBadge{
+      width:42px; height:42px;
+      border-radius:16px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background:rgba(12,37,4,.08);
+      border:1px solid rgba(12,37,4,.16);
+      color:var(--accent);
+      font-weight:900;
+      flex:0 0 auto;
+    }
+    .stepCard h3{margin:0 0 6px;font-size:16px}
+    .stepCard p{margin:0;color:rgba(11,18,32,.72);font-size:14px}
+    .stepCard:before{
+      content:"";
+      position:absolute; inset:-40% -40% auto auto;
+      width:220px; height:220px;
+      background:radial-gradient(circle at 30% 30%, rgba(12,37,4,.12), transparent 60%);
+      transform:rotate(12deg);
+      pointer-events:none;
+    }
+  </style>
 </head>
 
 <body>
   <header class="header">
     <div class="container nav">
-      <a class="brand" href="/"><span class="brandMark"></span> Western Reserve Real Estate</a>
+      <!-- LOGO LEFT, NAME RIGHT (uses /logo.png) -->
+      <a class="brand" href="/" aria-label="Western Reserve Real Estate Home">
+        <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+        <span class="brandText">Western Reserve Real Estate</span>
+      </a>
+
       <nav class="links">
         <a class="active" href="/">Home</a>
         <a href="/buy.html">Buy</a>
@@ -25,7 +87,7 @@
   </header>
 
   <main>
-    <!-- HOME HERO (conversion-focused; NOT like About) -->
+    <!-- HOME HERO (conversion-focused; distinct from About) -->
     <section class="hero" style="padding:54px 0 14px">
       <div class="container heroGrid">
         <div>
@@ -82,7 +144,7 @@
           </div>
         </div>
 
-        <!-- RIGHT PANEL: “Get started” (new; distinct from About) -->
+        <!-- RIGHT PANEL: friction reducer -->
         <aside class="heroPanel" style="gap:14px">
           <div class="panelTop">
             <div class="badge">Serving Chagrin Falls • Northeast Ohio</div>
@@ -117,7 +179,9 @@
           <div class="callout" style="padding:16px;border-radius:16px">
             <div>
               <h3 style="margin:0">Want the fastest path?</h3>
-              <p style="margin:6px 0 0">If selling, include the address. If buying, include your budget + areas.</p>
+              <p style="margin:6px 0 0">
+                If selling, include the address. If buying, include your budget + areas.
+              </p>
             </div>
             <a class="btn btnSmall" href="/contact.html">Send a message</a>
           </div>
@@ -125,34 +189,53 @@
       </div>
     </section>
 
-    <!-- PROCESS (home-only; about stays philosophy) -->
+    <!-- PROCESS (upgraded: 2x2 grid, stronger numbers, tighter copy) -->
     <section class="section" style="padding-top:16px">
       <div class="container">
-        <div class="sectionTitle">
+        <div class="sectionTitle" style="margin-bottom:14px">
           <h2>Simple process. Tight execution.</h2>
           <p>Four steps that keep decisions clean and timelines controlled.</p>
         </div>
 
-        <div class="steps">
-          <div class="card">
-            <div class="stepNum">1</div>
-            <h3>Strategy</h3>
-            <p>Goals, timing, constraints, and the deal shape that fits your reality.</p>
+        <div class="processGrid">
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">1</div>
+              <div>
+                <h3>Strategy</h3>
+                <p>Goals, timing, constraints, and the deal shape that fits your reality.</p>
+              </div>
+            </div>
           </div>
-          <div class="card">
-            <div class="stepNum">2</div>
-            <h3>Plan</h3>
-            <p>For sellers: pricing + prep + launch. For buyers: search + showing efficiency.</p>
+
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">2</div>
+              <div>
+                <h3>Plan</h3>
+                <p>Sellers: prep + pricing + launch. Buyers: search + showing efficiency.</p>
+              </div>
+            </div>
           </div>
-          <div class="card">
-            <div class="stepNum">3</div>
-            <h3>Negotiate</h3>
-            <p>Offer / counter strategy with clear decision points and risk control.</p>
+
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">3</div>
+              <div>
+                <h3>Negotiate</h3>
+                <p>Offer / counter strategy with clear decision points and risk control.</p>
+              </div>
+            </div>
           </div>
-          <div class="card">
-            <div class="stepNum">4</div>
-            <h3>Close</h3>
-            <p>Inspection, appraisal, and deadlines managed so the finish is clean.</p>
+
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">4</div>
+              <div>
+                <h3>Close</h3>
+                <p>Inspection, appraisal, and deadlines managed so the finish stays clean.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -216,7 +299,10 @@
   <footer class="footer">
     <div class="container footerGrid">
       <div>
-        <div class="brand" style="gap:10px"><span class="brandMark"></span> Western Reserve Real Estate</div>
+        <div class="brand" style="gap:12px">
+          <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+          <span class="brandText">Western Reserve Real Estate</span>
+        </div>
         <div class="small" style="margin-top:6px">
           Chagrin Falls, Ohio • Broker/Owner: Alex Shahidian
         </div>
@@ -229,3 +315,4 @@
   </footer>
 </body>
 </html>
+```
