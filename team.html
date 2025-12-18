@@ -8,25 +8,11 @@
   <link rel="canonical" href="https://wrohio.com/team.html" />
   <link rel="stylesheet" href="/styles.css" />
 
-  <!--
-    Headshots:
-    Put your photos here (JPG or PNG): /images/team/
-    Recommended filenames:
-      alex-shahidian.jpg
-      cameron-clements.jpg
-      drew-dickson.jpg
-      cody-sias.jpg
-      stephan-ho.jpg
-      shelby-maji.jpg
-      john-currid.jpg
-      stan-smith.jpg
-  -->
-
   <style>
     /* Page-specific styles */
     .teamWrap{margin-top:14px}
 
-    /* Auto grid: keeps 3-up on desktop, 2-up when it needs to, and avoids a blank 3rd column */
+    /* Auto grid: avoids a blank 3rd column on the last row */
     .teamGrid{
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
@@ -36,13 +22,14 @@
 
     .teamCard{
       display:flex;
-      gap:14px;
+      gap:16px;
       align-items:flex-start;
       height:100%;
     }
 
+    /* Bigger headshots */
     .photo{
-      width:62px;height:62px;border-radius:18px;
+      width:86px;height:86px;border-radius:22px;
       position:relative; overflow:hidden;
       background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
       box-shadow: 0 10px 22px rgba(12,37,4,.18);
@@ -63,6 +50,7 @@
       letter-spacing:.4px;
       opacity:0;
       user-select:none;
+      font-size:18px;
     }
     .photo.noimg .initials{ opacity:1; }
 
@@ -110,7 +98,7 @@
     }
 
     .miniList{
-      margin-top:auto;          /* key: anchors bullets to the bottom */
+      margin-top:auto; /* anchors bullets to the bottom for consistent card heights */
       margin-bottom:0;
       padding-left:18px;
       color:rgba(11,18,32,.74);
@@ -186,6 +174,32 @@
             </div>
           </div>
 
+          <!-- Shelby (moved to #2) -->
+          <div class="card teamCard">
+            <div class="photo" aria-hidden="true">
+              <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
+                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+              <span class="initials">SM</span>
+            </div>
+            <div class="teamContent">
+              <div class="nameRow">
+                <h3>Shelby Maji</h3>
+              </div>
+              <div class="roleLine">
+                <span class="pill">Head of Operations</span>
+              </div>
+              <p class="teamBio">
+                Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
+                that keeps deadlines tracked, documents organized, and clients updated throughout the process.
+              </p>
+              <ul class="miniList">
+                <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
+                <li><b>Notables:</b> Missions trip participant; somehow keeps a cat despite allergies</li>
+                <li><b>Education:</b> BBA, Accounting — Hiram University</li>
+              </ul>
+            </div>
+          </div>
+
           <!-- Cameron -->
           <div class="card teamCard">
             <div class="photo" aria-hidden="true">
@@ -212,7 +226,7 @@
             </div>
           </div>
 
-          <!-- Drew -->
+          <!-- Drew (removed MMA/wrestling mentions) -->
           <div class="card teamCard">
             <div class="photo" aria-hidden="true">
               <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
@@ -227,12 +241,12 @@
                 <span class="pill">Agent</span>
               </div>
               <p class="teamBio">
-                Drew brings elite competitiveness and discipline to real estate. He’s a pro MMA fighter and a
-                college wrestler — which shows up as persistence, composure, and strong negotiation when it matters.
+                Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency
+                when timing matters, and shows up prepared—especially during negotiations.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buyers, sellers, and investors</li>
-                <li><b>Notables:</b> Pro MMA fighter; completed an Ironman</li>
+                <li><b>Notables:</b> Completed an Ironman</li>
                 <li><b>Education:</b> BS, Exercise Science — Kent State University</li>
               </ul>
             </div>
@@ -285,32 +299,6 @@
               <ul class="miniList">
                 <li><b>Focus:</b> buyer &amp; seller representation, marketing, property management</li>
                 <li><b>Notables:</b> Black Belt in BJJ; learned to read by age 14</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Shelby -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
-              <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
-              <span class="initials">SM</span>
-            </div>
-            <div class="teamContent">
-              <div class="nameRow">
-                <h3>Shelby Maji</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Head of Operations</span>
-              </div>
-              <p class="teamBio">
-                Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
-                that keeps deadlines tracked, documents organized, and clients updated throughout the process.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
-                <li><b>Notables:</b> Missions trip participant; somehow keeps a cat despite allergies</li>
-                <li><b>Education:</b> BBA, Accounting — Hiram University</li>
               </ul>
             </div>
           </div>
