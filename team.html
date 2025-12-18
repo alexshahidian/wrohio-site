@@ -9,6 +9,67 @@
   <link rel="stylesheet" href="/styles.css" />
 
   <style>
+
+    /* === OVERRIDE: make the WHOLE TILE rotate (card surface rotates) === */
+
+/* Outer wrapper = 3D stage only */
+.teamCard{
+  position:relative;
+  min-height:560px;
+  height:100%;
+  overflow:visible;
+  perspective:1200px;
+  border-radius:var(--radius);
+}
+
+/* Inner = the actual visible card/tile */
+.cardSurface{
+  position:absolute;
+  inset:0;
+  border-radius:var(--radius);
+  background: var(--card);
+  border:1px solid rgba(12,37,4,.14);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+
+  transform-style:preserve-3d;
+  -webkit-transform-style:preserve-3d;
+  transition: transform .62s cubic-bezier(.2,.85,.2,1);
+  will-change: transform;
+}
+
+/* Diagonal axis rotation */
+.flipToggle:checked ~ .cardSurface{
+  transform: translateY(-8px) rotate3d(1,1,0,180deg);
+}
+.flipToggle:not(:checked) ~ .cardSurface{
+  transform: translateY(0) rotate3d(1,1,0,0deg);
+}
+
+/* Faces fill the tile */
+.flipFace{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+
+/* Back face must match same axis */
+.flipBack{
+  transform: rotate3d(1,1,0,180deg);
+}
+
+/* Optional: eliminate “floating photo” whitespace */
+.teamPhotoWrap{ padding:0; }
+.teamPhoto{
+  width:100%;
+  aspect-ratio: 1 / 1;
+  border-radius:0;
+  border:0;
+  box-shadow:none;
+}
+.teamBody{ padding:14px 16px 16px; }
+    
     .teamWrap{margin-top:14px}
 
     .teamGrid{
@@ -280,9 +341,9 @@
         <div class="teamWrap teamGrid">
 
           <!-- Alex -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-alex" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -334,9 +395,9 @@
           </div>
 
           <!-- Shelby (second) -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-shelby" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 22%" aria-hidden="true">
@@ -387,9 +448,9 @@
           </div>
 
           <!-- Cameron -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-cameron" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -440,9 +501,9 @@
           </div>
 
           <!-- Drew (no MMA/wrestling) -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-drew" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -493,9 +554,9 @@
           </div>
 
           <!-- Cody -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-cody" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -546,9 +607,9 @@
           </div>
 
           <!-- Stephan -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-stephan" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -598,9 +659,9 @@
           </div>
 
           <!-- John -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-john" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -651,9 +712,9 @@
           </div>
 
           <!-- Stan -->
-          <div class="card teamCard">
+          <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-stan" />
-            <div class="flipInner">
+            <div class="flipInner cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -732,5 +793,6 @@
   </footer>
 </body>
 </html>
+
 
 
