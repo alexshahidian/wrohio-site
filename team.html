@@ -12,27 +12,28 @@
     /* Page-specific styles */
     .teamWrap{margin-top:14px}
 
-    /* Auto grid: avoids a blank 3rd column on the last row */
     .teamGrid{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
       gap:12px;
       align-items:stretch;
     }
 
     .teamCard{
       display:flex;
-      gap:16px;
+      gap:18px;
       align-items:flex-start;
       height:100%;
     }
 
-    /* Bigger headshots */
+    /* BIG, recognizable headshots (responsive) */
     .photo{
-      width:86px;height:86px;border-radius:22px;
+      width:clamp(104px, 9.5vw, 140px);
+      height:clamp(104px, 9.5vw, 140px);
+      border-radius:26px;
       position:relative; overflow:hidden;
       background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
-      box-shadow: 0 10px 22px rgba(12,37,4,.18);
+      box-shadow: 0 14px 30px rgba(12,37,4,.20);
       flex:0 0 auto;
       margin-top:2px;
       border:1px solid rgba(12,37,4,.18);
@@ -40,6 +41,7 @@
     .photo img{
       width:100%;height:100%;
       object-fit:cover;
+      object-position:50% 20%; /* shows faces better than dead-center */
       display:block;
     }
     .photo .initials{
@@ -47,10 +49,10 @@
       display:flex; align-items:center; justify-content:center;
       color:#fff;
       font-weight:900;
-      letter-spacing:.4px;
+      letter-spacing:.6px;
       opacity:0;
       user-select:none;
-      font-size:18px;
+      font-size:clamp(20px, 2vw, 28px);
     }
     .photo.noimg .initials{ opacity:1; }
 
@@ -75,7 +77,7 @@
       flex-wrap:wrap;
       gap:8px;
       align-items:center;
-      margin:4px 0 10px;
+      margin:6px 0 10px;
       color:rgba(11,18,32,.72);
       font-size:13px;
       font-weight:700;
@@ -98,13 +100,22 @@
     }
 
     .miniList{
-      margin-top:auto; /* anchors bullets to the bottom for consistent card heights */
+      margin-top:auto;
       margin-bottom:0;
       padding-left:18px;
       color:rgba(11,18,32,.74);
       font-size:13px;
     }
     .miniList li{margin:6px 0}
+
+    /* On small screens: keep photos big but not ridiculous */
+    @media (max-width:700px){
+      .teamGrid{grid-template-columns:1fr}
+      .teamCard{gap:16px}
+      .photo{
+        width:110px;height:110px;border-radius:24px;
+      }
+    }
   </style>
 </head>
 
@@ -155,12 +166,8 @@
               <span class="initials">AS</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Alex Shahidian</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Principal Broker</span>
-              </div>
+              <div class="nameRow"><h3>Alex Shahidian</h3></div>
+              <div class="roleLine"><span class="pill">Principal Broker</span></div>
               <p class="teamBio">
                 Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype.
                 He’s direct, responsive, and focused on helping clients make confident decisions.
@@ -174,7 +181,7 @@
             </div>
           </div>
 
-          <!-- Shelby (moved to #2) -->
+          <!-- Shelby -->
           <div class="card teamCard">
             <div class="photo" aria-hidden="true">
               <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
@@ -182,12 +189,8 @@
               <span class="initials">SM</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Shelby Maji</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Head of Operations</span>
-              </div>
+              <div class="nameRow"><h3>Shelby Maji</h3></div>
+              <div class="roleLine"><span class="pill">Head of Operations</span></div>
               <p class="teamBio">
                 Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
                 that keeps deadlines tracked, documents organized, and clients updated throughout the process.
@@ -208,12 +211,8 @@
               <span class="initials">CC</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Cameron Clements</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Agent</span>
-              </div>
+              <div class="nameRow"><h3>Cameron Clements</h3></div>
+              <div class="roleLine"><span class="pill">Agent</span></div>
               <p class="teamBio">
                 Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded
                 in the numbers while still moving quickly when the right home shows up.
@@ -226,7 +225,7 @@
             </div>
           </div>
 
-          <!-- Drew (removed MMA/wrestling mentions) -->
+          <!-- Drew -->
           <div class="card teamCard">
             <div class="photo" aria-hidden="true">
               <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
@@ -234,12 +233,8 @@
               <span class="initials">DD</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Drew Dickson</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Agent</span>
-              </div>
+              <div class="nameRow"><h3>Drew Dickson</h3></div>
+              <div class="roleLine"><span class="pill">Agent</span></div>
               <p class="teamBio">
                 Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency
                 when timing matters, and shows up prepared—especially during negotiations.
@@ -260,12 +255,8 @@
               <span class="initials">CS</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Cody Sias</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Agent</span>
-              </div>
+              <div class="nameRow"><h3>Cody Sias</h3></div>
+              <div class="roleLine"><span class="pill">Agent</span></div>
               <p class="teamBio">
                 Cody is focused on making the process straightforward and efficient — the kind of agent who keeps timelines tight,
                 communicates clearly, and handles issues before they become problems.
@@ -286,12 +277,8 @@
               <span class="initials">SH</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Stephan Ho</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Agent</span>
-              </div>
+              <div class="nameRow"><h3>Stephan Ho</h3></div>
+              <div class="roleLine"><span class="pill">Agent</span></div>
               <p class="teamBio">
                 Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean.
                 Clients like his steady approach and attention to detail from listing prep through closing.
@@ -311,12 +298,8 @@
               <span class="initials">JC</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>John Currid</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Head of Property Management</span>
-              </div>
+              <div class="nameRow"><h3>John Currid</h3></div>
+              <div class="roleLine"><span class="pill">Head of Property Management</span></div>
               <p class="teamBio">
                 John leads property management and supports clients who want a real plan for rentals and investments.
                 He’s especially valuable for owners who care about long-term performance, not just “getting it rented.”
@@ -337,12 +320,8 @@
               <span class="initials">SS</span>
             </div>
             <div class="teamContent">
-              <div class="nameRow">
-                <h3>Stan Smith</h3>
-              </div>
-              <div class="roleLine">
-                <span class="pill">Agent • Property Mgmt Support</span>
-              </div>
+              <div class="nameRow"><h3>Stan Smith</h3></div>
+              <div class="roleLine"><span class="pill">Agent • Property Mgmt Support</span></div>
               <p class="teamBio">
                 Stan supports both sales and property management with a proactive, problem-solving style.
                 He’s dependable on follow-up and helps keep small issues from turning into big ones.
@@ -385,3 +364,4 @@
   </footer>
 </body>
 </html>
+
