@@ -4,10 +4,74 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Buy | Western Reserve Real Estate</title>
-  <meta name="description" content="Buy with confidence in Chagrin Falls and Northeast Ohio. Clear process and smart offer strategy with Alex Shahidian, Principal Broker." />
+  <meta name="description" content="A disciplined buying process for Northeast Ohio: targeted search, offer strategy, inspection-to-close execution, and calm communication." />
   <link rel="canonical" href="https://wrohio.com/buy.html" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    /* Buy page enhancements (kept lightweight, still using your global look) */
+    .buyGrid{display:grid;grid-template-columns:1.1fr .65fr;gap:16px;align-items:start}
+    @media (max-width: 900px){ .buyGrid{grid-template-columns:1fr} }
+
+    .stack{display:flex;flex-direction:column;gap:12px}
+    .tight p{margin:8px 0}
+    .steps{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .step{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:14px 14px;
+    }
+    .stepTop{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+    .num{
+      width:28px;height:28px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;
+      background:rgba(12,37,4,.45);
+      border:1px solid rgba(12,37,4,.35);
+    }
+    .step h3{margin:0;font-size:14px;letter-spacing:.1px}
+    .step p{margin:6px 0 0;opacity:.85}
+    .micro{opacity:.75;font-size:13px;margin-top:6px}
+
+    .pillRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      font-weight:750;
+      font-size:12px;
+      opacity:.92;
+    }
+
+    .checklist{margin:10px 0 0 18px}
+    .checklist li{margin:7px 0;opacity:.88}
+
+    .faq{display:flex;flex-direction:column;gap:10px}
+    details{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:12px 14px;
+    }
+    summary{cursor:pointer;font-weight:850}
+    details p{margin:10px 0 0;opacity:.85}
+
+    .sidebarCard{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      padding:14px;
+    }
+    .sidebarCard h3{margin:0 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:.08em;opacity:.85}
+    .kv{display:flex;flex-direction:column;gap:10px}
+    .kv .kpi{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.18)}
+    .kv .kpi b{display:block}
+    .kv .kpi span{display:block;opacity:.78;margin-top:4px}
+  </style>
 </head>
+
 <body>
   <header class="header">
     <div class="container nav">
@@ -17,75 +81,248 @@
         <a class="active" href="/buy.html">Buy</a>
         <a href="/sell.html">Sell</a>
         <a href="/about.html">About</a>
+        <a href="/team.html">Team</a>
         <a class="btn btnSmall" href="/contact.html">Contact</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="pageHero">
-      <div class="container">
-        <h1>Buy with confidence</h1>
-        <p>
-          Efficient showings, honest guidance, and offer strategy that matches the market — without chaos.
-          Work directly with Alex Shahidian, Principal Broker.
-        </p>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container heroGrid">
+        <div>
+          <h1>Buy like a plan. Not a vibe.</h1>
+          <p class="lead">
+            Homes aren’t “won” by hoping. They’re won by <b>targeting the right inventory</b>, understanding seller psychology,
+            and submitting offers that reduce risk for the seller without giving away the farm.
+          </p>
+
+          <div class="ctaRow">
+            <a class="btn" href="/contact.html">Get a buyer game plan</a>
+            <a class="btn btnGhost" href="/team.html">Meet the team</a>
+          </div>
+
+          <div class="pillRow">
+            <span class="pill">Targeted search</span>
+            <span class="pill">Offer strategy</span>
+            <span class="pill">Inspection leverage</span>
+            <span class="pill">Clean timelines</span>
+            <span class="pill">Calm communication</span>
+          </div>
+
+          <div class="trustGrid" style="margin-top:14px">
+            <div class="card">
+              <h3>Win probability</h3>
+              <p>We don’t “spray and pray.” We build offers designed to win based on the property and the seller.</p>
+            </div>
+            <div class="card">
+              <h3>Cost awareness</h3>
+              <p>Condition isn’t a surprise — it’s a negotiating tool. We price risk before you own it.</p>
+            </div>
+            <div class="card">
+              <h3>Execution</h3>
+              <p>Deadlines managed so you don’t lose a deal because someone dropped a ball.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="heroPanel">
+          <div class="panelTop">
+            <div class="badge">Northeast Ohio • Local-first</div>
+            <h2>What you get</h2>
+            <p>A measurable plan, fast communication, and decisions grounded in market reality.</p>
+          </div>
+
+          <div class="kpiGrid">
+            <div class="kpi"><b>Showings</b><span>Efficient, targeted, and time-respecting.</span></div>
+            <div class="kpi"><b>Offers</b><span>Structured to win without unnecessary exposure.</span></div>
+            <div class="kpi"><b>Inspection</b><span>Leverage, not drama.</span></div>
+            <div class="kpi"><b>Close</b><span>Timeline control from contract to keys.</span></div>
+          </div>
+
+          <div class="callout" style="padding:14px;border-radius:16px">
+            <div>
+              <h3 style="margin:0">Quick question?</h3>
+              <p style="margin:6px 0 0">Email: <a href="mailto:alex@wrohio.com">alex@wrohio.com</a></p>
+            </div>
+            <a class="btn btnSmall" href="/contact.html">Send a message</a>
+          </div>
+        </aside>
       </div>
     </section>
 
+    <!-- CONTENT -->
     <section class="section">
       <div class="container">
         <div class="sectionTitle">
-          <h2>The process</h2>
-          <p>Four steps. Clear expectations. Tight follow-through.</p>
+          <h2>The WRRE buying process</h2>
+          <p>Simple, aggressive where it matters, calm everywhere else.</p>
         </div>
 
-        <div class="steps">
-          <div class="card">
-            <div class="stepNum">1</div>
-            <h3>Strategy call</h3>
-            <p>Goals, timeline, target areas, and a financing game plan that supports strong offers.</p>
-          </div>
-          <div class="card">
-            <div class="stepNum">2</div>
-            <h3>Search + showings</h3>
-            <p>A focused search and efficient showings that respect your time.</p>
-          </div>
-          <div class="card">
-            <div class="stepNum">3</div>
-            <h3>Offer strategy</h3>
-            <p>Price, terms, contingencies, and negotiation — based on what actually wins.</p>
-          </div>
-          <div class="card">
-            <div class="stepNum">4</div>
-            <h3>Inspection → close</h3>
-            <p>Deadlines managed, issues handled calmly, and the path to closing kept clean.</p>
-          </div>
-        </div>
+        <div class="buyGrid">
+          <!-- LEFT: Steps + strategy -->
+          <div class="stack">
+            <div class="card bigCard tight">
+              <h3>Step-by-step (what actually happens)</h3>
+              <div class="steps">
+                <div class="step">
+                  <div class="stepTop">
+                    <div class="num">1</div>
+                    <h3>Define the target</h3>
+                  </div>
+                  <p>We translate your goals into a buy-box: location, must-haves, deal-breakers, timeline, and risk tolerance.</p>
+                  <div class="micro">Output: a search strategy that filters noise and finds “your” inventory faster.</div>
+                </div>
 
-        <hr class="sep" />
+                <div class="step">
+                  <div class="stepTop">
+                    <div class="num">2</div>
+                    <h3>Build your win plan</h3>
+                  </div>
+                  <p>Before you fall in love with a house, we decide what “winning” looks like: price ceiling, terms, and escalation rules.</p>
+                  <div class="micro">Output: an offer framework that prevents panic decisions.</div>
+                </div>
 
-        <div class="split">
-          <div class="card bigCard">
-            <h3>What you can expect</h3>
-            <ul>
-              <li>Fast responses and clear next steps</li>
-              <li>Plain-English analysis of pros/cons</li>
-              <li>Negotiation that protects you without blowing up the deal</li>
-            </ul>
-          </div>
-          <div class="card bigCard">
-            <h3>Buyer consult</h3>
-            <p style="margin:0;color:rgba(11,18,32,.72)">
-              Tell me what you’re looking for and your timeframe. I’ll reply quickly with next steps.
-            </p>
-            <div class="ctaRow" style="margin-top:14px">
-              <a class="btn" href="/contact.html">Schedule consult</a>
-              <a class="btn btnGhost" href="mailto:alex@wrohio.com">Email Alex</a>
+                <div class="step">
+                  <div class="stepTop">
+                    <div class="num">3</div>
+                    <h3>Tour efficiently</h3>
+                  </div>
+                  <p>We prioritize the right homes, run clean showings, and kill weak options quickly so you don’t waste weekends.</p>
+                </div>
+
+                <div class="step">
+                  <div class="stepTop">
+                    <div class="num">4</div>
+                    <h3>Offer strategy + submission</h3>
+                  </div>
+                  <p>We structure the offer around the seller’s reality: timing, certainty, inspection posture, and clean paperwork.</p>
+                  <div class="micro">Goal: maximize acceptance odds without giving away unnecessary concessions.</div>
+                </div>
+
+                <div class="step">
+                  <div class="stepTop">
+                    <div class="num">5</div>
+                    <h3>Inspection leverage</h3>
+                  </div>
+                  <p>We negotiate only what matters. The mission is price/risk correction — not nitpicks that poison the deal.</p>
+                </div>
+
+                <div class="step">
+                  <div class="stepTop">
+                    <div class="num">6</div>
+                    <h3>Contract-to-close execution</h3>
+                  </div>
+                  <p>Appraisal, underwriting, title, walk-through, and deadlines managed so the deal closes on time.</p>
+                </div>
+              </div>
             </div>
-            <div class="helper">Email: alex@wrohio.com</div>
+
+            <div class="card bigCard">
+              <h3>Offer strategy (how we win)</h3>
+              <p>
+                Your offer isn’t just price. It’s a risk profile the seller is choosing. We use a “leverage stack”
+                — picking the right mix for the property and the competition.
+              </p>
+              <ul class="checklist">
+                <li><b>Certainty:</b> clean financing, tight docs, realistic timelines</li>
+                <li><b>Speed:</b> showing-to-offer execution that beats hesitation</li>
+                <li><b>Terms:</b> possession, contingencies, and inspection posture tuned to the situation</li>
+                <li><b>Risk control:</b> you don’t waive your way into regret</li>
+                <li><b>Negotiation posture:</b> we plan inspection before we ever submit</li>
+              </ul>
+
+              <div class="callout" style="margin-top:14px">
+                <div>
+                  <h3>Want your “win plan” in writing?</h3>
+                  <p>Send your target area + budget range and we’ll respond with next steps.</p>
+                </div>
+                <a class="btn" href="/contact.html">Get the plan</a>
+              </div>
+            </div>
+
+            <div class="card bigCard">
+              <h3>Buyer checklist (quick, useful)</h3>
+              <ul class="checklist">
+                <li>Know your ceiling (not your fantasy budget)</li>
+                <li>Have proof of funds / pre-approval ready before tours</li>
+                <li>Decide inspection posture <i>before</i> writing an offer</li>
+                <li>Understand taxes/HOA/utilities in your target towns</li>
+                <li>Plan for repairs and reserves (even on “nice” homes)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- RIGHT: Sidebar / “at a glance” -->
+          <div class="stack">
+            <div class="sidebarCard">
+              <h3>At a glance</h3>
+              <div class="kv">
+                <div class="kpi">
+                  <b>Best fit</b>
+                  <span>Buyers who want a plan and fast execution — not a tour guide.</span>
+                </div>
+                <div class="kpi">
+                  <b>Markets</b>
+                  <span>Northeast Ohio communities (local focus, local knowledge).</span>
+                </div>
+                <div class="kpi">
+                  <b>Communication</b>
+                  <span>Clear next steps, fast responses, no guessing.</span>
+                </div>
+                <div class="kpi">
+                  <b>Goal</b>
+                  <span>Win the right home without overpaying or accepting hidden risk.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sidebarCard">
+              <h3>FAQ</h3>
+              <div class="faq">
+                <details>
+                  <summary>Do I need a pre-approval before we start?</summary>
+                  <p>
+                    If you’re serious, yes. We can still talk strategy first, but the market rewards buyers who can move
+                    immediately when the right home hits.
+                  </p>
+                </details>
+
+                <details>
+                  <summary>Will you tell me when I’m overpaying?</summary>
+                  <p>
+                    Yes. Our job is to protect you from emotional pricing. If the numbers don’t support it, we’ll say so — clearly.
+                  </p>
+                </details>
+
+                <details>
+                  <summary>Do you help with inspection negotiations?</summary>
+                  <p>
+                    Yes. We separate “real money problems” from “noise,” and we negotiate for risk correction without torching the deal.
+                  </p>
+                </details>
+
+                <details>
+                  <summary>What if we’re competing with cash buyers?</summary>
+                  <p>
+                    Then terms and certainty matter even more. We build offers that reduce seller risk and improve acceptance odds,
+                    without reckless concessions.
+                  </p>
+                </details>
+              </div>
+            </div>
+
+            <div class="callout">
+              <div>
+                <h3>Ready for a buyer game plan?</h3>
+                <p>One message. Clear next steps. No sales pitch.</p>
+              </div>
+              <a class="btn" href="/contact.html">Contact</a>
+            </div>
           </div>
         </div>
+
       </div>
     </section>
   </main>
@@ -94,11 +331,11 @@
     <div class="container footerGrid">
       <div>
         <div class="brand" style="gap:10px"><span class="brandMark"></span> Western Reserve Real Estate</div>
-        <div class="small" style="margin-top:6px">Chagrin Falls, Ohio • Alex Shahidian — Principal Broker</div>
+        <div class="small" style="margin-top:6px">Chagrin Falls, Ohio • Broker/Owner: Alex Shahidian</div>
       </div>
       <div class="small" style="text-align:right">
         <div><a href="mailto:alex@wrohio.com">alex@wrohio.com</a></div>
-        <div><a href="/contact.html">Contact</a></div>
+        <div><a href="/contact.html">Contact</a> • <a href="/team.html">Team</a> • <a href="/sell.html">Sell</a></div>
       </div>
     </div>
   </footer>
