@@ -18,85 +18,26 @@
       align-items:stretch;
     }
 
-    /* ===== Flip card ===== */
+    /* ===== Card shell (NO ROTATION) ===== */
     .teamCard{
       position:relative;
+      border-radius:var(--radius);
       min-height:560px;
       height:100%;
-      overflow:visible;
-      perspective:1200px;
-      border-radius:var(--radius);
     }
     @media (max-width: 780px){ .teamCard{min-height:540px} }
 
-    /* hidden checkbox stays for state */
-    .flipToggle{
-      position:absolute;
-      width:1px;height:1px;
-      opacity:0;
-      pointer-events:none;
-      z-index:-1;
-    }
-
-    /* this is the visible tile (border/shadow/background rotates as one) */
     .cardSurface{
-      position:absolute;
-      inset:0;
+      position:relative;
+      height:100%;
       border-radius:var(--radius);
       background: var(--card);
       border:1px solid rgba(12,37,4,.12);
       box-shadow: 0 6px 16px rgba(2,6,23,.05);
       overflow:hidden;
-
-      transform-style:preserve-3d;
-      -webkit-transform-style:preserve-3d;
-    
-
-      transition: transform .62s cubic-bezier(.2,.85,.2,1);
-      will-change: transform;
-      transform: translateZ(0) rotateY(0deg);
     }
 
-    /* NO tilt – just rotate */
-    .flipToggle:checked ~ .cardSurface{
-      transform: translateZ(0) rotateY(180deg);
-    }
-    .flipToggle:not(:checked) ~ .cardSurface{
-      transform: translateZ(0) rotateY(0deg);
-    }
-
-    .flipFace{
-      position:absolute;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      height:100%;
-      overflow:hidden;
-
-      backface-visibility:hidden;
-      -webkit-backface-visibility:hidden;
-      transform-style:preserve-3d;
-      -webkit-transform-style:preserve-3d;
-
-      /* prevents cursor flicker by disabling interaction on both faces by default */
-      pointer-events:none;
-    }
-
-    /* only the VISIBLE face gets interaction */
-    .flipToggle:not(:checked) ~ .cardSurface .flipFront{ pointer-events:auto; }
-    .flipToggle:checked ~ .cardSurface .flipBack{ pointer-events:auto; }
-
-    /* tiny z offset to avoid flicker */
-    .flipFront{ transform: translateZ(1px); }
-
-    .flipBack{
-      transform: rotateY(180deg) translateZ(1px);
-      background:
-        radial-gradient(1200px 500px at 30% 0%, rgba(12,37,4,.10), transparent 60%),
-        linear-gradient(180deg, rgba(12,37,4,.06), rgba(255,255,255,1));
-    }
-
-    /* ===== Front ===== */
+    /* ===== Front content ===== */
     .teamPhotoWrap{
       padding:14px 14px 0;
       display:flex;
@@ -141,7 +82,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      flex:1;
+      height:calc(100% - 14px); /* keeps spacing consistent */
     }
 
     .teamName{ margin:0; font-size:16px; line-height:1.2; }
@@ -206,16 +147,46 @@
       outline-offset: 3px;
     }
 
-    /* ===== Back ===== */
-    .backInner{
+    /* ===== Slide-up bio (comes in; image does NOT rotate) ===== */
+    .bioScrim{
+      position:absolute;
+      inset:0;
+      background: rgba(2,6,23,.18);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease;
+      border-radius:var(--radius);
+      border:0;
+      padding:0;
+      cursor:pointer;
+    }
+
+    .bioPanel{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      max-height:74%;
+      transform: translateY(100%);
+      opacity:1;
+      pointer-events:none;
+      transition: transform .22s cubic-bezier(.2,.85,.2,1);
+      border-top: 1px solid rgba(12,37,4,.14);
+      background:
+        radial-gradient(1200px 500px at 30% 0%, rgba(12,37,4,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
+      box-shadow: 0 -18px 40px rgba(2,6,23,.16);
+    }
+
+    .bioInner{
       height:100%;
       display:flex;
       flex-direction:column;
       padding:16px;
       gap:12px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .backHeader{
+    .bioHeader{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
@@ -252,11 +223,22 @@
       margin-top:auto;
       display:flex;
       gap:10px;
+      justify-content:flex-start;
+      padding-top:6px;
+    }
+
+    /* Open state */
+    .teamCard.isOpen .bioScrim{
+      opacity:1;
+      pointer-events:auto;
+    }
+    .teamCard.isOpen .bioPanel{
+      transform: translateY(0%);
+      pointer-events:auto;
     }
 
     @media (prefers-reduced-motion: reduce){
-      .cardSurface{transition:none}
-      .bioBtn{transition:none}
+      .bioScrim, .bioPanel, .bioBtn{transition:none}
     }
   </style>
 </head>
@@ -301,37 +283,41 @@
         <div class="teamWrap teamGrid">
 
           <!-- Alex -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-alex" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/alex-shahidian.jpg" alt="Alex Shahidian headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">AS</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Alex Shahidian</h3>
-                    <span class="roleTag">Principal Broker</span>
-                  </div>
-                  <p class="teamOneLiner">Clear strategy, clean execution, and calm negotiations.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-alex">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/alex-shahidian.jpg" alt="Alex Shahidian headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">AS</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Alex Shahidian</h3>
+                  <span class="roleTag">Principal Broker</span>
+                </div>
+                <p class="teamOneLiner">Clear strategy, clean execution, and calm negotiations.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-alex"
+                          aria-controls="bio-alex"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-alex" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-alex" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
-                      <h3 class="backName">Alex Shahidian</h3>
+                      <h3 class="backName" id="bio-alex-title">Alex Shahidian</h3>
                       <div class="backRole">Principal Broker</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-alex">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-alex">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -347,45 +333,49 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-alex">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-alex">Back</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Shelby (second) -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-shelby" />
+          <!-- Shelby -->
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 22%" aria-hidden="true">
-                    <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">SM</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Shelby Maji</h3>
-                    <span class="roleTag">Head of Operations</span>
-                  </div>
-                  <p class="teamOneLiner">The engine behind smooth, on-time closings.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-shelby">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 22%" aria-hidden="true">
+                  <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">SM</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Shelby Maji</h3>
+                  <span class="roleTag">Head of Operations</span>
+                </div>
+                <p class="teamOneLiner">The engine behind smooth, on-time closings.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-shelby"
+                          aria-controls="bio-shelby"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-shelby" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-shelby" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">Shelby Maji</h3>
                       <div class="backRole">Head of Operations</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-shelby">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-shelby">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -400,7 +390,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-shelby">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-shelby">Back</button>
                   </div>
                 </div>
               </div>
@@ -408,37 +398,41 @@
           </div>
 
           <!-- Cameron -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-cameron" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/cameron-clements.jpg" alt="Cameron Clements headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">CC</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Cameron Clements</h3>
-                    <span class="roleTag">Agent</span>
-                  </div>
-                  <p class="teamOneLiner">Numbers-first guidance without losing momentum.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-cameron">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/cameron-clements.jpg" alt="Cameron Clements headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">CC</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Cameron Clements</h3>
+                  <span class="roleTag">Agent</span>
+                </div>
+                <p class="teamOneLiner">Numbers-first guidance without losing momentum.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-cameron"
+                          aria-controls="bio-cameron"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-cameron" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-cameron" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">Cameron Clements</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-cameron">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cameron">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -453,7 +447,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-cameron">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cameron">Back</button>
                   </div>
                 </div>
               </div>
@@ -461,37 +455,41 @@
           </div>
 
           <!-- Drew -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-drew" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">DD</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Drew Dickson</h3>
-                    <span class="roleTag">Agent</span>
-                  </div>
-                  <p class="teamOneLiner">Calm under pressure. Sharp when timing matters.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-drew">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">DD</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Drew Dickson</h3>
+                  <span class="roleTag">Agent</span>
+                </div>
+                <p class="teamOneLiner">Calm under pressure. Sharp when timing matters.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-drew"
+                          aria-controls="bio-drew"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-drew" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-drew" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">Drew Dickson</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-drew">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-drew">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -506,7 +504,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-drew">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-drew">Back</button>
                   </div>
                 </div>
               </div>
@@ -514,37 +512,41 @@
           </div>
 
           <!-- Cody -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-cody" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/cody-sias.jpg" alt="Cody Sias headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">CS</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Cody Sias</h3>
-                    <span class="roleTag">Agent</span>
-                  </div>
-                  <p class="teamOneLiner">Fast, organized, and proactive from day one.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-cody">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/cody-sias.jpg" alt="Cody Sias headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">CS</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Cody Sias</h3>
+                  <span class="roleTag">Agent</span>
+                </div>
+                <p class="teamOneLiner">Fast, organized, and proactive from day one.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-cody"
+                          aria-controls="bio-cody"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-cody" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-cody" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">Cody Sias</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-cody">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cody">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -559,7 +561,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-cody">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cody">Back</button>
                   </div>
                 </div>
               </div>
@@ -567,37 +569,41 @@
           </div>
 
           <!-- Stephan -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-stephan" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">SH</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Stephan Ho</h3>
-                    <span class="roleTag">Agent</span>
-                  </div>
-                  <p class="teamOneLiner">Strong presentation, clean communication, steady execution.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-stephan">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">SH</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Stephan Ho</h3>
+                  <span class="roleTag">Agent</span>
+                </div>
+                <p class="teamOneLiner">Strong presentation, clean communication, steady execution.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-stephan"
+                          aria-controls="bio-stephan"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-stephan" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-stephan" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">Stephan Ho</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-stephan">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stephan">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -611,7 +617,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-stephan">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stephan">Back</button>
                   </div>
                 </div>
               </div>
@@ -619,37 +625,41 @@
           </div>
 
           <!-- John -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-john" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">JC</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">John Currid</h3>
-                    <span class="roleTag">Head of Property Management</span>
-                  </div>
-                  <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-john">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">JC</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">John Currid</h3>
+                  <span class="roleTag">Head of Property Management</span>
+                </div>
+                <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-john"
+                          aria-controls="bio-john"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-john" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-john" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">John Currid</h3>
                       <div class="backRole">Head of Property Management</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-john">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-john">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -664,7 +674,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-john">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-john">Back</button>
                   </div>
                 </div>
               </div>
@@ -672,37 +682,41 @@
           </div>
 
           <!-- Stan -->
-          <div class="teamCard">
-            <input class="flipToggle" type="checkbox" id="bio-stan" />
+          <div class="teamCard" data-card>
             <div class="cardSurface">
-              <div class="flipFace flipFront">
-                <div class="teamPhotoWrap">
-                  <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
-                         onerror="this.parentNode.classList.add('noimg');" />
-                    <span class="initials">SS</span>
-                  </div>
-                </div>
-                <div class="teamBody">
-                  <div>
-                    <h3 class="teamName">Stan Smith</h3>
-                    <span class="roleTag">Agent • Property Mgmt Support</span>
-                  </div>
-                  <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
-                  <div class="teamActions">
-                    <button type="button" class="bioBtn" data-toggle="bio-stan">View bio</button>
-                  </div>
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">SS</span>
                 </div>
               </div>
 
-              <div class="flipFace flipBack">
-                <div class="backInner">
-                  <div class="backHeader">
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Stan Smith</h3>
+                  <span class="roleTag">Agent • Property Mgmt Support</span>
+                </div>
+                <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-open="bio-stan"
+                          aria-controls="bio-stan"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+
+              <button type="button" class="bioScrim" data-bio-close="bio-stan" aria-label="Close bio"></button>
+
+              <div class="bioPanel" id="bio-stan" aria-hidden="true">
+                <div class="bioInner">
+                  <div class="bioHeader">
                     <div>
                       <h3 class="backName">Stan Smith</h3>
                       <div class="backRole">Agent • Property Mgmt Support</div>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-stan">Close</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stan">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -717,7 +731,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-toggle="bio-stan">Back</button>
+                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stan">Back</button>
                   </div>
                 </div>
               </div>
@@ -753,15 +767,54 @@
   </footer>
 
   <script>
-    // Reliable flip toggle (works even inside 3D transforms)
-    document.querySelectorAll('[data-toggle]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-toggle');
-        const cb = document.getElementById(id);
-        if (!cb) return;
-        cb.checked = !cb.checked;
+    (function () {
+      const cards = Array.from(document.querySelectorAll('.teamCard[data-card]'));
+
+      function closeAll() {
+        cards.forEach(card => {
+          card.classList.remove('isOpen');
+          const openBtn = card.querySelector('[data-bio-open]');
+          const panelId = openBtn?.getAttribute('data-bio-open');
+          const panel = panelId ? document.getElementById(panelId) : null;
+          if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+          if (panel) panel.setAttribute('aria-hidden', 'true');
+        });
+      }
+
+      function openById(panelId, triggerBtn) {
+        closeAll();
+        const panel = document.getElementById(panelId);
+        if (!panel) return;
+        const card = panel.closest('.teamCard[data-card]');
+        if (!card) return;
+
+        card.classList.add('isOpen');
+        panel.setAttribute('aria-hidden', 'false');
+        if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
+
+        const closeBtn = card.querySelector(`[data-bio-close="${panelId}"]`);
+        if (closeBtn) closeBtn.focus({ preventScroll: true });
+      }
+
+      document.addEventListener('click', (e) => {
+        const openBtn = e.target.closest('[data-bio-open]');
+        if (openBtn) {
+          const panelId = openBtn.getAttribute('data-bio-open');
+          openById(panelId, openBtn);
+          return;
+        }
+
+        const closeBtn = e.target.closest('[data-bio-close]');
+        if (closeBtn) {
+          closeAll();
+          return;
+        }
       });
-    });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAll();
+      });
+    })();
   </script>
 </body>
 </html>
