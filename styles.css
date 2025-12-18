@@ -204,3 +204,31 @@ hr.sep{
   border:none;border-top:1px solid rgba(12,37,4,.12);
   margin:14px 0;
 }
+/* ===== WRRE Wordmark Header (replaces the dot) ===== */
+.brand{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+  text-decoration:none;
+}
+
+.brandText{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+
+.brandSub{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  opacity:.70;
+  margin-top:5px;
+}
+
+/* Make sure the Contact button is always readable */
+.links .btn,
+.nav .btn{
+  color:#fff !important;
+}
