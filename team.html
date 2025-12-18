@@ -9,81 +9,85 @@
   <link rel="stylesheet" href="/styles.css" />
 
   <style>
-    /* Page-specific styles */
+    /* ===== TEAM PAGE (photo-first like premium brokerages) ===== */
     .teamWrap{margin-top:14px}
 
     .teamGrid{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
-      gap:12px;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:14px;
       align-items:stretch;
     }
 
     .teamCard{
-      display:flex;
-      gap:18px;
-      align-items:flex-start;
       height:100%;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
     }
 
-    /* BIG, recognizable headshots (responsive) */
-    .photo{
-      width:clamp(104px, 9.5vw, 140px);
-      height:clamp(104px, 9.5vw, 140px);
-      border-radius:26px;
-      position:relative; overflow:hidden;
+    /* BIG, recognizable headshot */
+    .teamPhoto{
+      position:relative;
+      width:100%;
+      aspect-ratio: 1 / 1;              /* square reads “headshot” and keeps grid clean */
+      border-radius: calc(var(--radius) - 4px);
+      overflow:hidden;
       background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
-      box-shadow: 0 14px 30px rgba(12,37,4,.20);
-      flex:0 0 auto;
-      margin-top:2px;
-      border:1px solid rgba(12,37,4,.18);
+      box-shadow: 0 16px 34px rgba(2,6,23,.12);
+      border:1px solid rgba(12,37,4,.14);
+      margin:14px 14px 0;
     }
-    .photo img{
-      width:100%;height:100%;
-      object-fit:cover;
-      object-position:50% 20%; /* shows faces better than dead-center */
+    .teamPhoto img{
+      width:100%;
+      height:100%;
       display:block;
+      object-fit:cover;
+      object-position:50% 18%;          /* prioritizes faces */
+      transform: scale(1.02);
     }
-    .photo .initials{
+    .teamPhoto.noimg img{display:none}
+    .teamPhoto .initials{
       position:absolute; inset:0;
       display:flex; align-items:center; justify-content:center;
       color:#fff;
       font-weight:900;
       letter-spacing:.6px;
+      font-size:28px;
       opacity:0;
       user-select:none;
-      font-size:clamp(20px, 2vw, 28px);
     }
-    .photo.noimg .initials{ opacity:1; }
+    .teamPhoto.noimg .initials{opacity:1}
 
-    .teamContent{
-      flex:1;
-      min-width:0;
+    .teamBody{
+      padding:14px 16px 16px;
       display:flex;
       flex-direction:column;
-      height:100%;
+      gap:10px;
+      flex:1;
     }
 
-    .nameRow{
+    .teamTop{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:10px;
     }
-    .nameRow h3{margin:0;font-size:16px;line-height:1.2}
+    .teamName{
+      margin:0;
+      font-size:16px;
+      line-height:1.2;
+    }
 
-    .roleLine{
+    .teamMeta{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
       align-items:center;
-      margin:6px 0 10px;
-      color:rgba(11,18,32,.72);
-      font-size:13px;
-      font-weight:700;
+      margin-top:6px;
     }
     .pill{
-      display:inline-flex;align-items:center;gap:8px;
+      display:inline-flex;align-items:center;
       padding:6px 10px;border-radius:999px;
       border:1px solid rgba(12,37,4,.16);
       background:rgba(12,37,4,.06);
@@ -93,29 +97,130 @@
       white-space:nowrap;
     }
 
-    .teamBio{
-      margin:0 0 10px;
+    .teamOneLiner{
+      margin:0;
       color:rgba(11,18,32,.72);
       font-size:14px;
+      line-height:1.45;
     }
 
-    .miniList{
+    .teamActions{
       margin-top:auto;
-      margin-bottom:0;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .bioBtn{
+      appearance:none;
+      border:1px solid rgba(12,37,4,.18);
+      background:rgba(12,37,4,.06);
+      color:rgba(11,18,32,.86);
+      border-radius:999px;
+      padding:10px 12px;
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .bioBtn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(2,6,23,.10);
+      background:rgba(12,37,4,.08);
+    }
+
+    /* ===== MODAL ===== */
+    .modalBackdrop{
+      position:fixed; inset:0;
+      background: rgba(3,7,18,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:1000;
+    }
+    .modalBackdrop.open{display:flex}
+    .modal{
+      width:min(820px, 100%);
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 30px 80px rgba(2,6,23,.28);
+      border: 1px solid rgba(2,6,23,.10);
+      overflow:hidden;
+    }
+    .modalInner{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:0;
+    }
+    @media (max-width: 780px){
+      .modalInner{grid-template-columns:1fr}
+    }
+
+    .modalLeft{
+      padding:18px;
+      background: linear-gradient(180deg, rgba(12,37,4,.06), rgba(12,37,4,.02));
+      border-right:1px solid rgba(2,6,23,.08);
+    }
+    @media (max-width: 780px){
+      .modalLeft{border-right:none;border-bottom:1px solid rgba(2,6,23,.08)}
+    }
+
+    .modalPhoto{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(12,37,4,.14);
+      box-shadow: 0 14px 34px rgba(2,6,23,.14);
+      background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
+    }
+    .modalPhoto img{
+      width:100%;height:100%;
+      object-fit:cover;
+      object-position:50% 18%;
+      display:block;
+    }
+
+    .modalRight{
+      padding:18px;
+    }
+    .modalHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .modalHeader h3{
+      margin:0;
+      font-size:20px;
+      line-height:1.2;
+    }
+    .closeBtn{
+      appearance:none;
+      border:1px solid rgba(2,6,23,.14);
+      background:#fff;
+      border-radius:12px;
+      padding:8px 10px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .modalRole{margin:10px 0 0; display:flex; gap:8px; flex-wrap:wrap}
+    .modalBio{
+      margin:12px 0 0;
+      color:rgba(11,18,32,.74);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .modalList{
+      margin:12px 0 0;
       padding-left:18px;
       color:rgba(11,18,32,.74);
       font-size:13px;
+      line-height:1.6;
     }
-    .miniList li{margin:6px 0}
-
-    /* On small screens: keep photos big but not ridiculous */
-    @media (max-width:700px){
-      .teamGrid{grid-template-columns:1fr}
-      .teamCard{gap:16px}
-      .photo{
-        width:110px;height:110px;border-radius:24px;
-      }
-    }
+    .modalList li{margin:7px 0}
   </style>
 </head>
 
@@ -159,178 +264,210 @@
         <div class="teamWrap teamGrid">
 
           <!-- Alex -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <div class="card teamCard"
+               data-name="Alex Shahidian"
+               data-role="Principal Broker"
+               data-img="/images/team/alex-shahidian.jpg"
+               data-bio="Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype. He’s direct, responsive, and focused on helping clients make confident decisions."
+               data-bullets="Focus: buying, selling, negotiations, deal structure|Approach: data-backed guidance + calm process|Notables: Brown Belt in BJJ; disciplined rehab after knee reconstruction|Education: BBA, Finance / Management — Kent State University">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/alex-shahidian.jpg" alt="Alex Shahidian headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" style="object-position:50% 18%" />
               <span class="initials">AS</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Alex Shahidian</h3></div>
-              <div class="roleLine"><span class="pill">Principal Broker</span></div>
-              <p class="teamBio">
-                Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype.
-                He’s direct, responsive, and focused on helping clients make confident decisions.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> buying, selling, negotiations, deal structure</li>
-                <li><b>Approach:</b> data-backed guidance + calm process</li>
-                <li><b>Notables:</b> Brown Belt in BJJ; disciplined rehab after knee reconstruction</li>
-                <li><b>Education:</b> BBA, Finance / Management — Kent State University</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Alex Shahidian</h3>
+                  <div class="teamMeta"><span class="pill">Principal Broker</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Clear strategy, clean execution, and calm negotiations.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
-          <!-- Shelby -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <!-- Shelby (second) -->
+          <div class="card teamCard"
+               data-name="Shelby Maji"
+               data-role="Head of Operations"
+               data-img="/images/team/shelby-maji.jpg"
+               data-bio="Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine that keeps deadlines tracked, documents organized, and clients updated throughout the process."
+               data-bullets="Focus: systems, coordination, transaction support, client experience|Notables: Missions trip participant; somehow keeps a cat despite allergies|Education: BBA, Accounting — Hiram University">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/shelby-maji.jpg" alt="Shelby Maji headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" style="object-position:50% 22%" />
               <span class="initials">SM</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Shelby Maji</h3></div>
-              <div class="roleLine"><span class="pill">Head of Operations</span></div>
-              <p class="teamBio">
-                Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
-                that keeps deadlines tracked, documents organized, and clients updated throughout the process.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
-                <li><b>Notables:</b> Missions trip participant; somehow keeps a cat despite allergies</li>
-                <li><b>Education:</b> BBA, Accounting — Hiram University</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Shelby Maji</h3>
+                  <div class="teamMeta"><span class="pill">Head of Operations</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">The engine behind smooth, on-time closings.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
           <!-- Cameron -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <div class="card teamCard"
+               data-name="Cameron Clements"
+               data-role="Agent"
+               data-img="/images/team/cameron-clements.jpg"
+               data-bio="Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded in the numbers while still moving quickly when the right home shows up."
+               data-bullets="Focus: buyers, first-time buyers, local market guidance|Notables: Purple Belt in BJJ; fluent in Marshallese|Education: (add)">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/cameron-clements.jpg" alt="Cameron Clements headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" style="object-position:50% 18%" />
               <span class="initials">CC</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Cameron Clements</h3></div>
-              <div class="roleLine"><span class="pill">Agent</span></div>
-              <p class="teamBio">
-                Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded
-                in the numbers while still moving quickly when the right home shows up.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> buyers, first-time buyers, local market guidance</li>
-                <li><b>Notables:</b> Purple Belt in BJJ; fluent in Marshallese</li>
-                <li><b>Education:</b> (add)</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Cameron Clements</h3>
+                  <div class="teamMeta"><span class="pill">Agent</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Numbers-first guidance without losing momentum.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
-          <!-- Drew -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <!-- Drew (no MMA/wrestling mention) -->
+          <div class="card teamCard"
+               data-name="Drew Dickson"
+               data-role="Agent"
+               data-img="/images/team/drew-dickson.jpg"
+               data-bio="Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency when timing matters, and shows up prepared—especially during negotiations."
+               data-bullets="Focus: buyers, sellers, and investors|Notables: Completed an Ironman|Education: BS, Exercise Science — Kent State University">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/drew-dickson.jpg" alt="Drew Dickson headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" style="object-position:50% 18%" />
               <span class="initials">DD</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Drew Dickson</h3></div>
-              <div class="roleLine"><span class="pill">Agent</span></div>
-              <p class="teamBio">
-                Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency
-                when timing matters, and shows up prepared—especially during negotiations.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> buyers, sellers, and investors</li>
-                <li><b>Notables:</b> Completed an Ironman</li>
-                <li><b>Education:</b> BS, Exercise Science — Kent State University</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Drew Dickson</h3>
+                  <div class="teamMeta"><span class="pill">Agent</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Calm under pressure. Sharp when timing matters.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
           <!-- Cody -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <div class="card teamCard"
+               data-name="Cody Sias"
+               data-role="Agent"
+               data-img="/images/team/cody-sias.jpg"
+               data-bio="Cody keeps the process straightforward and efficient — the kind of agent who holds timelines, communicates clearly, and handles issues before they become problems."
+               data-bullets="Focus: buyers + sellers across Ohio|Notables: (add: what he’s known for / hobbies / community ties)|Education: (add)">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/cody-sias.jpg" alt="Cody Sias headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" style="object-position:50% 18%" />
               <span class="initials">CS</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Cody Sias</h3></div>
-              <div class="roleLine"><span class="pill">Agent</span></div>
-              <p class="teamBio">
-                Cody is focused on making the process straightforward and efficient — the kind of agent who keeps timelines tight,
-                communicates clearly, and handles issues before they become problems.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> buyers + sellers across Ohio</li>
-                <li><b>Notables:</b> (add: what he’s known for / hobbies / community ties)</li>
-                <li><b>Education:</b> (add)</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Cody Sias</h3>
+                  <div class="teamMeta"><span class="pill">Agent</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Fast, organized, and proactive from day one.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
           <!-- Stephan -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <div class="card teamCard"
+               data-name="Stephan Ho"
+               data-role="Agent"
+               data-img="/images/team/stephan-ho.jpg"
+               data-bio="Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean. Clients like his steady approach and attention to detail from listing prep through closing."
+               data-bullets="Focus: buyer & seller representation, marketing, property management|Notables: Black Belt in BJJ; learned to read by age 14">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" />
               <span class="initials">SH</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Stephan Ho</h3></div>
-              <div class="roleLine"><span class="pill">Agent</span></div>
-              <p class="teamBio">
-                Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean.
-                Clients like his steady approach and attention to detail from listing prep through closing.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> buyer &amp; seller representation, marketing, property management</li>
-                <li><b>Notables:</b> Black Belt in BJJ; learned to read by age 14</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Stephan Ho</h3>
+                  <div class="teamMeta"><span class="pill">Agent</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Strong presentation, clean communication, steady execution.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
           <!-- John -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <div class="card teamCard"
+               data-name="John Currid"
+               data-role="Head of Property Management"
+               data-img="/images/team/john-currid.jpg"
+               data-bio="John leads property management and supports clients who want a real plan for rentals and investments. He’s especially valuable for owners who care about long-term performance, not just getting it rented."
+               data-bullets="Focus: leasing, rentals, owner support, investor strategy|Notables: (add)|Education: (add)">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" />
               <span class="initials">JC</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>John Currid</h3></div>
-              <div class="roleLine"><span class="pill">Head of Property Management</span></div>
-              <p class="teamBio">
-                John leads property management and supports clients who want a real plan for rentals and investments.
-                He’s especially valuable for owners who care about long-term performance, not just “getting it rented.”
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> leasing, rentals, owner support, investor strategy</li>
-                <li><b>Notables:</b> (add)</li>
-                <li><b>Education:</b> (add)</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">John Currid</h3>
+                  <div class="teamMeta"><span class="pill">Head of Property Management</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
           <!-- Stan -->
-          <div class="card teamCard">
-            <div class="photo" aria-hidden="true">
+          <div class="card teamCard"
+               data-name="Stan Smith"
+               data-role="Agent • Property Mgmt Support"
+               data-img="/images/team/stan-smith.jpg"
+               data-bio="Stan supports both sales and property management with a proactive, problem-solving style. He’s dependable on follow-up and helps keep small issues from turning into big ones."
+               data-bullets="Focus: buying, selling, relocation, property management support|Notables: (add)|Education: (add)">
+            <div class="teamPhoto" aria-hidden="true">
               <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
-                   onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
+                   onerror="this.parentNode.classList.add('noimg');" />
               <span class="initials">SS</span>
             </div>
-            <div class="teamContent">
-              <div class="nameRow"><h3>Stan Smith</h3></div>
-              <div class="roleLine"><span class="pill">Agent • Property Mgmt Support</span></div>
-              <p class="teamBio">
-                Stan supports both sales and property management with a proactive, problem-solving style.
-                He’s dependable on follow-up and helps keep small issues from turning into big ones.
-              </p>
-              <ul class="miniList">
-                <li><b>Focus:</b> buying, selling, relocation, property management support</li>
-                <li><b>Notables:</b> (add)</li>
-                <li><b>Education:</b> (add)</li>
-              </ul>
+            <div class="teamBody">
+              <div class="teamTop">
+                <div>
+                  <h3 class="teamName">Stan Smith</h3>
+                  <div class="teamMeta"><span class="pill">Agent • Property Mgmt Support</span></div>
+                </div>
+              </div>
+              <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
+              <div class="teamActions">
+                <button class="bioBtn" type="button" data-open-bio>View bio</button>
+              </div>
             </div>
           </div>
 
@@ -362,6 +499,95 @@
       </div>
     </div>
   </footer>
+
+  <!-- Bio Modal -->
+  <div class="modalBackdrop" id="bioBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Team member bio">
+      <div class="modalInner">
+        <div class="modalLeft">
+          <div class="modalPhoto">
+            <img id="bioImg" alt="" />
+          </div>
+        </div>
+        <div class="modalRight">
+          <div class="modalHeader">
+            <div>
+              <h3 id="bioName"></h3>
+              <div class="modalRole" id="bioRole"></div>
+            </div>
+            <button class="closeBtn" type="button" id="bioClose" aria-label="Close">✕</button>
+          </div>
+
+          <p class="modalBio" id="bioText"></p>
+          <ul class="modalList" id="bioList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const backdrop = document.getElementById('bioBackdrop');
+      const closeBtn = document.getElementById('bioClose');
+      const bioImg  = document.getElementById('bioImg');
+      const bioName = document.getElementById('bioName');
+      const bioRole = document.getElementById('bioRole');
+      const bioText = document.getElementById('bioText');
+      const bioList = document.getElementById('bioList');
+
+      function openBio(card){
+        const name = card.getAttribute('data-name') || '';
+        const role = card.getAttribute('data-role') || '';
+        const img  = card.getAttribute('data-img')  || '';
+        const bio  = card.getAttribute('data-bio')  || '';
+        const bulletsRaw = card.getAttribute('data-bullets') || '';
+        const bullets = bulletsRaw.split('|').map(s => s.trim()).filter(Boolean);
+
+        bioName.textContent = name;
+        bioRole.innerHTML = role ? `<span class="pill">${role}</span>` : '';
+        bioText.textContent = bio;
+
+        bioList.innerHTML = bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('');
+
+        bioImg.src = img;
+        bioImg.alt = name ? (name + ' headshot') : 'Team member headshot';
+
+        backdrop.classList.add('open');
+        backdrop.setAttribute('aria-hidden','false');
+        closeBtn.focus();
+      }
+
+      function closeBio(){
+        backdrop.classList.remove('open');
+        backdrop.setAttribute('aria-hidden','true');
+      }
+
+      function escapeHtml(str){
+        return String(str)
+          .replaceAll('&','&amp;')
+          .replaceAll('<','&lt;')
+          .replaceAll('>','&gt;')
+          .replaceAll('"','&quot;')
+          .replaceAll("'","&#039;");
+      }
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-open-bio]');
+        if(btn){
+          const card = e.target.closest('.teamCard');
+          if(card) openBio(card);
+        }
+      });
+
+      closeBtn.addEventListener('click', closeBio);
+      backdrop.addEventListener('click', (e) => {
+        if(e.target === backdrop) closeBio();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && backdrop.classList.contains('open')) closeBio();
+      });
+    })();
+  </script>
 </body>
 </html>
-
