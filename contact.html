@@ -4,24 +4,71 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contact | Western Reserve Real Estate</title>
-  <meta name="description" content="Contact Western Reserve Real Estate. Chagrin Falls, Ohio. Fast next steps, clear communication." />
+  <meta name="description" content="Contact Western Reserve Real Estate. Chagrin Falls, Ohio. Clear next steps, fast response." />
   <link rel="canonical" href="https://wrohio.com/contact.html" />
   <link rel="stylesheet" href="/styles.css" />
 
   <style>
-    /* Contact page polish (scoped to this page) */
-    .pageHero{padding:54px 0 12px}
-    .pageHero p{margin:10px 0 0;color:rgba(11,18,32,.74);max-width:70ch;font-size:16px}
-    .helper{margin:10px 0 0;color:rgba(11,18,32,.62);font-size:13px;line-height:1.4}
-    .sep{border:0;border-top:1px solid rgba(12,37,4,.12);margin:16px 0}
+    /* ===== Contact page polish (scoped here) ===== */
+    .pageHero{padding:54px 0 14px}
+    .pageHero p{margin:10px 0 0;color:rgba(11,18,32,.74);max-width:72ch;font-size:16px}
 
-    .contactSplit{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+    /* Two equal-height cards */
+    .contactSplit{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:14px;
+      align-items:stretch; /* key */
+    }
     @media (max-width:900px){.contactSplit{grid-template-columns:1fr}}
 
-    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .leftCard,.rightCard{
+      height:100%;                 /* key */
+      display:flex;                /* key */
+      flex-direction:column;       /* key */
+    }
+
+    /* Header row inside left card */
+    .topRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:12px;
+    }
+    .meta{
+      color:rgba(11,18,32,.60);
+      font-size:13px;
+      line-height:1.35;
+      margin:0;
+    }
+
+    .addrChip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(12,37,4,.18);
+      background:rgba(12,37,4,.06);
+      font-weight:900;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .thinRule{border:0;border-top:1px solid rgba(12,37,4,.12);margin:14px 0}
+
+    /* Form styling */
+    .formWrap{flex:1; display:flex; flex-direction:column;} /* key: lets actions sit at bottom nicely */
+    .form{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
     @media (max-width:900px){.form{grid-template-columns:1fr}}
+
     .field{display:flex;flex-direction:column;gap:6px}
-    .field label{font-weight:800;font-size:13px;color:rgba(11,18,32,.82)}
+    .field label{font-weight:850;font-size:13px;color:rgba(11,18,32,.82)}
 
     .field input,
     .field select,
@@ -36,7 +83,7 @@
       outline:none;
       transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
     }
-    .field textarea{min-height:120px;resize:vertical}
+    .field textarea{min-height:124px;resize:vertical}
     .field input:focus,
     .field select:focus,
     .field textarea:focus{
@@ -45,36 +92,45 @@
       background:#fff;
     }
 
-    .formActions{
-      grid-column:1/-1;
+    .actions{
+      margin-top:auto; /* pin actions to bottom of left card */
       display:flex;
       gap:12px;
       flex-wrap:wrap;
       align-items:center;
-      margin-top:2px;
+      padding-top:14px;
+    }
+    .micro{
+      margin:0;
+      color:rgba(11,18,32,.58);
+      font-size:13px;
+      line-height:1.35;
     }
 
-    .factsGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    /* Right card content */
+    .rightCard .panelTop p{opacity:.85}
+    .factsGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
     @media (max-width:900px){.factsGrid{grid-template-columns:1fr}}
+
     .fact{
       background:rgba(255,255,255,.70);
       border:1px solid rgba(12,37,4,.12);
       border-radius:16px;
       padding:12px;
     }
-    .fact b{display:block;font-weight:900}
+    .fact b{display:block;font-weight:950}
     .fact span{display:block;margin-top:4px;color:rgba(11,18,32,.72)}
 
-    .footerLinks{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+    /* Make the right-side callout sit at the bottom to visually match left card */
+    .rightCard .callout{margin-top:auto}
 
-    /* Small inline pill for the one place we show the address */
-    .addrPill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:7px 10px;border-radius:999px;
-      border:1px solid rgba(12,37,4,.18);
-      background:rgba(12,37,4,.06);
-      font-weight:900;font-size:13px;
-    }
+    /* Footer link row */
+    .footerLinks{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
   </style>
 </head>
 
@@ -101,7 +157,7 @@
     <section class="pageHero">
       <div class="container">
         <h1>Let’s talk</h1>
-        <p>Tell me what you’re trying to accomplish. You’ll get a quick reply with next steps.</p>
+        <p>Tell me what you’re trying to accomplish — I’ll reply with clear next steps.</p>
       </div>
     </section>
 
@@ -111,67 +167,63 @@
         <div class="contactSplit">
 
           <!-- LEFT -->
-          <div class="card bigCard">
-            <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-end">
-              <h3 style="margin:0">Direct</h3>
-              <a class="addrPill" href="mailto:info@wrohio.com" aria-label="Send an email to info@wrohio.com">
+          <div class="card bigCard leftCard">
+            <div class="topRow">
+              <div>
+                <h3 style="margin:0">Send a note</h3>
+                <p class="meta" style="margin-top:6px">Fast response. Straight answers. No sales script.</p>
+              </div>
+              <a class="addrChip" href="mailto:info@wrohio.com" aria-label="Send to info@wrohio.com">
                 info@wrohio.com
               </a>
             </div>
 
-            <p class="helper" style="margin-top:10px">
-              If you want phone shown on the site, send the number and I’ll wire it in everywhere.
-            </p>
+            <hr class="thinRule" />
 
-            <hr class="sep" />
+            <div class="formWrap">
+              <form class="form" action="mailto:info@wrohio.com" method="post" enctype="text/plain">
+                <div class="field">
+                  <label for="name">Name</label>
+                  <input id="name" name="name" placeholder="Your name" required />
+                </div>
 
-            <h3 style="margin:0">Message form</h3>
-            <p class="helper" style="margin-top:6px">
-              This opens your email app. (We can upgrade to a stored + spam-protected form later.)
-            </p>
+                <div class="field">
+                  <label for="email">Reply-to</label>
+                  <input id="email" name="email" type="email" placeholder="you@email.com" required />
+                </div>
 
-            <form class="form" action="mailto:info@wrohio.com" method="post" enctype="text/plain">
-              <div class="field">
-                <label for="name">Name</label>
-                <input id="name" name="name" placeholder="Your name" required />
-              </div>
+                <div class="field">
+                  <label for="phone">Phone</label>
+                  <input id="phone" name="phone" placeholder="Optional" />
+                </div>
 
-              <div class="field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="you@email.com" required />
-              </div>
+                <div class="field">
+                  <label for="type">Topic</label>
+                  <select id="type" name="interest">
+                    <option>Buying</option>
+                    <option>Selling</option>
+                    <option>Both</option>
+                    <option>Investor</option>
+                    <option>Other</option>
+                  </select>
+                </div>
 
-              <div class="field">
-                <label for="phone">Phone</label>
-                <input id="phone" name="phone" placeholder="Optional" />
-              </div>
+                <div class="field" style="grid-column:1/-1">
+                  <label for="msg">What’s going on?</label>
+                  <textarea id="msg" name="message" placeholder="Area + timeline. If selling: address. If buying: budget + must-haves."></textarea>
+                </div>
 
-              <div class="field">
-                <label for="type">I’m looking to</label>
-                <select id="type" name="interest">
-                  <option>Buy</option>
-                  <option>Sell</option>
-                  <option>Both</option>
-                  <option>Investor</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <div class="field" style="grid-column:1/-1">
-                <label for="msg">Message</label>
-                <textarea id="msg" name="message" placeholder="A few details (area + timeline… If selling: address. If buying: budget + must-haves.)"></textarea>
-              </div>
-
-              <div class="formActions">
-                <button class="btn" type="submit">Send message</button>
-                <a class="btn btnGhost" href="mailto:info@wrohio.com">Message us</a>
-                <span class="helper" style="margin:0">No sales pitch. Just clear next steps.</span>
-              </div>
-            </form>
+                <div class="actions" style="grid-column:1/-1">
+                  <button class="btn" type="submit">Send message</button>
+                  <a class="btn btnGhost" href="mailto:info@wrohio.com">Open mail app</a>
+                  <p class="micro">This uses your device mail client (simple + reliable for now).</p>
+                </div>
+              </form>
+            </div>
           </div>
 
           <!-- RIGHT -->
-          <aside class="heroPanel">
+          <aside class="heroPanel rightCard">
             <div class="panelTop">
               <div class="badge">Western Reserve Real Estate</div>
               <h2>Office</h2>
@@ -182,16 +234,16 @@
             </div>
 
             <div class="factsGrid">
-              <div class="fact"><b>Response time</b><span>Fast. Clear next steps.</span></div>
-              <div class="fact"><b>Best contact</b><span>info@wrohio.com</span></div>
+              <div class="fact"><b>Response</b><span>Fast, clear next steps.</span></div>
+              <div class="fact"><b>Best way</b><span>info@wrohio.com</span></div>
               <div class="fact"><b>Buying</b><span>Offer strategy + clean execution.</span></div>
               <div class="fact"><b>Selling</b><span>Pricing + prep + launch plan.</span></div>
             </div>
 
             <div class="callout" style="margin-top:12px">
               <div>
-                <h3>Start with one question</h3>
-                <p>Send the address (if selling) and your ideal timeline.</p>
+                <h3>Start with one detail</h3>
+                <p>Send your area + timeline. I’ll tell you the next move.</p>
               </div>
               <a class="btn btnSmall" href="mailto:info@wrohio.com">Send a note</a>
             </div>
@@ -202,7 +254,7 @@
         <div class="callout" style="margin-top:14px">
           <div>
             <h3>Want the fastest reply?</h3>
-            <p>Include: area + timeline. If selling: address. If buying: budget + must-haves.</p>
+            <p>Area + timeline. If selling: address. If buying: budget + must-haves.</p>
           </div>
           <a class="btn" href="mailto:info@wrohio.com">Send a note</a>
         </div>
