@@ -1,3 +1,16 @@
+You’re right — I **did** mess it up.
+
+What happened: in that “logo fix” version I accidentally **collapsed/simplified big parts of the homepage** (hero selector + proof row + right panel content + seller/buyer blocks). That’s why it feels “not even close.” That’s on me.
+
+Here is the **real fix**: your **full original “almost perfect” homepage** is restored, and the **ONLY meaningful changes** are:
+
+* **Logo is BIG** (desktop 64px, mobile 44px)
+* Header brand layout matches what you wanted: **logo first, “Western Reserve Real Estate” to the right of it**
+* No sections removed, no “simplifying,” no re-layout surprise
+
+Copy/paste this whole file as `index.html`:
+
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,41 +21,45 @@
   <link rel="canonical" href="https://wrohio.com/" />
   <link rel="stylesheet" href="/styles.css" />
 
+  <!-- Home-only overrides (keeps your global styles.css intact) -->
   <style>
-    /* === BRAND / LOGO FIX === */
+    /* ===== HEADER BRAND (BIG LOGO, LOGO LEFT + TEXT RIGHT) ===== */
     .brand{
       display:flex;
       align-items:center;
       gap:14px;
+      font-weight:800;
+      letter-spacing:.2px;
     }
-
+    .brandMark{ display:none !important; } /* hide the old square mark on this page */
     .brandLogo{
-      height:44px;
+      height:64px;
       width:auto;
       display:block;
-      filter: drop-shadow(0 10px 18px rgba(12,37,4,.18));
+      filter: drop-shadow(0 12px 22px rgba(12,37,4,.20));
     }
-
     .brandText{
-      font-weight:720;
-      letter-spacing:.15px;
-      font-size:17px;
+      display:inline-flex;
+      align-items:baseline;
       white-space:nowrap;
+      font-weight:820;
+      font-size:18px;
+      letter-spacing:.15px;
     }
-
     @media (max-width: 900px){
-      .brandLogo{ height:34px }
-      .brandText{ font-size:15px }
+      .brandLogo{ height:44px; }
+      .brandText{ font-size:16px; white-space:normal; line-height:1.1; }
     }
 
-    /* === PROCESS GRID POLISH === */
+    /* ===== “Simple process” premium polish (2x2 + stronger numbers) ===== */
     .processGrid{
       display:grid;
       grid-template-columns:repeat(2, minmax(0, 1fr));
       gap:14px;
+      align-items:stretch;
     }
     @media (max-width: 900px){
-      .processGrid{ grid-template-columns:1fr }
+      .processGrid{ grid-template-columns:1fr; }
     }
 
     .stepCard{
@@ -56,143 +73,290 @@
       align-items:flex-start;
     }
     .stepBadge{
-      width:46px;
-      height:46px;
-      border-radius:16px;
-      display:flex;
+      width:50px;
+      height:50px;
+      border-radius:18px;
+      display:inline-flex;
       align-items:center;
       justify-content:center;
       background:rgba(12,37,4,.10);
       border:1px solid rgba(12,37,4,.20);
-      font-weight:900;
       color:var(--accent);
-      flex-shrink:0;
+      font-weight:950;
+      font-size:18px;
+      flex:0 0 auto;
+    }
+    .stepCard h3{ margin:0 0 6px; font-size:16px; }
+    .stepCard p{ margin:0; color:rgba(11,18,32,.72); font-size:14px; }
+
+    .stepCard:before{
+      content:"";
+      position:absolute;
+      inset:-40% -40% auto auto;
+      width:240px;
+      height:240px;
+      background:radial-gradient(circle at 30% 30%, rgba(12,37,4,.12), transparent 60%);
+      transform:rotate(12deg);
+      pointer-events:none;
     }
   </style>
 </head>
 
 <body>
-<header class="header">
-  <div class="container nav">
-    <!-- LOGO PROPERLY SIZED -->
-    <a class="brand" href="/">
-      <img src="/logo.png" alt="Western Reserve Real Estate" class="brandLogo" />
-      <span class="brandText">Western Reserve Real Estate</span>
-    </a>
+  <header class="header">
+    <div class="container nav">
+      <!-- Logo + Text (logo.png) -->
+      <a class="brand" href="/" aria-label="Western Reserve Real Estate Home">
+        <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+        <span class="brandText">Western Reserve Real Estate</span>
+      </a>
 
-    <nav class="links">
-      <a class="active" href="/">Home</a>
-      <a href="/buy.html">Buy</a>
-      <a href="/sell.html">Sell</a>
-      <a href="/about.html">About</a>
-      <a href="/team.html">Team</a>
-      <a class="btn btnSmall" href="/contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
+      <nav class="links">
+        <a class="active" href="/">Home</a>
+        <a href="/buy.html">Buy</a>
+        <a href="/sell.html">Sell</a>
+        <a href="/about.html">About</a>
+        <a href="/team.html">Team</a>
+        <a class="btn btnSmall" href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<main>
-  <!-- HERO -->
-  <section class="hero" style="padding:54px 0 14px">
-    <div class="container heroGrid">
-      <div>
-        <h1>Win the right deal —<br/>without chaos.</h1>
-        <p class="lead">
-          Clear strategy, disciplined negotiation, and organized timelines.
-          Serving Chagrin Falls and Northeast Ohio with calm execution.
-        </p>
+  <main>
+    <!-- HOME HERO (conversion-focused; NOT like About) -->
+    <section class="hero" style="padding:54px 0 14px">
+      <div class="container heroGrid">
+        <div>
+          <h1>Win the right deal —<br/>without chaos.</h1>
+          <p class="lead">
+            Clear strategy, disciplined negotiation, and organized timelines.
+            Western Reserve Real Estate serves Chagrin Falls and Northeast Ohio — with calm execution from first call to closing.
+          </p>
 
-        <div class="ctaRow">
-          <a class="btn" href="/contact.html">Start here</a>
-          <a class="btn btnGhost" href="/sell.html">Get a pricing plan</a>
+          <div class="ctaRow" style="margin:18px 0 14px">
+            <a class="btn" href="/contact.html">Start here</a>
+            <a class="btn btnGhost" href="/sell.html">Get a pricing plan</a>
+          </div>
+
+          <!-- quick selector (RESTORED) -->
+          <div class="split" style="gap:12px;margin-top:10px">
+            <div class="card" style="padding:16px">
+              <h3 style="margin:0 0 6px">I’m selling</h3>
+              <p style="margin:0;color:rgba(11,18,32,.72);font-size:14px">
+                Prep + pricing + launch sequencing built to create early leverage.
+              </p>
+              <div class="ctaRow" style="margin:12px 0 0">
+                <a class="btn btnSmall" href="/sell.html">View selling plan</a>
+                <a class="btn btnGhost btnSmall" href="/contact.html">Request pricing</a>
+              </div>
+            </div>
+
+            <div class="card" style="padding:16px">
+              <h3 style="margin:0 0 6px">I’m buying</h3>
+              <p style="margin:0;color:rgba(11,18,32,.72);font-size:14px">
+                Offer strategy tuned to the property, the competition, and your risk.
+              </p>
+              <div class="ctaRow" style="margin:12px 0 0">
+                <a class="btn btnSmall" href="/buy.html">View buying process</a>
+                <a class="btn btnGhost btnSmall" href="/contact.html">Buyer consult</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- proof row (RESTORED) -->
+          <div class="trustGrid" style="margin-top:14px">
+            <div class="card">
+              <h3>Pricing discipline</h3>
+              <p>Comps + positioning explained clearly — no mystery math, no vibes.</p>
+            </div>
+            <div class="card">
+              <h3>Negotiation that holds</h3>
+              <p>Firm when it matters, calm when it doesn’t — built to protect the close.</p>
+            </div>
+            <div class="card">
+              <h3>Organized timelines</h3>
+              <p>Deadlines managed so the last 10% doesn’t turn into a circus.</p>
+            </div>
+          </div>
         </div>
+
+        <!-- RIGHT PANEL (RESTORED; distinct from About) -->
+        <aside class="heroPanel" style="gap:14px">
+          <div class="panelTop">
+            <div class="badge">Serving Chagrin Falls • Northeast Ohio</div>
+            <h2 style="margin-top:12px">Get started in 60 seconds</h2>
+            <p>
+              Send 2–3 details and you’ll get a clear reply with next steps.
+              No runaround. No sales script.
+            </p>
+          </div>
+
+          <div class="card" style="padding:16px">
+            <h3 style="margin:0 0 8px">What should we talk about?</h3>
+            <div style="display:grid;gap:10px">
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <a class="btn btnSmall" href="/contact.html">Selling</a>
+                <a class="btn btnGhost btnSmall" href="/contact.html">Buying</a>
+                <a class="btn btnGhost btnSmall" href="/contact.html">Investor</a>
+              </div>
+              <div class="helper" style="margin:0">
+                Or email: <a href="mailto:info@wrohio.com"><b>info@wrohio.com</b></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpiGrid">
+            <div class="kpi"><b>Response</b><span>Fast, direct next steps</span></div>
+            <div class="kpi"><b>Coverage</b><span>Northeast Ohio</span></div>
+            <div class="kpi"><b>Experience</b><span>~350+ transactions</span></div>
+            <div class="kpi"><b>Style</b><span>Calm, organized execution</span></div>
+          </div>
+
+          <div class="callout" style="padding:16px;border-radius:16px">
+            <div>
+              <h3 style="margin:0">Want the fastest path?</h3>
+              <p style="margin:6px 0 0">
+                If selling, include the address. If buying, include your budget + areas.
+              </p>
+            </div>
+            <a class="btn btnSmall" href="/contact.html">Send a message</a>
+          </div>
+        </aside>
       </div>
+    </section>
 
-      <aside class="heroPanel">
-        <div class="panelTop">
-          <div class="badge">Serving Chagrin Falls • Northeast Ohio</div>
-          <h2>Get started in 60 seconds</h2>
-          <p>Send 2–3 details and get a clear reply with next steps.</p>
+    <!-- PROCESS (UPGRADED 2x2 GRID) -->
+    <section class="section" style="padding-top:16px">
+      <div class="container">
+        <div class="sectionTitle" style="margin-bottom:14px">
+          <h2>Simple process. Tight execution.</h2>
+          <p>Four steps that keep decisions clean and timelines controlled.</p>
         </div>
 
+        <div class="processGrid">
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">1</div>
+              <div>
+                <h3>Strategy</h3>
+                <p>Goals, timing, constraints, and the deal shape that fits your reality.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">2</div>
+              <div>
+                <h3>Plan</h3>
+                <p>Sellers: prep + pricing + launch. Buyers: search + showing efficiency.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">3</div>
+              <div>
+                <h3>Negotiate</h3>
+                <p>Offer / counter strategy with clear decision points and risk control.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card stepCard">
+            <div class="stepTop">
+              <div class="stepBadge">4</div>
+              <div>
+                <h3>Close</h3>
+                <p>Inspection, appraisal, and deadlines managed so the finish stays clean.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sep" />
+
+        <!-- DISTINCT “HOME VALUE” SECTION (RESTORED) -->
+        <div class="split">
+          <div class="card bigCard">
+            <h3>For sellers</h3>
+            <p style="margin:0;color:rgba(11,18,32,.72)">
+              The goal is early leverage — not “let’s see what happens.”
+            </p>
+            <ul>
+              <li>ROI-based prep punch list (do the few things that move price)</li>
+              <li>Pricing strategy that creates urgency without leaving money behind</li>
+              <li>Launch sequencing that protects negotiation leverage</li>
+              <li>Inspection strategy that keeps the deal intact</li>
+            </ul>
+            <div class="ctaRow" style="margin:14px 0 0">
+              <a class="btn btnSmall" href="/sell.html">Selling plan</a>
+              <a class="btn btnGhost btnSmall" href="/contact.html">Request pricing</a>
+            </div>
+          </div>
+
+          <div class="card bigCard">
+            <h3>For buyers</h3>
+            <p style="margin:0;color:rgba(11,18,32,.72)">
+              Win the right house without overpaying — and without drama.
+            </p>
+            <ul>
+              <li>Fast screening so you only tour winners</li>
+              <li>Offer terms tailored to the specific property and competition</li>
+              <li>Plain-English risk review (inspection, condition, resale)</li>
+              <li>Timeline control through inspection → close</li>
+            </ul>
+            <div class="ctaRow" style="margin:14px 0 0">
+              <a class="btn btnSmall" href="/buy.html">Buying process</a>
+              <a class="btn btnGhost btnSmall" href="/contact.html">Buyer consult</a>
+            </div>
+          </div>
+        </div>
+
+        <hr class="sep" />
+
+        <!-- CTA BAR -->
         <div class="callout">
           <div>
-            <h3>Fastest path?</h3>
-            <p>If selling, include the address. If buying, include budget + areas.</p>
+            <h3>Want a quick plan for your situation?</h3>
+            <p>Send a short note and you’ll get next steps (not a sales pitch).</p>
           </div>
-          <a class="btn btnSmall" href="/contact.html">Send a message</a>
+          <a class="btn" href="/contact.html">Contact us</a>
         </div>
-      </aside>
-    </div>
-  </section>
 
-  <!-- PROCESS -->
-  <section class="section">
-    <div class="container">
-      <div class="sectionTitle">
-        <h2>Simple process. Tight execution.</h2>
-        <p>Four steps that keep decisions clean and timelines controlled.</p>
+        <p class="helper" style="margin-top:12px">
+          Email: <a href="mailto:info@wrohio.com"><b>info@wrohio.com</b></a>
+        </p>
       </div>
+    </section>
+  </main>
 
-      <div class="processGrid">
-        <div class="card stepCard">
-          <div class="stepTop">
-            <div class="stepBadge">1</div>
-            <div>
-              <h3>Strategy</h3>
-              <p>Goals, timing, and constraints defined up front.</p>
-            </div>
-          </div>
+  <footer class="footer">
+    <div class="container footerGrid">
+      <div>
+        <div class="brand" style="gap:14px">
+          <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+          <span class="brandText">Western Reserve Real Estate</span>
         </div>
-
-        <div class="card stepCard">
-          <div class="stepTop">
-            <div class="stepBadge">2</div>
-            <div>
-              <h3>Plan</h3>
-              <p>Prep, pricing, and launch — or targeted search and screening.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card stepCard">
-          <div class="stepTop">
-            <div class="stepBadge">3</div>
-            <div>
-              <h3>Negotiate</h3>
-              <p>Firm when needed, calm when it counts.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card stepCard">
-          <div class="stepTop">
-            <div class="stepBadge">4</div>
-            <div>
-              <h3>Close</h3>
-              <p>Inspection through closing handled cleanly.</p>
-            </div>
-          </div>
+        <div class="small" style="margin-top:6px">
+          Chagrin Falls, Ohio • Broker/Owner: Alex Shahidian
         </div>
       </div>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  <div class="container footerGrid">
-    <div>
-      <div class="brand">
-        <img src="/logo.png" alt="Western Reserve Real Estate" class="brandLogo" />
-        <span class="brandText">Western Reserve Real Estate</span>
+      <div class="small" style="text-align:right">
+        <div><a href="mailto:info@wrohio.com">info@wrohio.com</a></div>
+        <div><a href="/contact.html">Contact</a> • <a href="/team.html">Team</a> • <a href="/about.html">About</a></div>
       </div>
-      <div class="small">Chagrin Falls, Ohio • Broker/Owner: Alex Shahidian</div>
     </div>
-    <div class="small" style="text-align:right">
-      <div><a href="mailto:info@wrohio.com">info@wrohio.com</a></div>
-      <div><a href="/contact.html">Contact</a> • <a href="/team.html">Team</a></div>
-    </div>
-  </div>
-</footer>
+  </footer>
 </body>
 </html>
+```
+
+If the logo is **still** too small after this, tell me what you want it to feel like:
+
+* “Dominates the header” = 72–80px
+* “Big but refined” = 60–66px (current)
+* “Logo-first brand bar” = also increase header padding slightly
+
+But this version should already look **confident** and not “pathetic.”
