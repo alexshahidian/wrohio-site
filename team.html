@@ -23,25 +23,26 @@
   -->
 
   <style>
-    /* Page-specific styles (kept here so you can copy/paste one file) */
+    /* Page-specific styles */
     .teamWrap{margin-top:14px}
 
+    /* Auto grid: keeps 3-up on desktop, 2-up when it needs to, and avoids a blank 3rd column */
     .teamGrid{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
+      grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
       gap:12px;
+      align-items:stretch;
     }
-    @media (max-width: 980px){ .teamGrid{grid-template-columns:repeat(2,1fr)} }
-    @media (max-width: 700px){ .teamGrid{grid-template-columns:1fr} }
 
     .teamCard{
       display:flex;
       gap:14px;
       align-items:flex-start;
+      height:100%;
     }
 
     .photo{
-      width:62px;height:62px;border-radius:20px;
+      width:62px;height:62px;border-radius:18px;
       position:relative; overflow:hidden;
       background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
       box-shadow: 0 10px 22px rgba(12,37,4,.18);
@@ -65,6 +66,14 @@
     }
     .photo.noimg .initials{ opacity:1; }
 
+    .teamContent{
+      flex:1;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+
     .nameRow{
       display:flex;
       align-items:flex-start;
@@ -72,6 +81,7 @@
       gap:10px;
     }
     .nameRow h3{margin:0;font-size:16px;line-height:1.2}
+
     .roleLine{
       display:flex;
       flex-wrap:wrap;
@@ -90,50 +100,45 @@
       font-size:12px;
       color:rgba(11,18,32,.80);
       font-weight:750;
+      white-space:nowrap;
     }
-    .teamCard p{
+
+    .teamBio{
       margin:0 0 10px;
       color:rgba(11,18,32,.72);
       font-size:14px;
     }
+
     .miniList{
-      margin:0;
+      margin-top:auto;          /* key: anchors bullets to the bottom */
+      margin-bottom:0;
       padding-left:18px;
       color:rgba(11,18,32,.74);
       font-size:13px;
     }
     .miniList li{margin:6px 0}
-    .mutedNote{font-size:12px;color:rgba(11,18,32,.62);margin-top:10px}
-    .quickEdit{
-      margin-top:12px;
-      background:linear-gradient(180deg, rgba(12,37,4,.10), rgba(12,37,4,.04));
-      border:1px solid rgba(12,37,4,.14);
-      border-radius:var(--radius);
-      padding:14px 16px;
-    }
-    .quickEdit b{display:block;margin-bottom:6px}
-    .quickEdit code{background:rgba(12,37,4,.08);padding:2px 6px;border-radius:8px}
   </style>
 </head>
 
 <body>
-    <header class="header">
-  <div class="container nav">
-    <a class="brand" href="/" aria-label="Western Reserve Real Estate Home">
-      <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
-      <span class="brandName">Western Reserve Real Estate</span>
-    </a>
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="Western Reserve Real Estate Home">
+        <img class="brandLogo" src="/logo.png" alt="Western Reserve Real Estate logo" />
+        <span class="brandName">Western Reserve Real Estate</span>
+      </a>
 
-    <nav class="links">
-      <a href="/">Home</a>
-      <a class="active" href="/buy.html">Buy</a>
-      <a href="/sell.html">Sell</a>
-      <a href="/about.html">About</a>
-      <a href="/team.html">Team</a>
-      <a class="btn btnSmall" href="/contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
+      <nav class="links">
+        <a href="/">Home</a>
+        <a href="/buy.html">Buy</a>
+        <a href="/sell.html">Sell</a>
+        <a href="/about.html">About</a>
+        <a class="active" href="/team.html">Team</a>
+        <a class="btn btnSmall" href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
   <main>
     <section class="pageHero">
       <div class="container">
@@ -161,24 +166,22 @@
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">AS</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Alex Shahidian</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Principal Broker</span>
-                <span class="pill">Ohio</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype.
                 He’s direct, responsive, and focused on helping clients make confident decisions.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buying, selling, negotiations, deal structure</li>
                 <li><b>Approach:</b> data-backed guidance + calm process</li>
-                <li><b>Personal Accomplishments:</b> <i> Brown Belt In BJJ, Did a knee reconstruction surgury without taking pain medicine</i></li>
-                <li><b>Education:</b> <i>Bachelor of Business Administration, Finance / Management
-Kent State University</i></li>
+                <li><b>Notables:</b> Brown Belt in BJJ; disciplined rehab after knee reconstruction</li>
+                <li><b>Education:</b> BBA, Finance / Management — Kent State University</li>
               </ul>
             </div>
           </div>
@@ -190,22 +193,21 @@ Kent State University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">CC</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Cameron Clements</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
-                <span class="pill">Ohio</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded
                 in the numbers while still moving quickly when the right home shows up.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buyers, first-time buyers, local market guidance</li>
-                <li><b>Personal Accomplishments:</b> <i> Purple Belt In BJJ, Fluent in Marshallese</i></li>
-                <li><b>Education:</b> <i>(add)</i></li>
+                <li><b>Notables:</b> Purple Belt in BJJ; fluent in Marshallese</li>
+                <li><b>Education:</b> (add)</li>
               </ul>
             </div>
           </div>
@@ -217,23 +219,21 @@ Kent State University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">DD</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Drew Dickson</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
-                <span class="pill">Ohio</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Drew brings elite competitiveness and discipline to real estate. He’s a pro MMA fighter and a
                 college wrestler — which shows up as persistence, composure, and strong negotiation when it matters.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buyers, sellers, and investors</li>
-                <li><b>Personal Accomplishments:</b> Pro MMA fighter, Completed and Ironman</li>
-                <li><b>Education:</b> <i>Bachelor of Science, Exercise Science,
-Kent State University</i></li>
+                <li><b>Notables:</b> Pro MMA fighter; completed an Ironman</li>
+                <li><b>Education:</b> BS, Exercise Science — Kent State University</li>
               </ul>
             </div>
           </div>
@@ -245,22 +245,21 @@ Kent State University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">CS</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Cody Sias</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
-                <span class="pill">Ohio</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Cody is focused on making the process straightforward and efficient — the kind of agent who keeps timelines tight,
                 communicates clearly, and handles issues before they become problems.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buyers + sellers across Ohio</li>
-                <li><b>Personal:</b> <i>(add: what he’s known for / hobbies / community ties)</i></li>
-                <li><b>Education:</b> <i>(add)</i></li>
+                <li><b>Notables:</b> (add: what he’s known for / hobbies / community ties)</li>
+                <li><b>Education:</b> (add)</li>
               </ul>
             </div>
           </div>
@@ -272,22 +271,20 @@ Kent State University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">SH</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Stephan Ho</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Agent</span>
-                <span class="pill">Ohio</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean.
                 Clients like his steady approach and attention to detail from listing prep through closing.
               </p>
               <ul class="miniList">
-                <li><b>Focus:</b> buyer & seller representation, marketing, property management</li>
-                <li><b>Personal Accomplishments:</b> <i> Black Belt In BJJ, Learned how to read by age 14 </i></li>
-              
+                <li><b>Focus:</b> buyer &amp; seller representation, marketing, property management</li>
+                <li><b>Notables:</b> Black Belt in BJJ; learned to read by age 14</li>
               </ul>
             </div>
           </div>
@@ -299,23 +296,21 @@ Kent State University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">SM</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Shelby Maji</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Head of Operations</span>
-                <span class="pill">Ohio</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
                 that keeps deadlines tracked, documents organized, and clients updated throughout the process.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
-                <li><b>Personal Accomplishments:</b> <i>Participated in a Missions Trip, Keeps a housecat even though severely allergic</i></li>
-                  <li><b>Education:</b> <i>Bachelor of Business Administration, Accounting
-Hiram University</i></li>
+                <li><b>Notables:</b> Missions trip participant; somehow keeps a cat despite allergies</li>
+                <li><b>Education:</b> BBA, Accounting — Hiram University</li>
               </ul>
             </div>
           </div>
@@ -327,22 +322,21 @@ Hiram University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">JC</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>John Currid</h3>
               </div>
               <div class="roleLine">
                 <span class="pill">Head of Property Management</span>
-                <span class="pill">Agent</span>
               </div>
-              <p>
+              <p class="teamBio">
                 John leads property management and supports clients who want a real plan for rentals and investments.
                 He’s especially valuable for owners who care about long-term performance, not just “getting it rented.”
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> leasing, rentals, owner support, investor strategy</li>
-                <li><b>Personal:</b> <i>(add)</i></li>
-                <li><b>Education:</b> <i>(add)</i></li>
+                <li><b>Notables:</b> (add)</li>
+                <li><b>Education:</b> (add)</li>
               </ul>
             </div>
           </div>
@@ -354,22 +348,21 @@ Hiram University</i></li>
                    onerror="this.style.display='none'; this.parentNode.classList.add('noimg');" />
               <span class="initials">SS</span>
             </div>
-            <div>
+            <div class="teamContent">
               <div class="nameRow">
                 <h3>Stan Smith</h3>
               </div>
               <div class="roleLine">
-                <span class="pill">Agent</span>
-                <span class="pill">Property Mgmt Support</span>
+                <span class="pill">Agent • Property Mgmt Support</span>
               </div>
-              <p>
+              <p class="teamBio">
                 Stan supports both sales and property management with a proactive, problem-solving style.
                 He’s dependable on follow-up and helps keep small issues from turning into big ones.
               </p>
               <ul class="miniList">
                 <li><b>Focus:</b> buying, selling, relocation, property management support</li>
-                <li><b>Personal:</b> <i>(add)</i></li>
-                <li><b>Education:</b> <i>(add)</i></li>
+                <li><b>Notables:</b> (add)</li>
+                <li><b>Education:</b> (add)</li>
               </ul>
             </div>
           </div>
@@ -384,14 +377,6 @@ Hiram University</i></li>
             <p>Send a note with your area + timeline — we’ll route you to the best fit.</p>
           </div>
           <a class="btn" href="/contact.html">Contact</a>
-        </div>
-
-        <div class="quickEdit">
-          <b>Quick edits you’ll probably want to make</b>
-          <div class="small">
-            1) Replace each <code>(add)</code> line with education + a personal touch.<br/>
-            2) If your image filenames differ, update the <code>src="/images/team/..."</code> paths.
-          </div>
         </div>
 
       </div>
@@ -412,8 +397,3 @@ Hiram University</i></li>
   </footer>
 </body>
 </html>
-
-
-
-
-
