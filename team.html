@@ -26,7 +26,7 @@
   position:relative;
   min-height:560px;
   height:100%;
-  overflow:visible;            /* important: stage can be visible */
+  overflow:visible;
   perspective:1200px;
   border-radius:var(--radius);
 }
@@ -38,9 +38,10 @@
   width:1px;height:1px;
   opacity:0;
   pointer-events:none;
+  z-index:-1;
 }
 
-/* THIS is the visible tile that rotates */
+/* THIS is the visible tile that rotates (the whole card) */
 .cardSurface{
   position:absolute;
   inset:0;
@@ -53,17 +54,19 @@
 
   transform-style:preserve-3d;
   -webkit-transform-style:preserve-3d;
+
   transition: transform .62s cubic-bezier(.2,.85,.2,1);
   will-change: transform;
-  transform: translateZ(0) rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+
+  transform: translateZ(0) rotateY(0deg);
 }
 
-/* whole tile rotates + slight tilt so it feels like a real card */
+/* NO TILT — just rotate the whole tile */
 .flipToggle:checked ~ .cardSurface{
-  transform: translateY(-8px) rotateY(180deg) rotateX(10deg) rotateZ(2deg);
+  transform: translateZ(0) rotateY(180deg);
 }
 .flipToggle:not(:checked) ~ .cardSurface{
-  transform: translateY(0) rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+  transform: translateZ(0) rotateY(0deg);
 }
 
 /* faces */
@@ -78,9 +81,16 @@
   -webkit-backface-visibility:hidden;
   transform-style:preserve-3d;
   -webkit-transform-style:preserve-3d;
+
+  /* KEY: prevent hover/click flicker */
+  pointer-events:none;
 }
 
-/* tiny Z offset prevents flicker/z-fighting */
+/* Only the visible face can be interacted with */
+.flipToggle:not(:checked) ~ .cardSurface .flipFront{ pointer-events:auto; }
+.flipToggle:checked ~ .cardSurface .flipBack{ pointer-events:auto; }
+
+/* tiny Z offset prevents z-fighting */
 .flipFront{ transform: translateZ(1px); }
 
 .flipBack{
@@ -182,10 +192,9 @@
   padding:11px 14px;
   font-weight:900;
   font-size:13px;
-  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+  transition: box-shadow .12s ease, filter .12s ease; /* no hover move to avoid weirdness */
 }
 .bioBtn:hover{
-  transform: translateY(-1px);
   box-shadow: 0 16px 34px rgba(2,6,23,.14);
   filter: brightness(1.02);
 }
@@ -247,9 +256,7 @@
 @media (prefers-reduced-motion: reduce){
   .cardSurface{transition:none}
   .bioBtn{transition:none}
-  .bioBtn:hover{transform:none}
 }
-
   </style>
 </head>
 
@@ -565,7 +572,9 @@
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
+                    <img src="/images/team/stephan-ho.jpg
+"
+                         alt="Stephan Ho headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">SH</span>
                   </div>
@@ -745,7 +754,3 @@
   </footer>
 </body>
 </html>
-
-
-
-
