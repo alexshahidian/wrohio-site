@@ -9,254 +9,256 @@
   <link rel="stylesheet" href="/styles.css" />
 
   <style>
-/* Page styles — SINGLE source of truth (no duplicates) */
+    .teamWrap{margin-top:14px}
 
-.teamWrap{margin-top:14px}
+    .teamGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:14px;
+      align-items:stretch;
+    }
 
-.teamGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-  gap:14px;
-  align-items:stretch;
-}
+    /* ===== Flip card ===== */
+    .teamCard{
+      position:relative;
+      min-height:560px;
+      height:100%;
+      overflow:visible;
+      perspective:1200px;
+      border-radius:var(--radius);
+    }
+    @media (max-width: 780px){ .teamCard{min-height:540px} }
 
-/* ===== Flip card (NO JS) ===== */
-/* Outer wrapper = 3D stage */
-.teamCard{
-  position:relative;
-  min-height:560px;
-  height:100%;
-  overflow:visible;
-  perspective:1200px;
-  border-radius:var(--radius);
-}
-@media (max-width: 780px){ .teamCard{min-height:540px} }
+    /* hidden checkbox stays for state */
+    .flipToggle{
+      position:absolute;
+      width:1px;height:1px;
+      opacity:0;
+      pointer-events:none;
+      z-index:-1;
+    }
 
-/* hide checkbox but keep it functional */
-.flipToggle{
-  position:absolute;
-  width:1px;height:1px;
-  opacity:0;
-  pointer-events:none;
-  z-index:-1;
-}
+    /* this is the visible tile (border/shadow/background rotates as one) */
+    .cardSurface{
+      position:absolute;
+      inset:0;
+      border-radius:var(--radius);
+      background: var(--card);
+      border:1px solid rgba(12,37,4,.12);
+      box-shadow: 0 6px 16px rgba(2,6,23,.05);
+      overflow:hidden;
 
-/* THIS is the visible tile that rotates (the whole card) */
-.cardSurface{
-  position:absolute;
-  inset:0;
+      transform-style:preserve-3d;
+      -webkit-transform-style:preserve-3d;
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
 
-  border-radius:var(--radius);
-  background: var(--card);
-  border:1px solid rgba(12,37,4,.12);
-  box-shadow: 0 6px 16px rgba(2,6,23,.05);
-  overflow:hidden;
+      transition: transform .62s cubic-bezier(.2,.85,.2,1);
+      will-change: transform;
+      transform: translateZ(0) rotateY(0deg);
+    }
 
-  transform-style:preserve-3d;
-  -webkit-transform-style:preserve-3d;
+    /* NO tilt – just rotate */
+    .flipToggle:checked ~ .cardSurface{
+      transform: translateZ(0) rotateY(180deg);
+    }
+    .flipToggle:not(:checked) ~ .cardSurface{
+      transform: translateZ(0) rotateY(0deg);
+    }
 
-  transition: transform .62s cubic-bezier(.2,.85,.2,1);
-  will-change: transform;
+    .flipFace{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      overflow:hidden;
 
-  transform: translateZ(0) rotateY(0deg);
-}
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+      transform-style:preserve-3d;
+      -webkit-transform-style:preserve-3d;
 
-/* NO TILT — just rotate the whole tile */
-.flipToggle:checked ~ .cardSurface{
-  transform: translateZ(0) rotateY(180deg);
-}
-.flipToggle:not(:checked) ~ .cardSurface{
-  transform: translateZ(0) rotateY(0deg);
-}
+      /* prevents cursor flicker by disabling interaction on both faces by default */
+      pointer-events:none;
+    }
 
-/* faces */
-.flipFace{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  height:100%;
+    /* only the VISIBLE face gets interaction */
+    .flipToggle:not(:checked) ~ .cardSurface .flipFront{ pointer-events:auto; }
+    .flipToggle:checked ~ .cardSurface .flipBack{ pointer-events:auto; }
 
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  transform-style:preserve-3d;
-  -webkit-transform-style:preserve-3d;
+    /* tiny z offset to avoid flicker */
+    .flipFront{ transform: translateZ(1px); }
 
-  /* KEY: prevent hover/click flicker */
-  pointer-events:none;
-}
+    .flipBack{
+      transform: rotateY(180deg) translateZ(1px);
+      background:
+        radial-gradient(1200px 500px at 30% 0%, rgba(12,37,4,.10), transparent 60%),
+        linear-gradient(180deg, rgba(12,37,4,.06), rgba(255,255,255,1));
+    }
 
-/* Only the visible face can be interacted with */
-.flipToggle:not(:checked) ~ .cardSurface .flipFront{ pointer-events:auto; }
-.flipToggle:checked ~ .cardSurface .flipBack{ pointer-events:auto; }
+    /* ===== Front ===== */
+    .teamPhotoWrap{
+      padding:14px 14px 0;
+      display:flex;
+      justify-content:center;
+    }
 
-/* tiny Z offset prevents z-fighting */
-.flipFront{ transform: translateZ(1px); }
+    .teamPhoto{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius: calc(var(--radius) - 6px);
+      overflow:hidden;
+      background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
+      box-shadow: 0 16px 34px rgba(2,6,23,.12);
+      border:1px solid rgba(12,37,4,.14);
+      position:relative;
+    }
 
-.flipBack{
-  transform: rotateY(180deg) translateZ(1px);
-  background:
-    radial-gradient(1200px 500px at 30% 0%, rgba(12,37,4,.10), transparent 60%),
-    linear-gradient(180deg, rgba(12,37,4,.06), rgba(255,255,255,1));
-}
+    .teamPhoto img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      object-position: var(--pos, 50% 18%);
+      transform: scale(1.02);
+    }
 
-/* ===== FRONT layout ===== */
-.teamPhotoWrap{
-  padding:14px 14px 0;
-  display:flex;
-  justify-content:center;
-}
+    .teamPhoto.noimg img{display:none}
+    .teamPhoto .initials{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.6px;
+      font-size:28px;
+      opacity:0;
+      user-select:none;
+    }
+    .teamPhoto.noimg .initials{opacity:1}
 
-.teamPhoto{
-  width:100%;
-  aspect-ratio: 1 / 1;
-  border-radius: calc(var(--radius) - 6px);
-  overflow:hidden;
-  background: linear-gradient(135deg, rgba(12,37,4,.92), rgba(12,37,4,.45));
-  box-shadow: 0 16px 34px rgba(2,6,23,.12);
-  border:1px solid rgba(12,37,4,.14);
-  position:relative;
-}
+    .teamBody{
+      padding:14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1;
+    }
 
-.teamPhoto img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-  object-position: var(--pos, 50% 18%);
-  transform: scale(1.02);
-}
+    .teamName{ margin:0; font-size:16px; line-height:1.2; }
 
-.teamPhoto.noimg img{display:none}
-.teamPhoto .initials{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  color:#fff;
-  font-weight:900;
-  letter-spacing:.6px;
-  font-size:28px;
-  opacity:0;
-  user-select:none;
-}
-.teamPhoto.noimg .initials{opacity:1}
+    .roleTag{
+      margin-top:6px;
+      display:inline-block;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(11,18,32,.68);
+    }
 
-.teamBody{
-  padding:14px 16px 16px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  flex:1;
-}
+    .teamOneLiner{
+      margin:0;
+      color:rgba(11,18,32,.72);
+      font-size:14px;
+      line-height:1.45;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
 
-.teamName{ margin:0; font-size:16px; line-height:1.2; }
+    .teamActions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
 
-.roleTag{
-  margin-top:6px;
-  display:inline-block;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:rgba(11,18,32,.68);
-}
+    /* buttons styled like your old labels */
+    .bioBtn{
+      appearance:none;
+      -webkit-appearance:none;
+      border:1px solid rgba(12,37,4,.18);
+      background: var(--accent, #0C2504);
+      color:#fff;
+      border-radius:999px;
+      padding:11px 14px;
+      font-weight:900;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+      font-family:inherit;
+      line-height:1;
+      transition: box-shadow .12s ease, filter .12s ease;
+    }
+    .bioBtn:hover{
+      box-shadow: 0 16px 34px rgba(2,6,23,.14);
+      filter: brightness(1.02);
+    }
+    .bioBtn.secondary{
+      background: rgba(12,37,4,.06);
+      color: rgba(11,18,32,.86);
+      border: 1px solid rgba(12,37,4,.18);
+      box-shadow:none;
+    }
+    .bioBtn:focus-visible{
+      outline: 3px solid rgba(12,37,4,.25);
+      outline-offset: 3px;
+    }
 
-.teamOneLiner{
-  margin:0;
-  color:rgba(11,18,32,.72);
-  font-size:14px;
-  line-height:1.45;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
+    /* ===== Back ===== */
+    .backInner{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:16px;
+      gap:12px;
+    }
 
-.teamActions{
-  margin-top:auto;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
+    .backHeader{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
 
-/* label styled as button */
-.bioBtn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  user-select:none;
-  border:1px solid rgba(12,37,4,.18);
-  background: var(--accent, #0C2504);
-  color:#fff;
-  border-radius:999px;
-  padding:11px 14px;
-  font-weight:900;
-  font-size:13px;
-  transition: box-shadow .12s ease, filter .12s ease; /* no hover move to avoid weirdness */
-}
-.bioBtn:hover{
-  box-shadow: 0 16px 34px rgba(2,6,23,.14);
-  filter: brightness(1.02);
-}
-.bioBtn.secondary{
-  background: rgba(12,37,4,.06);
-  color: rgba(11,18,32,.86);
-  border: 1px solid rgba(12,37,4,.18);
-  box-shadow:none;
-}
+    .backName{ margin:0; font-size:18px; line-height:1.2; }
+    .backRole{
+      margin-top:6px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:rgba(11,18,32,.68);
+    }
 
-/* ===== BACK layout ===== */
-.backInner{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  padding:16px;
-  gap:12px;
-}
+    .backBio{
+      margin:0;
+      color:rgba(11,18,32,.74);
+      font-size:14px;
+      line-height:1.6;
+    }
 
-.backHeader{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-}
+    .backList{
+      margin:0;
+      padding-left:18px;
+      color:rgba(11,18,32,.74);
+      font-size:13px;
+      line-height:1.6;
+    }
+    .backList li{margin:7px 0}
 
-.backName{ margin:0; font-size:18px; line-height:1.2; }
-.backRole{
-  margin-top:6px;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:rgba(11,18,32,.68);
-}
+    .backActions{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+    }
 
-.backBio{
-  margin:0;
-  color:rgba(11,18,32,.74);
-  font-size:14px;
-  line-height:1.6;
-}
-
-.backList{
-  margin:0;
-  padding-left:18px;
-  color:rgba(11,18,32,.74);
-  font-size:13px;
-  line-height:1.6;
-}
-.backList li{margin:7px 0}
-
-.backActions{
-  margin-top:auto;
-  display:flex;
-  gap:10px;
-}
-
-@media (prefers-reduced-motion: reduce){
-  .cardSurface{transition:none}
-  .bioBtn{transition:none}
-}
+    @media (prefers-reduced-motion: reduce){
+      .cardSurface{transition:none}
+      .bioBtn{transition:none}
+    }
   </style>
 </head>
 
@@ -302,7 +304,7 @@
           <!-- Alex -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-alex" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -318,7 +320,7 @@
                   </div>
                   <p class="teamOneLiner">Clear strategy, clean execution, and calm negotiations.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-alex">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-alex">View bio</button>
                   </div>
                 </div>
               </div>
@@ -330,7 +332,7 @@
                       <h3 class="backName">Alex Shahidian</h3>
                       <div class="backRole">Principal Broker</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-alex">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-alex">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -346,7 +348,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-alex">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-alex">Back</button>
                   </div>
                 </div>
               </div>
@@ -356,7 +358,7 @@
           <!-- Shelby (second) -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-shelby" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 22%" aria-hidden="true">
@@ -372,7 +374,7 @@
                   </div>
                   <p class="teamOneLiner">The engine behind smooth, on-time closings.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-shelby">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-shelby">View bio</button>
                   </div>
                 </div>
               </div>
@@ -384,7 +386,7 @@
                       <h3 class="backName">Shelby Maji</h3>
                       <div class="backRole">Head of Operations</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-shelby">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-shelby">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -399,7 +401,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-shelby">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-shelby">Back</button>
                   </div>
                 </div>
               </div>
@@ -409,7 +411,7 @@
           <!-- Cameron -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-cameron" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -425,7 +427,7 @@
                   </div>
                   <p class="teamOneLiner">Numbers-first guidance without losing momentum.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-cameron">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-cameron">View bio</button>
                   </div>
                 </div>
               </div>
@@ -437,7 +439,7 @@
                       <h3 class="backName">Cameron Clements</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-cameron">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-cameron">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -452,17 +454,17 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-cameron">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-cameron">Back</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Drew (no MMA/wrestling) -->
+          <!-- Drew -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-drew" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -478,7 +480,7 @@
                   </div>
                   <p class="teamOneLiner">Calm under pressure. Sharp when timing matters.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-drew">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-drew">View bio</button>
                   </div>
                 </div>
               </div>
@@ -490,7 +492,7 @@
                       <h3 class="backName">Drew Dickson</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-drew">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-drew">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -505,7 +507,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-drew">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-drew">Back</button>
                   </div>
                 </div>
               </div>
@@ -515,7 +517,7 @@
           <!-- Cody -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-cody" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -531,7 +533,7 @@
                   </div>
                   <p class="teamOneLiner">Fast, organized, and proactive from day one.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-cody">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-cody">View bio</button>
                   </div>
                 </div>
               </div>
@@ -543,7 +545,7 @@
                       <h3 class="backName">Cody Sias</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-cody">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-cody">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -558,7 +560,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-cody">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-cody">Back</button>
                   </div>
                 </div>
               </div>
@@ -568,13 +570,11 @@
           <!-- Stephan -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-stephan" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                    <img src="/images/team/stephan-ho.jpg
-"
-                         alt="Stephan Ho headshot" loading="lazy"
+                    <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
                          onerror="this.parentNode.classList.add('noimg');" />
                     <span class="initials">SH</span>
                   </div>
@@ -586,7 +586,7 @@
                   </div>
                   <p class="teamOneLiner">Strong presentation, clean communication, steady execution.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-stephan">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-stephan">View bio</button>
                   </div>
                 </div>
               </div>
@@ -598,7 +598,7 @@
                       <h3 class="backName">Stephan Ho</h3>
                       <div class="backRole">Agent</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-stephan">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-stephan">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -612,7 +612,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-stephan">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-stephan">Back</button>
                   </div>
                 </div>
               </div>
@@ -622,7 +622,7 @@
           <!-- John -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-john" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -638,7 +638,7 @@
                   </div>
                   <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-john">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-john">View bio</button>
                   </div>
                 </div>
               </div>
@@ -650,7 +650,7 @@
                       <h3 class="backName">John Currid</h3>
                       <div class="backRole">Head of Property Management</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-john">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-john">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -665,7 +665,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-john">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-john">Back</button>
                   </div>
                 </div>
               </div>
@@ -675,7 +675,7 @@
           <!-- Stan -->
           <div class="teamCard">
             <input class="flipToggle" type="checkbox" id="bio-stan" />
-            <div class="flipInner cardSurface">
+            <div class="cardSurface">
               <div class="flipFace flipFront">
                 <div class="teamPhotoWrap">
                   <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
@@ -691,7 +691,7 @@
                   </div>
                   <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
                   <div class="teamActions">
-                    <label class="bioBtn" for="bio-stan">View bio</label>
+                    <button type="button" class="bioBtn" data-toggle="bio-stan">View bio</button>
                   </div>
                 </div>
               </div>
@@ -703,7 +703,7 @@
                       <h3 class="backName">Stan Smith</h3>
                       <div class="backRole">Agent • Property Mgmt Support</div>
                     </div>
-                    <label class="bioBtn secondary" for="bio-stan">Close</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-stan">Close</button>
                   </div>
 
                   <p class="backBio">
@@ -718,7 +718,7 @@
                   </ul>
 
                   <div class="backActions">
-                    <label class="bioBtn secondary" for="bio-stan">Back</label>
+                    <button type="button" class="bioBtn secondary" data-toggle="bio-stan">Back</button>
                   </div>
                 </div>
               </div>
@@ -752,5 +752,17 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // Reliable flip toggle (works even inside 3D transforms)
+    document.querySelectorAll('[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-toggle');
+        const cb = document.getElementById(id);
+        if (!cb) return;
+        cb.checked = !cb.checked;
+      });
+    });
+  </script>
 </body>
 </html>
