@@ -18,14 +18,19 @@
       align-items:stretch;
     }
 
-    /* ===== Card shell (NO ROTATION) ===== */
+    /* ===== Card shell ===== */
     .teamCard{
       position:relative;
       border-radius:var(--radius);
       min-height:560px;
       height:100%;
+      transition: transform .14s ease;
     }
-    @media (max-width: 780px){ .teamCard{min-height:540px} }
+    .teamCard:hover{ transform: translateY(-2px); }
+    @media (max-width: 780px){
+      .teamCard{min-height:540px}
+      .teamCard:hover{transform:none}
+    }
 
     .cardSurface{
       position:relative;
@@ -35,11 +40,26 @@
       border:1px solid rgba(12,37,4,.12);
       box-shadow: 0 6px 16px rgba(2,6,23,.05);
       overflow:hidden;
-
-      /* FIX: make the card layout vertical so the button stays visible */
       display:flex;
       flex-direction:column;
+      transition: box-shadow .14s ease;
     }
+    .teamCard:hover .cardSurface{ box-shadow: 0 16px 34px rgba(2,6,23,.10); }
+
+    /* subtle “cool” accent line that activates when open */
+    .cardSurface::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; right:0;
+      height:3px;
+      background: linear-gradient(90deg, rgba(12,37,4,.92), rgba(12,37,4,.35));
+      transform: scaleX(0);
+      transform-origin:left;
+      transition: transform .22s ease;
+      opacity:.9;
+      z-index:1;
+    }
+    .teamCard.isOpen .cardSurface::before{ transform: scaleX(1); }
 
     /* ===== Front content ===== */
     .teamPhotoWrap{
@@ -86,10 +106,10 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-
-      /* FIX: let it fill the remaining space naturally */
       flex:1;
       min-height:0;
+      position:relative;
+      z-index:2;
     }
 
     .teamName{ margin:0; font-size:16px; line-height:1.2; }
@@ -137,11 +157,12 @@
       user-select:none;
       font-family:inherit;
       line-height:1;
-      transition: box-shadow .12s ease, filter .12s ease;
+      transition: box-shadow .12s ease, filter .12s ease, transform .12s ease;
     }
     .bioBtn:hover{
       box-shadow: 0 16px 34px rgba(2,6,23,.14);
       filter: brightness(1.02);
+      transform: translateY(-1px);
     }
     .bioBtn.secondary{
       background: rgba(12,37,4,.06);
@@ -154,58 +175,41 @@
       outline-offset: 3px;
     }
 
-    /* ===== Slide-up bio (comes in; image does NOT rotate) ===== */
-    .bioScrim{
-      position:absolute;
-      inset:0;
-      background: rgba(2,6,23,.18);
+    /* ===== “Coolest” bio: inline drawer (no flip, no overlay), smooth height ===== */
+    .bioDrawer{
+      margin-top:2px;
+      border-top:1px solid rgba(12,37,4,.12);
+      max-height:0;
+      overflow:hidden;
       opacity:0;
-      pointer-events:none;
-      transition: opacity .18s ease;
-      border-radius:var(--radius);
-      border:0;
-      padding:0;
-      cursor:pointer;
-
-      /* ensure overlay stacking */
-      z-index:3;
+      transition: max-height .28s cubic-bezier(.2,.85,.2,1), opacity .18s ease;
+      will-change: max-height;
     }
 
-    .bioPanel{
-      position:absolute;
-      left:0; right:0; bottom:0;
-      max-height:74%;
-      transform: translateY(100%);
-      pointer-events:none;
-      transition: transform .22s cubic-bezier(.2,.85,.2,1);
-      border-top: 1px solid rgba(12,37,4,.14);
-      background:
-        radial-gradient(1200px 500px at 30% 0%, rgba(12,37,4,.10), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
-      box-shadow: 0 -18px 40px rgba(2,6,23,.16);
-
-      z-index:4;
+    .teamCard.isOpen .bioDrawer{
+      opacity:1;
     }
 
     .bioInner{
-      height:100%;
+      padding-top:12px;
+      padding-bottom:4px;
       display:flex;
       flex-direction:column;
-      padding:16px;
-      gap:12px;
-      overflow:auto;
-      -webkit-overflow-scrolling: touch;
+      gap:10px;
+      background:
+        radial-gradient(1200px 520px at 20% 0%, rgba(12,37,4,.08), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
     }
 
-    .bioHeader{
+    .bioHeadline{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:12px;
     }
 
-    .backName{ margin:0; font-size:18px; line-height:1.2; }
-    .backRole{
+    .bioTitle{ margin:0; font-size:15px; line-height:1.2; }
+    .bioRole{
       margin-top:6px;
       font-size:12px;
       font-weight:900;
@@ -214,42 +218,50 @@
       color:rgba(11,18,32,.68);
     }
 
-    .backBio{
+    .bioText{
       margin:0;
       color:rgba(11,18,32,.74);
       font-size:14px;
       line-height:1.6;
     }
 
-    .backList{
+    .bioList{
       margin:0;
       padding-left:18px;
       color:rgba(11,18,32,.74);
       font-size:13px;
       line-height:1.6;
     }
-    .backList li{margin:7px 0}
+    .bioList li{margin:7px 0}
 
-    .backActions{
-      margin-top:auto;
+    .bioMeta{
       display:flex;
       gap:10px;
-      justify-content:flex-start;
-      padding-top:6px;
+      flex-wrap:wrap;
+      padding-top:2px;
     }
-
-    /* Open state */
-    .teamCard.isOpen .bioScrim{
-      opacity:1;
-      pointer-events:auto;
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(12,37,4,.14);
+      background: rgba(12,37,4,.04);
+      color: rgba(11,18,32,.82);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.01em;
     }
-    .teamCard.isOpen .bioPanel{
-      transform: translateY(0%);
-      pointer-events:auto;
+    .pill .dot{
+      width:8px;height:8px;border-radius:999px;
+      background: rgba(12,37,4,.85);
+      box-shadow: 0 0 0 3px rgba(12,37,4,.10);
     }
 
     @media (prefers-reduced-motion: reduce){
-      .bioScrim, .bioPanel, .bioBtn{transition:none}
+      .teamCard, .cardSurface, .bioDrawer, .bioBtn{transition:none}
+      .bioBtn:hover{transform:none}
     }
   </style>
 </head>
@@ -309,43 +321,43 @@
                   <h3 class="teamName">Alex Shahidian</h3>
                   <span class="roleTag">Principal Broker</span>
                 </div>
+
                 <p class="teamOneLiner">Clear strategy, clean execution, and calm negotiations.</p>
+
+                <div class="bioDrawer" id="bio-alex" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">How Alex works</h4>
+                        <div class="bioRole">Straight talk • Strong advocacy</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-alex">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Alex leads the team with a simple standard: be clear, be fast, and be accountable. He’s direct, responsive,
+                      and focused on helping clients make confident decisions without noise.
+                    </p>
+
+                    <div class="bioMeta">
+                      <span class="pill"><span class="dot"></span>Negotiation-first</span>
+                      <span class="pill"><span class="dot"></span>Data-backed pricing</span>
+                      <span class="pill"><span class="dot"></span>Calm process</span>
+                    </div>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> buying, selling, deal structure, negotiations</li>
+                      <li><b>Style:</b> direct guidance + clean execution</li>
+                      <li><b>Outside work:</b> trains Brazilian Jiu-Jitsu</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div class="teamActions">
                   <button type="button" class="bioBtn"
-                          data-bio-open="bio-alex"
+                          data-bio-toggle="bio-alex"
                           aria-controls="bio-alex"
                           aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-alex" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-alex" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Alex Shahidian</h3>
-                      <div class="backRole">Principal Broker</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-alex">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    Alex leads Western Reserve Real Estate with a simple standard: clear strategy, clean execution, and no hype.
-                    He’s direct, responsive, and focused on helping clients make confident decisions.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> buying, selling, negotiations, deal structure</li>
-                    <li><b>Approach:</b> data-backed guidance + calm process</li>
-                    <li><b>Notables:</b> Brown Belt in BJJ; disciplined rehab after knee reconstruction</li>
-                    <li><b>Education:</b> BBA, Finance / Management — Kent State University</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-alex">Back</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -367,42 +379,37 @@
                   <h3 class="teamName">Shelby Maji</h3>
                   <span class="roleTag">Head of Operations</span>
                 </div>
+
                 <p class="teamOneLiner">The engine behind smooth, on-time closings.</p>
+
+                <div class="bioDrawer" id="bio-shelby" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">What Shelby owns</h4>
+                        <div class="bioRole">Operations • Systems • Support</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-shelby">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Shelby runs the details so clients stay informed and deadlines stay tight. She keeps timelines tracked,
+                      documents organized, and the process moving.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> coordination, transaction support, client experience</li>
+                      <li><b>Strength:</b> proactive communication + organization</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div class="teamActions">
                   <button type="button" class="bioBtn"
-                          data-bio-open="bio-shelby"
+                          data-bio-toggle="bio-shelby"
                           aria-controls="bio-shelby"
                           aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-shelby" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-shelby" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Shelby Maji</h3>
-                      <div class="backRole">Head of Operations</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-shelby">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    Shelby runs operations so the team can move fast without missing details. She’s the behind-the-scenes engine
-                    that keeps deadlines tracked, documents organized, and clients updated throughout the process.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> systems, coordination, transaction support, client experience</li>
-                    <li><b>Notables:</b> Missions trip participant; somehow keeps a cat despite allergies</li>
-                    <li><b>Education:</b> BBA, Accounting — Hiram University</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-shelby">Back</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -424,42 +431,37 @@
                   <h3 class="teamName">Cameron Clements</h3>
                   <span class="roleTag">Agent</span>
                 </div>
+
                 <p class="teamOneLiner">Numbers-first guidance without losing momentum.</p>
+
+                <div class="bioDrawer" id="bio-cameron" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">How Cameron helps</h4>
+                        <div class="bioRole">Buyers • Sellers • Strategy</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-cameron">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Cameron is practical, thorough, and easy to work with—especially strong at keeping decisions grounded
+                      while still moving quickly when the right home shows up.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> buyers, first-time buyers, local market guidance</li>
+                      <li><b>Style:</b> clear options + fast execution</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div class="teamActions">
                   <button type="button" class="bioBtn"
-                          data-bio-open="bio-cameron"
+                          data-bio-toggle="bio-cameron"
                           aria-controls="bio-cameron"
                           aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-cameron" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-cameron" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Cameron Clements</h3>
-                      <div class="backRole">Agent</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cameron">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    Cameron is practical, thorough, and easy to work with. He’s especially good at helping buyers stay grounded
-                    in the numbers while still moving quickly when the right home shows up.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> buyers, first-time buyers, local market guidance</li>
-                    <li><b>Notables:</b> Purple Belt in BJJ; fluent in Marshallese</li>
-                    <li><b>Education:</b> (add)</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cameron">Back</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -481,42 +483,37 @@
                   <h3 class="teamName">Drew Dickson</h3>
                   <span class="roleTag">Agent</span>
                 </div>
+
                 <p class="teamOneLiner">Calm under pressure. Sharp when timing matters.</p>
+
+                <div class="bioDrawer" id="bio-drew" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">Drew’s edge</h4>
+                        <div class="bioRole">Urgency • Preparation • Negotiation</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-drew">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Drew stays calm when the stakes are high, moves with urgency when timing matters, and shows up prepared—
+                      especially during negotiations and inspection decisions.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> buyers, sellers, and investors</li>
+                      <li><b>Strength:</b> steady communication + follow-through</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div class="teamActions">
                   <button type="button" class="bioBtn"
-                          data-bio-open="bio-drew"
+                          data-bio-toggle="bio-drew"
                           aria-controls="bio-drew"
                           aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-drew" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-drew" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Drew Dickson</h3>
-                      <div class="backRole">Agent</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-drew">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    Drew brings a competitive, disciplined mindset to real estate. He stays calm under pressure, moves with urgency
-                    when timing matters, and shows up prepared—especially during negotiations.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> buyers, sellers, and investors</li>
-                    <li><b>Notables:</b> Completed an Ironman</li>
-                    <li><b>Education:</b> BS, Exercise Science — Kent State University</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-drew">Back</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -538,42 +535,37 @@
                   <h3 class="teamName">Cody Sias</h3>
                   <span class="roleTag">Agent</span>
                 </div>
+
                 <p class="teamOneLiner">Fast, organized, and proactive from day one.</p>
+
+                <div class="bioDrawer" id="bio-cody" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">What you’ll notice</h4>
+                        <div class="bioRole">Speed • Clarity • Organization</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-cody">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Cody keeps the process straightforward and efficient—the kind of agent who holds timelines, communicates clearly,
+                      and handles issues before they become problems.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> buyers + sellers across Ohio</li>
+                      <li><b>Notables:</b> (add)</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div class="teamActions">
                   <button type="button" class="bioBtn"
-                          data-bio-open="bio-cody"
+                          data-bio-toggle="bio-cody"
                           aria-controls="bio-cody"
                           aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-cody" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-cody" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Cody Sias</h3>
-                      <div class="backRole">Agent</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cody">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    Cody keeps the process straightforward and efficient — the kind of agent who holds timelines, communicates clearly,
-                    and handles issues before they become problems.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> buyers + sellers across Ohio</li>
-                    <li><b>Notables:</b> (add: what he’s known for / hobbies / community ties)</li>
-                    <li><b>Education:</b> (add)</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-cody">Back</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -583,7 +575,7 @@
           <div class="teamCard" data-card>
             <div class="cardSurface">
               <div class="teamPhotoWrap">
-                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                <div class="teamPhoto noimg" style="--pos:50% 18%" aria-hidden="true">
                   <img src="/images/team/stephan-ho.jpg" alt="Stephan Ho headshot" loading="lazy"
                        onerror="this.parentNode.classList.add('noimg');" />
                   <span class="initials">SH</span>
@@ -595,41 +587,141 @@
                   <h3 class="teamName">Stephan Ho</h3>
                   <span class="roleTag">Agent</span>
                 </div>
+
                 <p class="teamOneLiner">Strong presentation, clean communication, steady execution.</p>
+
+                <div class="bioDrawer" id="bio-stephan" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">How Stephan runs deals</h4>
+                        <div class="bioRole">Presentation • Marketing • Details</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-stephan">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Stephan is organized and marketing-minded—great at presenting homes well and keeping communication clean.
+                      Clients like his steady approach and attention to detail from listing prep through closing.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> buyer &amp; seller representation, marketing, listing prep</li>
+                      <li><b>Notables:</b> (add)</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
+                  </div>
+                </div>
 
                 <div class="teamActions">
                   <button type="button" class="bioBtn"
-                          data-bio-open="bio-stephan"
+                          data-bio-toggle="bio-stephan"
                           aria-controls="bio-stephan"
                           aria-expanded="false">View bio</button>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <button type="button" class="bioScrim" data-bio-close="bio-stephan" aria-label="Close bio"></button>
+          <!-- John -->
+          <div class="teamCard" data-card>
+            <div class="cardSurface">
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">JC</span>
+                </div>
+              </div>
 
-              <div class="bioPanel" id="bio-stephan" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Stephan Ho</h3>
-                      <div class="backRole">Agent</div>
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">John Currid</h3>
+                  <span class="roleTag">Head of Property Management</span>
+                </div>
+
+                <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
+
+                <div class="bioDrawer" id="bio-john" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">What John delivers</h4>
+                        <div class="bioRole">Leasing • Owners • Performance</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-john">Close</button>
                     </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stephan">Close</button>
+
+                    <p class="bioText">
+                      John supports owners who want a real plan for rentals and investments—especially valuable for clients who care
+                      about long-term performance, not just getting it rented.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> leasing, rentals, owner support, investor strategy</li>
+                      <li><b>Notables:</b> (add)</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
                   </div>
+                </div>
 
-                  <p class="backBio">
-                    Stephan is organized and marketing-minded — great at presenting homes well and keeping communication clean.
-                    Clients like his steady approach and attention to detail from listing prep through closing.
-                  </p>
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-toggle="bio-john"
+                          aria-controls="bio-john"
+                          aria-expanded="false">View bio</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                  <ul class="backList">
-                    <li><b>Focus:</b> buyer &amp; seller representation, marketing, property management</li>
-                    <li><b>Notables:</b> (add)</li>
-                  </ul>
+          <!-- Stan -->
+          <div class="teamCard" data-card>
+            <div class="cardSurface">
+              <div class="teamPhotoWrap">
+                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
+                  <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
+                       onerror="this.parentNode.classList.add('noimg');" />
+                  <span class="initials">SS</span>
+                </div>
+              </div>
 
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stephan">Back</button>
+              <div class="teamBody">
+                <div>
+                  <h3 class="teamName">Stan Smith</h3>
+                  <span class="roleTag">Agent • Property Mgmt Support</span>
+                </div>
+
+                <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
+
+                <div class="bioDrawer" id="bio-stan" aria-hidden="true">
+                  <div class="bioInner">
+                    <div class="bioHeadline">
+                      <div>
+                        <h4 class="bioTitle">Stan’s role</h4>
+                        <div class="bioRole">Follow-up • Problem-solving</div>
+                      </div>
+                      <button type="button" class="bioBtn secondary" data-bio-close="bio-stan">Close</button>
+                    </div>
+
+                    <p class="bioText">
+                      Stan supports both sales and property management with a proactive, problem-solving style. He’s dependable on
+                      follow-up and helps keep small issues from turning into big ones.
+                    </p>
+
+                    <ul class="bioList">
+                      <li><b>Focus:</b> buying, selling, relocation, property management support</li>
+                      <li><b>Notables:</b> (add)</li>
+                      <li><b>Education:</b> (add)</li>
+                    </ul>
                   </div>
+                </div>
+
+                <div class="teamActions">
+                  <button type="button" class="bioBtn"
+                          data-bio-toggle="bio-stan"
+                          aria-controls="bio-stan"
+                          aria-expanded="false">View bio</button>
                 </div>
               </div>
             </div>
@@ -667,49 +759,95 @@
     (function () {
       const cards = Array.from(document.querySelectorAll('.teamCard[data-card]'));
 
-      function closeAll() {
+      function setDrawerHeight(card, open) {
+        const drawer = card.querySelector('.bioDrawer');
+        if (!drawer) return;
+        if (open) {
+          const inner = drawer.querySelector('.bioInner');
+          // set to exact height so it animates cleanly
+          drawer.style.maxHeight = (inner ? inner.scrollHeight : drawer.scrollHeight) + 'px';
+          drawer.setAttribute('aria-hidden', 'false');
+        } else {
+          drawer.style.maxHeight = '0px';
+          drawer.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      function setBtnState(card, open) {
+        const btn = card.querySelector('[data-bio-toggle]');
+        if (!btn) return;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? 'Close bio' : 'View bio';
+      }
+
+      function closeAll(exceptCard) {
         cards.forEach(card => {
+          if (exceptCard && card === exceptCard) return;
+          if (!card.classList.contains('isOpen')) return;
           card.classList.remove('isOpen');
-          const openBtn = card.querySelector('[data-bio-open]');
-          const panelId = openBtn?.getAttribute('data-bio-open');
-          const panel = panelId ? document.getElementById(panelId) : null;
-          if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
-          if (panel) panel.setAttribute('aria-hidden', 'true');
+          setDrawerHeight(card, false);
+          setBtnState(card, false);
         });
       }
 
-      function openById(panelId, triggerBtn) {
-        closeAll();
-        const panel = document.getElementById(panelId);
-        if (!panel) return;
-        const card = panel.closest('.teamCard[data-card]');
-        if (!card) return;
-
+      function openCard(card) {
+        closeAll(card);
         card.classList.add('isOpen');
-        panel.setAttribute('aria-hidden', 'false');
-        if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
-
-        const closeBtn = card.querySelector(`[data-bio-close="${panelId}"].bioBtn`);
-        if (closeBtn) closeBtn.focus({ preventScroll: true });
+        setDrawerHeight(card, true);
+        setBtnState(card, true);
       }
 
+      function toggleById(id) {
+        const drawer = document.getElementById(id);
+        if (!drawer) return;
+        const card = drawer.closest('.teamCard[data-card]');
+        if (!card) return;
+
+        const isOpen = card.classList.contains('isOpen');
+        if (isOpen) {
+          card.classList.remove('isOpen');
+          setDrawerHeight(card, false);
+          setBtnState(card, false);
+        } else {
+          openCard(card);
+        }
+      }
+
+      // Event delegation
       document.addEventListener('click', (e) => {
-        const openBtn = e.target.closest('[data-bio-open]');
-        if (openBtn) {
-          const panelId = openBtn.getAttribute('data-bio-open');
-          openById(panelId, openBtn);
+        const closeBtn = e.target.closest('[data-bio-close]');
+        if (closeBtn) {
+          const id = closeBtn.getAttribute('data-bio-close');
+          toggleById(id); // will close if open
           return;
         }
 
-        const closeBtn = e.target.closest('[data-bio-close]');
-        if (closeBtn) {
-          closeAll();
-          return;
+        const toggleBtn = e.target.closest('[data-bio-toggle]');
+        if (toggleBtn) {
+          const id = toggleBtn.getAttribute('data-bio-toggle');
+          toggleById(id);
         }
       });
 
+      // Escape closes
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeAll();
+      });
+
+      // Keep height correct on resize for the currently open card
+      let rAF = null;
+      window.addEventListener('resize', () => {
+        if (rAF) cancelAnimationFrame(rAF);
+        rAF = requestAnimationFrame(() => {
+          const open = cards.find(c => c.classList.contains('isOpen'));
+          if (open) setDrawerHeight(open, true);
+        });
+      });
+
+      // Init maxHeight=0 explicitly (some browsers keep inline styles)
+      cards.forEach(card => {
+        setDrawerHeight(card, false);
+        setBtnState(card, false);
       });
     })();
   </script>
