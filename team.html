@@ -35,6 +35,10 @@
       border:1px solid rgba(12,37,4,.12);
       box-shadow: 0 6px 16px rgba(2,6,23,.05);
       overflow:hidden;
+
+      /* FIX: make the card layout vertical so the button stays visible */
+      display:flex;
+      flex-direction:column;
     }
 
     /* ===== Front content ===== */
@@ -82,7 +86,10 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      height:calc(100% - 14px); /* keeps spacing consistent */
+
+      /* FIX: let it fill the remaining space naturally */
+      flex:1;
+      min-height:0;
     }
 
     .teamName{ margin:0; font-size:16px; line-height:1.2; }
@@ -159,6 +166,9 @@
       border:0;
       padding:0;
       cursor:pointer;
+
+      /* ensure overlay stacking */
+      z-index:3;
     }
 
     .bioPanel{
@@ -166,7 +176,6 @@
       left:0; right:0; bottom:0;
       max-height:74%;
       transform: translateY(100%);
-      opacity:1;
       pointer-events:none;
       transition: transform .22s cubic-bezier(.2,.85,.2,1);
       border-top: 1px solid rgba(12,37,4,.14);
@@ -174,6 +183,8 @@
         radial-gradient(1200px 500px at 30% 0%, rgba(12,37,4,.10), transparent 60%),
         linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
       box-shadow: 0 -18px 40px rgba(2,6,23,.16);
+
+      z-index:4;
     }
 
     .bioInner{
@@ -314,7 +325,7 @@
                 <div class="bioInner">
                   <div class="bioHeader">
                     <div>
-                      <h3 class="backName" id="bio-alex-title">Alex Shahidian</h3>
+                      <h3 class="backName">Alex Shahidian</h3>
                       <div class="backRole">Principal Broker</div>
                     </div>
                     <button type="button" class="bioBtn secondary" data-bio-close="bio-alex">Close</button>
@@ -613,125 +624,11 @@
 
                   <ul class="backList">
                     <li><b>Focus:</b> buyer &amp; seller representation, marketing, property management</li>
-                    <li><b>Notables:</b> Black Belt in BJJ; learned to read by age 14</li>
+                    <li><b>Notables:</b> (add)</li>
                   </ul>
 
                   <div class="backActions">
                     <button type="button" class="bioBtn secondary" data-bio-close="bio-stephan">Back</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- John -->
-          <div class="teamCard" data-card>
-            <div class="cardSurface">
-              <div class="teamPhotoWrap">
-                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                  <img src="/images/team/john-currid.jpg" alt="John Currid headshot" loading="lazy"
-                       onerror="this.parentNode.classList.add('noimg');" />
-                  <span class="initials">JC</span>
-                </div>
-              </div>
-
-              <div class="teamBody">
-                <div>
-                  <h3 class="teamName">John Currid</h3>
-                  <span class="roleTag">Head of Property Management</span>
-                </div>
-                <p class="teamOneLiner">Investor-minded property management with a real plan.</p>
-
-                <div class="teamActions">
-                  <button type="button" class="bioBtn"
-                          data-bio-open="bio-john"
-                          aria-controls="bio-john"
-                          aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-john" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-john" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">John Currid</h3>
-                      <div class="backRole">Head of Property Management</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-john">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    John leads property management and supports clients who want a real plan for rentals and investments.
-                    He’s especially valuable for owners who care about long-term performance, not just getting it rented.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> leasing, rentals, owner support, investor strategy</li>
-                    <li><b>Notables:</b> (add)</li>
-                    <li><b>Education:</b> (add)</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-john">Back</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stan -->
-          <div class="teamCard" data-card>
-            <div class="cardSurface">
-              <div class="teamPhotoWrap">
-                <div class="teamPhoto" style="--pos:50% 18%" aria-hidden="true">
-                  <img src="/images/team/stan-smith.jpg" alt="Stan Smith headshot" loading="lazy"
-                       onerror="this.parentNode.classList.add('noimg');" />
-                  <span class="initials">SS</span>
-                </div>
-              </div>
-
-              <div class="teamBody">
-                <div>
-                  <h3 class="teamName">Stan Smith</h3>
-                  <span class="roleTag">Agent • Property Mgmt Support</span>
-                </div>
-                <p class="teamOneLiner">Relentless follow-up so small issues stay small.</p>
-
-                <div class="teamActions">
-                  <button type="button" class="bioBtn"
-                          data-bio-open="bio-stan"
-                          aria-controls="bio-stan"
-                          aria-expanded="false">View bio</button>
-                </div>
-              </div>
-
-              <button type="button" class="bioScrim" data-bio-close="bio-stan" aria-label="Close bio"></button>
-
-              <div class="bioPanel" id="bio-stan" aria-hidden="true">
-                <div class="bioInner">
-                  <div class="bioHeader">
-                    <div>
-                      <h3 class="backName">Stan Smith</h3>
-                      <div class="backRole">Agent • Property Mgmt Support</div>
-                    </div>
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stan">Close</button>
-                  </div>
-
-                  <p class="backBio">
-                    Stan supports both sales and property management with a proactive, problem-solving style.
-                    He’s dependable on follow-up and helps keep small issues from turning into big ones.
-                  </p>
-
-                  <ul class="backList">
-                    <li><b>Focus:</b> buying, selling, relocation, property management support</li>
-                    <li><b>Notables:</b> (add)</li>
-                    <li><b>Education:</b> (add)</li>
-                  </ul>
-
-                  <div class="backActions">
-                    <button type="button" class="bioBtn secondary" data-bio-close="bio-stan">Back</button>
                   </div>
                 </div>
               </div>
@@ -792,7 +689,7 @@
         panel.setAttribute('aria-hidden', 'false');
         if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
 
-        const closeBtn = card.querySelector(`[data-bio-close="${panelId}"]`);
+        const closeBtn = card.querySelector(`[data-bio-close="${panelId}"].bioBtn`);
         if (closeBtn) closeBtn.focus({ preventScroll: true });
       }
 
