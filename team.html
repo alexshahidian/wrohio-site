@@ -167,36 +167,48 @@
     }
 
     .bioPanel{
-      position:absolute;
-      left:0; right:0; bottom:0;
-      max-height:76%;
-      transform: translateY(102%);
-      pointer-events:none;
-      transition: transform .24s cubic-bezier(.2,.85,.2,1);
-      border-top: 1px solid rgba(12,37,4,.14);
-      background:
-        radial-gradient(1200px 520px at 20% 0%, rgba(12,37,4,.10), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
-      box-shadow: 0 -18px 40px rgba(2,6,23,.16);
-      z-index:30;
-    }
+  position:absolute;
+  left:0; right:0; bottom:0;
 
-    .bioInner{
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      padding:16px;
-      gap:12px;
-      overflow:auto;
-      -webkit-overflow-scrolling: touch;
-    }
+  /* shrink to content, but cap overall height */
+  max-height:76%;
+  height:fit-content;
 
-    .bioHeader{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-    }
+  /* scroll here when content is long */
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+
+  transform: translateY(102%);
+  pointer-events:none;
+  transition: transform .24s cubic-bezier(.2,.85,.2,1);
+
+  border-top: 1px solid rgba(12,37,4,.14);
+  background:
+    radial-gradient(1200px 520px at 20% 0%, rgba(12,37,4,.10), transparent 58%),
+    linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,1));
+  box-shadow: 0 -18px 40px rgba(2,6,23,.16);
+  z-index:30;
+
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+.bioInner{
+  display:flex;
+  flex-direction:column;
+  padding:16px;
+  gap:12px;
+  /* REMOVED: height:100% */
+  /* REMOVED: overflow:auto */
+}
+
+.bioFooter{
+  display:flex;
+  gap:10px;
+  justify-content:flex-start;
+  padding-top:6px;
+  /* REMOVED: margin-top:auto */
+}
 
     .bioTitleWrap{min-width:0}
     .bioTitle{ margin:0; font-size:15px; line-height:1.2; }
@@ -914,4 +926,5 @@
   </script>
 </body>
 </html>
+
 
